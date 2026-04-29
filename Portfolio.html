@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sai Chandran Gopichandran — Finance & Wealth Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0D1F3C;
+    --navy2:  #162847;
+    --gold:   #C9952A;
+    --gold2:  #E8B84B;
+    --cream:  #F8F4EE;
+    --fog:    #EDE9E1;
+    --ink:    #1A1A2E;
+    --mist:   #8A8FA8;
+    --white:  #FFFFFF;
+    --line:   rgba(201,149,42,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(13,31,60,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold2); letter-spacing: 0.03em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold2); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+  }
+  .hero-geo { position: absolute; inset: 0; pointer-events: none; }
+  .hero-geo circle { fill: none; stroke: var(--gold); }
+  .hero-geo line { stroke: var(--gold); opacity: 0.12; }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 9rem 4rem 4rem 4rem; position: relative; z-index: 2;
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-tag::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--gold); }
+
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5vw, 4.2rem); line-height: 1.1; color: var(--white); margin-bottom: 0.5rem; }
+  h1 em { color: var(--gold2); font-style: italic; }
+
+  .hero-role { font-size: 0.95rem; color: rgba(255,255,255,0.45); font-weight: 300; margin-bottom: 2.5rem; letter-spacing: 0.02em; }
+  .hero-summary { font-size: 0.93rem; line-height: 1.8; color: rgba(255,255,255,0.7); max-width: 480px; margin-bottom: 3rem; }
+
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; border-radius: 2px; transition: all 0.25s;
+  }
+  .btn-gold { background: var(--gold); color: var(--navy); }
+  .btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
+  .btn-outline { border: 1px solid rgba(255,255,255,0.28); color: rgba(255,255,255,0.75); }
+  .btn-outline:hover { border-color: var(--gold2); color: var(--gold2); transform: translateY(-2px); }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2; padding: 9rem 4rem 4rem 0;
+  }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); }
+  .stat-card {
+    background: var(--navy2); padding: 2.5rem 2rem;
+    position: relative; overflow: hidden; transition: background 0.2s;
+  }
+  .stat-card:hover { background: #1e3356; }
+  .stat-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, var(--gold), transparent);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .stat-card:hover::after { transform: scaleX(1); }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.6rem; color: var(--gold2); line-height: 1; margin-bottom: 0.5rem; }
+  .stat-label { font-size: 0.76rem; color: rgba(255,255,255,0.48); letter-spacing: 0.04em; line-height: 1.5; }
+
+  /* SECTION COMMON */
+  section { padding: 6rem 4rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--gold); }
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 3.5vw, 2.6rem); color: var(--navy); line-height: 1.2; margin-bottom: 3rem; }
+  h2 em { color: var(--gold); font-style: italic; }
+
+  /* SKILLS */
+  #skills { background: var(--navy); }
+  #skills h2 { color: var(--white); }
+  #skills h2 em { color: var(--gold2); }
+  #skills .section-label { color: var(--gold2); }
+  #skills .section-label::before { background: var(--gold2); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: rgba(201,149,42,0.2); }
+  .skill-group { background: var(--navy2); padding: 2rem; transition: background 0.2s; }
+  .skill-group:hover { background: #1e3356; }
+  .skill-group-title { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag { font-size: 0.77rem; padding: 0.3rem 0.7rem; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.75); border-radius: 2px; border: 1px solid rgba(255,255,255,0.1); }
+  .skill-tag.hl { background: rgba(201,149,42,0.15); border-color: rgba(201,149,42,0.4); color: var(--gold2); }
+
+  /* EXPERIENCE */
+  #experience { background: var(--cream); }
+  .exp-item { display: grid; grid-template-columns: 190px 1fr; gap: 3rem; padding: 3rem 0; border-bottom: 1px solid var(--fog); opacity: 0; transform: translateY(24px); transition: opacity 0.55s, transform 0.55s; }
+  .exp-item.visible { opacity: 1; transform: none; }
+  .exp-meta { padding-top: 0.2rem; }
+  .exp-dates { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--mist); letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  .exp-location { font-size: 0.77rem; color: var(--mist); }
+  .exp-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--navy); margin-bottom: 0.2rem; }
+  .exp-company { font-size: 0.83rem; color: var(--gold); font-weight: 500; margin-bottom: 1.2rem; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .exp-bullets li { font-size: 0.875rem; line-height: 1.7; color: #3a3a4a; padding-left: 1.2rem; position: relative; }
+  .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-weight: 500; }
+  .metric { color: var(--navy); font-weight: 500; }
+
+  /* PROJECTS */
+  #projects { background: var(--fog); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }
+  .project-card { background: var(--white); padding: 2.5rem; border-top: 3px solid var(--gold); transition: transform 0.3s, box-shadow 0.3s; opacity: 0; transform: translateY(28px); }
+  .project-card.visible { opacity: 1; transform: none; }
+  .project-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(13,31,60,0.1); }
+  .project-num { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.15em; color: var(--mist); margin-bottom: 1.2rem; }
+  .project-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--navy); margin-bottom: 0.75rem; line-height: 1.35; }
+  .project-desc { font-size: 0.83rem; line-height: 1.75; color: #4a4a60; margin-bottom: 1.4rem; }
+  .project-outcome { font-size: 0.77rem; padding: 0.6rem 0.9rem; background: rgba(201,149,42,0.08); border-left: 2px solid var(--gold); color: var(--navy); line-height: 1.55; margin-bottom: 1.2rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-tag { font-size: 0.69rem; padding: 0.2rem 0.6rem; border: 1px solid rgba(13,31,60,0.15); color: var(--mist); border-radius: 2px; }
+
+  /* CASE STUDIES */
+  #casestudies { background: var(--navy); }
+  #casestudies h2 { color: var(--white); }
+  #casestudies h2 em { color: var(--gold2); }
+  #casestudies .section-label { color: var(--gold2); }
+  #casestudies .section-label::before { background: var(--gold2); }
+  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--line); }
+  .case-card { background: var(--navy2); padding: 3rem; transition: background 0.2s; opacity: 0; transform: translateY(24px); transition: opacity 0.55s, transform 0.55s, background 0.2s; }
+  .case-card.visible { opacity: 1; transform: none; }
+  .case-card:hover { background: #1e3356; }
+  .case-num { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.18em; color: var(--gold); margin-bottom: 1.5rem; }
+  .case-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--white); margin-bottom: 1.5rem; line-height: 1.35; }
+  .case-row { margin-bottom: 1.2rem; }
+  .case-row-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
+  .case-row-text { font-size: 0.83rem; line-height: 1.72; color: rgba(255,255,255,0.62); }
+  .case-outcome { padding: 1rem; background: rgba(201,149,42,0.1); border-left: 2px solid var(--gold); }
+  .case-outcome .case-row-label { color: var(--gold2); }
+  .case-outcome .case-row-text { color: rgba(255,255,255,0.8); }
+
+  /* EDUCATION */
+  #education { background: var(--cream); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .edu-block-title { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mist); margin-bottom: 1.5rem; }
+  .edu-item { padding: 1.5rem 0; border-bottom: 1px solid var(--fog); display: flex; gap: 1rem; align-items: flex-start; }
+  .edu-icon { width: 36px; height: 36px; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; }
+  .edu-degree { font-weight: 500; font-size: 0.88rem; color: var(--navy); margin-bottom: 0.2rem; }
+  .edu-school { font-size: 0.78rem; color: var(--mist); margin-bottom: 0.2rem; }
+  .edu-detail { font-size: 0.76rem; color: var(--gold); }
+  .cert-grid { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.5rem; }
+  .cert-pill { font-size: 0.74rem; padding: 0.38rem 0.85rem; border: 1px solid rgba(13,31,60,0.2); border-radius: 20px; color: var(--navy); background: var(--white); transition: all 0.2s; cursor: default; }
+  .cert-pill:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+  /* ACHIEVEMENTS */
+  #achievements { background: var(--fog); }
+  .achieve-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .achieve-card { padding: 2.2rem; background: var(--white); border-bottom: 3px solid transparent; transition: border-color 0.3s, transform 0.3s; opacity: 0; transform: translateY(24px); }
+  .achieve-card.visible { opacity: 1; transform: none; }
+  .achieve-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .achieve-card .big-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--gold2); line-height: 1; margin-bottom: 0.6rem; }
+  .achieve-card p { font-size: 0.83rem; line-height: 1.65; color: #4a4a60; }
+
+  /* CONTACT */
+  #contact { background: var(--navy); text-align: center; padding: 6rem 4rem; }
+  #contact h2 { color: var(--white); margin-bottom: 1rem; }
+  #contact h2 em { color: var(--gold2); }
+  #contact .section-label { justify-content: center; color: var(--gold2); }
+  #contact .section-label::before { background: var(--gold2); }
+  #contact .section-label::after { content: ''; display: block; width: 2rem; height: 1px; background: var(--gold2); }
+  .contact-sub { font-size: 0.93rem; color: rgba(255,255,255,0.48); margin-bottom: 3rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+  .contact-link { display: flex; align-items: center; gap: 0.55rem; font-size: 0.83rem; color: rgba(255,255,255,0.68); text-decoration: none; padding: 0.75rem 1.5rem; border: 1px solid rgba(255,255,255,0.15); transition: all 0.2s; }
+  .contact-link:hover { border-color: var(--gold); color: var(--gold2); }
+  .contact-link svg { width: 15px; height: 15px; }
+
+  footer { background: #0a1525; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.73rem; color: rgba(255,255,255,0.28); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .nav-links a { font-size: 0.68rem; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { padding: 2rem 1.5rem; }
+    .hero-left { padding: 7rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
+    .case-grid, .edu-grid { grid-template-columns: 1fr; }
+    .achieve-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SCG</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#casestudies">Case Studies</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <svg class="hero-geo" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+    <circle cx="720" cy="80" r="320" stroke-opacity="0.05" stroke-width="1"/>
+    <circle cx="720" cy="80" r="210" stroke-opacity="0.07" stroke-width="1"/>
+    <circle cx="720" cy="80" r="110" stroke-opacity="0.11" stroke-width="1"/>
+    <line x1="0" y1="400" x2="800" y2="400" stroke-width="0.4"/>
+    <line x1="400" y1="0" x2="400" y2="800" stroke-width="0.4"/>
+  </svg>
+
+  <div class="hero-left">
+    <div class="hero-tag">Available &nbsp;·&nbsp; London, UK</div>
+    <h1>Sai Chandran<br><em>Gopichandran</em></h1>
+    <p class="hero-role">Investment Analyst &nbsp;·&nbsp; Wealth Management &nbsp;·&nbsp; Fixed Income</p>
+    <p class="hero-summary">MBA-qualified analyst with a track record in portfolio performance tracking, fixed income analysis, and financial modelling across UK and US mandates. Built to synthesise complex data into decision-ready insights — and eager to bring that rigour to the client-facing world of asset and wealth management in London.</p>
+    <div class="hero-cta">
+      <a href="mailto:saigopichandran@gmail.com" class="btn btn-gold">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Get In Touch
+      </a>
+      <a href="https://linkedin.com/in/sai-gopichandran-882951369" target="_blank" class="btn btn-outline">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">£35m+</div><div class="stat-label">AUM analysed across UK &amp; US mandates</div></div>
+      <div class="stat-card"><div class="stat-num">99.8%</div><div class="stat-label">Data accuracy across reporting cycles</div></div>
+      <div class="stat-card"><div class="stat-num">12+</div><div class="stat-label">Financial models built — DCF, Comps, CLO</div></div>
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Independent projects &amp; case studies</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">Capabilities</div>
+    <h2>What I <em>Bring</em> to the Table</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Hard Skills</div>
+        <div class="skill-tags">
+          <span class="skill-tag hl">Financial Modelling</span>
+          <span class="skill-tag hl">DCF &amp; Comps</span>
+          <span class="skill-tag hl">CLO Cash-Flow Analysis</span>
+          <span class="skill-tag">P&amp;L Attribution</span>
+          <span class="skill-tag">Fixed Income</span>
+          <span class="skill-tag">Credit Analysis</span>
+          <span class="skill-tag">Structured Products</span>
+          <span class="skill-tag">Data Reconciliation</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Technical Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag hl">Bloomberg Terminal</span>
+          <span class="skill-tag hl">Advanced Excel (VBA)</span>
+          <span class="skill-tag hl">Power BI</span>
+          <span class="skill-tag">Power Query</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">BMC</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Client &amp; Sales Skills</div>
+        <div class="skill-tags">
+          <span class="skill-tag hl">Client Communication</span>
+          <span class="skill-tag hl">Stakeholder Reporting</span>
+          <span class="skill-tag">Pre-Sales Prep</span>
+          <span class="skill-tag">Pitch Deck Design</span>
+          <span class="skill-tag">Investment Memo Writing</span>
+          <span class="skill-tag">Cross-functional Collab</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Market Knowledge</div>
+        <div class="skill-tags">
+          <span class="skill-tag hl">Wealth Management</span>
+          <span class="skill-tag hl">Asset Management</span>
+          <span class="skill-tag">Leveraged Loans</span>
+          <span class="skill-tag">High-Yield Bonds</span>
+          <span class="skill-tag">Private Assets</span>
+          <span class="skill-tag">MiFID II / FinSA</span>
+          <span class="skill-tag">Macro Research</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Career</div>
+    <h2>Professional <em>Experience</em></h2>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-dates">Jan 2022 – Dec 2022</div>
+        <div class="exp-location">Chennai, India</div>
+      </div>
+      <div>
+        <div class="exp-title">Investment Analyst</div>
+        <div class="exp-company">FinGlobe Advisors LLP</div>
+        <ul class="exp-bullets">
+          <li>Led performance attribution analysis across <span class="metric">£35m+</span> in UK and US mandates, disaggregating P&L drivers across <span class="metric">20+ securities</span> — reducing senior analyst review time by <span class="metric">30%</span>.</li>
+          <li>Built <span class="metric">12+ financial models</span> (DCF, Comparable Company Analysis) with multi-variable sensitivity analysis across interest rate, FX, and default-rate scenarios, informing <span class="metric">3 investment committee presentations</span>.</li>
+          <li>Managed end-to-end pricing and data validation for a <span class="metric">£20m+ fixed income portfolio</span>, maintaining <span class="metric">99.8% data accuracy</span> and eliminating a recurring reconciliation break that had persisted for two quarters.</li>
+          <li>Produced sector research on <span class="metric">15+ companies</span>; insights adopted into <span class="metric">2 client-facing investment memos</span> distributed to institutional clients.</li>
+          <li>Translated complex quantitative outputs into clear executive summaries and Power BI dashboards for weekly senior stakeholder reporting.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-dates">Jun 2023 – Present</div>
+        <div class="exp-location">London, UK</div>
+      </div>
+      <div>
+        <div class="exp-title">Operations &amp; Finance Supervisor</div>
+        <div class="exp-company">Trafalgar Tavern Trading Ltd</div>
+        <ul class="exp-bullets">
+          <li>Oversee end-to-end financial control for <span class="metric">50+ weekly transactions</span> with <span class="metric">100% P&L accuracy</span> while simultaneously completing an MBA.</li>
+          <li>Identified and resolved <span class="metric">15+ complex financial discrepancies</span>, designing corrective workflows that reduced break frequency by <span class="metric">40%</span>.</li>
+          <li>Delivered automated Power BI dashboards cutting manual reporting by <span class="metric">10 hours/week</span> — equivalent to a part-time analyst resource — providing senior management real-time operational visibility.</li>
+          <li>Coordinated cross-functionally with suppliers, accountants, and venue managers to align financial data and build stakeholder management skills directly applicable to client-facing roles.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">Independent Work</div>
+    <h2>Self-Directed <em>Projects</em></h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-num">01 / Product Research</div>
+        <div class="project-title">GSAM Multi-Asset Coverage Report</div>
+        <div class="project-desc">Produced a 15-page independent coverage report on Goldman Sachs Asset Management's product range — spanning Public Markets (equity, fixed income, multi-asset) and Private Assets (PE, infrastructure, credit) — targeted at the Swiss wealth client segment.</div>
+        <div class="project-outcome">Deep product knowledge across GSAM's full investment spectrum, directly replicable in pre-meeting preparation and client query support for TPW sales teams.</div>
+        <div class="project-tags"><span class="project-tag">Bloomberg</span><span class="project-tag">Market Research</span><span class="project-tag">Client Segmentation</span><span class="project-tag">Financial Analysis</span></div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">02 / Structured Finance</div>
+        <div class="project-title">CLO Cash-Flow Waterfall Model</div>
+        <div class="project-desc">Built a fully functional CLO waterfall model in Excel simulating 5 tranches (AAA to equity) across a $200m notional portfolio of 80 leveraged loans, with OC/IC compliance tests and stress scenarios at 5%, 10%, and 15% default rates.</div>
+        <div class="project-outcome">AAA tranche coverage ratio held above 130% even at 15% default stress. Findings presented in a 2-page investment memo format.</div>
+        <div class="project-tags"><span class="project-tag">CLO Analytics</span><span class="project-tag">Advanced Excel</span><span class="project-tag">Structured Credit</span><span class="project-tag">Fixed Income</span></div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">03 / Client Pitch</div>
+        <div class="project-title">Swiss UHNW Alternatives Pitch Deck</div>
+        <div class="project-desc">Created a 10-slide client-ready pitch for a hypothetical Swiss UHNW prospect (CHF 50m portfolio) seeking 20% alternatives exposure. Used GSAM private credit and infrastructure products, benchmarked against public market equivalents via Bloomberg.</div>
+        <div class="project-outcome">Reviewed by a senior finance professional and rated "presentation-ready" on investment rationale, risk framing, and visual design.</div>
+        <div class="project-tags"><span class="project-tag">Alternatives</span><span class="project-tag">Client Comms</span><span class="project-tag">Bloomberg</span><span class="project-tag">PowerPoint</span></div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">04 / Market Intelligence</div>
+        <div class="project-title">European Wealth Management Dashboard</div>
+        <div class="project-desc">Designed a live Power BI dashboard tracking AUM flows by asset class, client risk appetite surveys, fee compression trends, and regulatory developments (MiFID II, Swiss FinSA). Refreshed weekly using Bloomberg and public regulatory sources.</div>
+        <div class="project-outcome">Used to generate a monthly 2-page market intelligence brief — the same format as business development support in TPW sales roles.</div>
+        <div class="project-tags"><span class="project-tag">Power BI</span><span class="project-tag">Bloomberg</span><span class="project-tag">Data Visualisation</span><span class="project-tag">Regulatory Research</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="casestudies">
+  <div class="section-inner">
+    <div class="section-label">Applied Analysis</div>
+    <h2>Case <em>Studies</em></h2>
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-num">Case Study 01 &nbsp;·&nbsp; Client Advisory</div>
+        <div class="case-title">Asset Allocation Review — Rising Rate Environment</div>
+        <div class="case-row">
+          <div class="case-row-label">Scenario</div>
+          <div class="case-row-text">A hypothetical UK-based family office with £8m in a 60/40 portfolio sought guidance as central banks began aggressive rate-hiking cycles. Significant duration exposure in government bonds raised mark-to-market risk.</div>
+        </div>
+        <div class="case-row">
+          <div class="case-row-label">Analysis</div>
+          <div class="case-row-text">Modelled the duration impact of a 200bps rate rise via Bloomberg — projecting a −14% MTM loss on the bond allocation. Compared reallocation scenarios into floating-rate instruments, short-duration credit, and private credit for yield pickup vs. liquidity trade-offs.</div>
+        </div>
+        <div class="case-row case-outcome">
+          <div class="case-row-label">Recommendation</div>
+          <div class="case-row-text">Phased rotation: reduce duration from 7 to 3.5 years by moving 30% of bonds into senior secured leveraged loans (SOFR + 400bps). Delivered as a 1-page investment rationale and 5-slide client summary.</div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-num">Case Study 02 &nbsp;·&nbsp; Sales Support</div>
+        <div class="case-title">Pre-Sales Meeting Prep — Swiss UHNW Prospect</div>
+        <div class="case-row">
+          <div class="case-row-label">Scenario</div>
+          <div class="case-row-text">Simulated preparation for a senior sales director ahead of a meeting with a Swiss UHNW prospect (CHF 80m investable assets) — primarily in domestic equities and cash, seeking international diversification with alternatives exposure.</div>
+        </div>
+        <div class="case-row">
+          <div class="case-row-label">Analysis</div>
+          <div class="case-row-text">Researched the client's domestic equity bias vs. a globally diversified GSAM portfolio. Prepared a 2-page briefing note covering macro backdrop, risk profile, suggested products, likely objections, and competitive positioning vs. UBS and Pictet alternatives.</div>
+        </div>
+        <div class="case-row case-outcome">
+          <div class="case-row-label">Outcome</div>
+          <div class="case-row-text">Briefing gave the sales director 3 tailored conversation starters and an objection-handling framework — directly mirroring the pre-sales support function of a TPW Sales Support Analyst.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label">Academic Foundation</div>
+    <h2>Education &amp; <em>Certifications</em></h2>
+    <div class="edu-grid">
+      <div>
+        <div class="edu-block-title">Degrees</div>
+        <div class="edu-item">
+          <div class="edu-icon">🎓</div>
+          <div>
+            <div class="edu-degree">MBA — Master of Business Administration</div>
+            <div class="edu-school">University of Greenwich, London &nbsp;·&nbsp; 2023–2025</div>
+            <div class="edu-detail">Investment Management · Financial Markets · Corporate Finance · Business Analytics</div>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-icon">🏆</div>
+          <div>
+            <div class="edu-degree">Bachelor of Commerce — First Class with Distinction</div>
+            <div class="edu-school">University of Madras, India &nbsp;·&nbsp; 2020–2023</div>
+            <div class="edu-detail">Top 5% of cohort</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="edu-block-title">Certifications &amp; Development</div>
+        <div class="cert-grid">
+          <span class="cert-pill">Bloomberg Market Concepts</span>
+          <span class="cert-pill">Bloomberg Terminal</span>
+          <span class="cert-pill">Power BI Analyst — CFI</span>
+          <span class="cert-pill">Investment Mgmt Simulation — Fidelity</span>
+          <span class="cert-pill">Credit Analyst Simulation — Standard Chartered</span>
+          <span class="cert-pill">Operations &amp; Risk Analysis — Goldman Sachs</span>
+          <span class="cert-pill">Tableau</span>
+          <span class="cert-pill">CFA Level I (self-study)</span>
+          <span class="cert-pill">CAIA Level I (planned)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-inner">
+    <div class="section-label">Impact</div>
+    <h2>Key <em>Achievements</em></h2>
+    <div class="achieve-grid">
+      <div class="achieve-card">
+        <div class="big-num">99.8%</div>
+        <p>Data accuracy across £20m+ portfolio reporting at FinGlobe over 12 months — zero client-facing errors during the full reporting period.</p>
+      </div>
+      <div class="achieve-card">
+        <div class="big-num">40 hrs</div>
+        <p>Monthly reporting time saved at Trafalgar Tavern via Power BI automation — equivalent to adding a part-time analyst resource.</p>
+      </div>
+      <div class="achieve-card">
+        <div class="big-num">Top 5%</div>
+        <p>BCom cohort ranking at University of Madras — First Class with Distinction, maintained alongside full professional commitments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Get In Touch</div>
+    <h2>Open to <em>Opportunities</em></h2>
+    <p class="contact-sub">Based in London &nbsp;·&nbsp; Available immediately &nbsp;·&nbsp; Targeting Analyst roles in Asset &amp; Wealth Management</p>
+    <div class="contact-links">
+      <a href="mailto:saigopichandran@gmail.com" class="contact-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        saigopichandran@gmail.com
+      </a>
+      <a href="tel:+447342863113" class="contact-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 5 2 2 0 0 1 3.6 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +44 7342 863113
+      </a>
+      <a href="https://linkedin.com/in/sai-gopichandran-882951369" target="_blank" class="contact-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn Profile
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Sai Chandran Gopichandran</span>
+  <span>London, UK &nbsp;·&nbsp; Investment Analyst</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.exp-item, .project-card, .case-card, .achieve-card').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.1 + 's';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
