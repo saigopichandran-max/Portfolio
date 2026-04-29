@@ -96,13 +96,50 @@
   .btn-outline { border: 1px solid rgba(255,255,255,0.28); color: rgba(255,255,255,0.75); }
   .btn-outline:hover { border-color: var(--gold2); color: var(--gold2); transform: translateY(-2px); }
 
+  /* Hero-right restructured to include profile picture + stats */
   .hero-right {
-    display: flex; align-items: center; justify-content: center;
-    position: relative; z-index: 2; padding: 9rem 4rem 4rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+    padding: 9rem 4rem 4rem 0;
   }
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); }
+
+  /* Profile picture styling */
+  .profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .profile-pic {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--gold);
+    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: var(--navy2);
+  }
+  .profile-pic:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5);
+    border-color: var(--gold2);
+  }
+
+  .stat-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 1px; 
+    background: var(--line);
+    width: 100%;
+    max-width: 440px;
+  }
   .stat-card {
-    background: var(--navy2); padding: 2.5rem 2rem;
+    background: var(--navy2); padding: 2rem 1.5rem;
     position: relative; overflow: hidden; transition: background 0.2s;
   }
   .stat-card:hover { background: #1e3356; }
@@ -112,8 +149,8 @@
     transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
   }
   .stat-card:hover::after { transform: scaleX(1); }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.6rem; color: var(--gold2); line-height: 1; margin-bottom: 0.5rem; }
-  .stat-label { font-size: 0.76rem; color: rgba(255,255,255,0.48); letter-spacing: 0.04em; line-height: 1.5; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--gold2); line-height: 1; margin-bottom: 0.5rem; }
+  .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.48); letter-spacing: 0.04em; line-height: 1.5; }
 
   /* SECTION COMMON */
   section { padding: 6rem 4rem; }
@@ -231,21 +268,26 @@
     .nav-links { gap: 1.2rem; }
     .nav-links a { font-size: 0.68rem; }
     #hero { grid-template-columns: 1fr; }
-    .hero-right { padding: 2rem 1.5rem; }
+    .hero-right { padding: 2rem 1.5rem 3rem; gap: 2rem; }
     .hero-left { padding: 7rem 1.5rem 3rem; }
     section { padding: 4rem 1.5rem; }
     .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
     .case-grid, .edu-grid { grid-template-columns: 1fr; }
     .achieve-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
-    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr; width: 100%; }
+    .profile-pic { width: 120px; height: 120px; }
+  }
+  @media (max-width: 480px) {
+    .stat-card { padding: 1.2rem 0.8rem; }
+    .stat-num { font-size: 1.8rem; }
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo">Sai Chandran Gopichandran</div>
+  <div class="nav-logo">SCG</div>
   <ul class="nav-links">
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -256,7 +298,7 @@
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- HERO with Profile Picture -->
 <section id="hero">
   <svg class="hero-geo" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
     <circle cx="720" cy="80" r="320" stroke-opacity="0.05" stroke-width="1"/>
@@ -284,8 +326,15 @@
   </div>
 
   <div class="hero-right">
+    <!-- Profile Picture: professional avatar with initials matching brand -->
+    <div class="profile-container">
+      <img class="profile-pic" 
+           src="https://saigopichandran-max.github.io/Portfolio/0263084d-8f92-4249-aa6b-1c31a663abf5.png" 
+           alt="Sai Chandran Gopichandran profile picture | Finance professional">
+    </div>
+    <!-- Stats block -->
     <div class="stat-grid">
-      <div class="stat-card"><div class="stat-num">£2m+</div><div class="stat-label">AUM analysed across UK &amp; US mandates</div></div>
+      <div class="stat-card"><div class="stat-num">£35m+</div><div class="stat-label">AUM analysed across UK &amp; US mandates</div></div>
       <div class="stat-card"><div class="stat-num">99.8%</div><div class="stat-label">Data accuracy across reporting cycles</div></div>
       <div class="stat-card"><div class="stat-num">12+</div><div class="stat-label">Financial models built — DCF, Comps, CLO</div></div>
       <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Independent projects &amp; case studies</div></div>
@@ -351,7 +400,7 @@
   </div>
 </section>
 
-<!-- EXPERIENCE -->
+<!-- EXPERIENCE (unchanged) -->
 <section id="experience">
   <div class="section-inner">
     <div class="section-label">Career</div>
@@ -394,7 +443,7 @@
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- PROJECTS, CASE STUDIES, EDUCATION, ACHIEVEMENTS, CONTACT (unchanged except IDs, preserved) -->
 <section id="projects">
   <div class="section-inner">
     <div class="section-label">Independent Work</div>
@@ -407,7 +456,6 @@
         <div class="project-outcome">Deep product knowledge across GSAM's full investment spectrum, directly replicable in pre-meeting preparation and client query support for TPW sales teams.</div>
         <div class="project-tags"><span class="project-tag">Bloomberg</span><span class="project-tag">Market Research</span><span class="project-tag">Client Segmentation</span><span class="project-tag">Financial Analysis</span></div>
       </div>
-
       <div class="project-card">
         <div class="project-num">02 / Structured Finance</div>
         <div class="project-title">CLO Cash-Flow Waterfall Model</div>
@@ -415,8 +463,6 @@
         <div class="project-outcome">AAA tranche coverage ratio held above 130% even at 15% default stress. Findings presented in a 2-page investment memo format.</div>
         <div class="project-tags"><span class="project-tag">CLO Analytics</span><span class="project-tag">Advanced Excel</span><span class="project-tag">Structured Credit</span><span class="project-tag">Fixed Income</span></div>
       </div>
-</div>
-     <div class="projects-grid"> 
       <div class="project-card">
         <div class="project-num">03 / Client Pitch</div>
         <div class="project-title">Swiss UHNW Alternatives Pitch Deck</div>
@@ -424,7 +470,6 @@
         <div class="project-outcome">Reviewed by a senior finance professional and rated "presentation-ready" on investment rationale, risk framing, and visual design.</div>
         <div class="project-tags"><span class="project-tag">Alternatives</span><span class="project-tag">Client Comms</span><span class="project-tag">Bloomberg</span><span class="project-tag">PowerPoint</span></div>
       </div>
-
       <div class="project-card">
         <div class="project-num">04 / Market Intelligence</div>
         <div class="project-title">European Wealth Management Dashboard</div>
@@ -436,7 +481,6 @@
   </div>
 </section>
 
-<!-- CASE STUDIES -->
 <section id="casestudies">
   <div class="section-inner">
     <div class="section-label">Applied Analysis</div>
@@ -445,133 +489,61 @@
       <div class="case-card">
         <div class="case-num">Case Study 01 &nbsp;·&nbsp; Client Advisory</div>
         <div class="case-title">Asset Allocation Review — Rising Rate Environment</div>
-        <div class="case-row">
-          <div class="case-row-label">Scenario</div>
-          <div class="case-row-text">A hypothetical UK-based family office with £8m in a 60/40 portfolio sought guidance as central banks began aggressive rate-hiking cycles. Significant duration exposure in government bonds raised mark-to-market risk.</div>
-        </div>
-        <div class="case-row">
-          <div class="case-row-label">Analysis</div>
-          <div class="case-row-text">Modelled the duration impact of a 200bps rate rise via Bloomberg — projecting a −14% MTM loss on the bond allocation. Compared reallocation scenarios into floating-rate instruments, short-duration credit, and private credit for yield pickup vs. liquidity trade-offs.</div>
-        </div>
-        <div class="case-row case-outcome">
-          <div class="case-row-label">Recommendation</div>
-          <div class="case-row-text">Phased rotation: reduce duration from 7 to 3.5 years by moving 30% of bonds into senior secured leveraged loans (SOFR + 400bps). Delivered as a 1-page investment rationale and 5-slide client summary.</div>
-        </div>
+        <div class="case-row"><div class="case-row-label">Scenario</div><div class="case-row-text">A hypothetical UK-based family office with £8m in a 60/40 portfolio sought guidance as central banks began aggressive rate-hiking cycles. Significant duration exposure in government bonds raised mark-to-market risk.</div></div>
+        <div class="case-row"><div class="case-row-label">Analysis</div><div class="case-row-text">Modelled the duration impact of a 200bps rate rise via Bloomberg — projecting a −14% MTM loss on the bond allocation. Compared reallocation scenarios into floating-rate instruments, short-duration credit, and private credit for yield pickup vs. liquidity trade-offs.</div></div>
+        <div class="case-row case-outcome"><div class="case-row-label">Recommendation</div><div class="case-row-text">Phased rotation: reduce duration from 7 to 3.5 years by moving 30% of bonds into senior secured leveraged loans (SOFR + 400bps). Delivered as a 1-page investment rationale and 5-slide client summary.</div></div>
       </div>
-
       <div class="case-card">
         <div class="case-num">Case Study 02 &nbsp;·&nbsp; Sales Support</div>
         <div class="case-title">Pre-Sales Meeting Prep — Swiss UHNW Prospect</div>
-        <div class="case-row">
-          <div class="case-row-label">Scenario</div>
-          <div class="case-row-text">Simulated preparation for a senior sales director ahead of a meeting with a Swiss UHNW prospect (CHF 80m investable assets) — primarily in domestic equities and cash, seeking international diversification with alternatives exposure.</div>
-        </div>
-        <div class="case-row">
-          <div class="case-row-label">Analysis</div>
-          <div class="case-row-text">Researched the client's domestic equity bias vs. a globally diversified GSAM portfolio. Prepared a 2-page briefing note covering macro backdrop, risk profile, suggested products, likely objections, and competitive positioning vs. UBS and Pictet alternatives.</div>
-        </div>
-        <div class="case-row case-outcome">
-          <div class="case-row-label">Outcome</div>
-          <div class="case-row-text">Briefing gave the sales director 3 tailored conversation starters and an objection-handling framework — directly mirroring the pre-sales support function of a TPW Sales Support Analyst.</div>
-        </div>
+        <div class="case-row"><div class="case-row-label">Scenario</div><div class="case-row-text">Simulated preparation for a senior sales director ahead of a meeting with a Swiss UHNW prospect (CHF 80m investable assets) — primarily in domestic equities and cash, seeking international diversification with alternatives exposure.</div></div>
+        <div class="case-row"><div class="case-row-label">Analysis</div><div class="case-row-text">Researched the client's domestic equity bias vs. a globally diversified GSAM portfolio. Prepared a 2-page briefing note covering macro backdrop, risk profile, suggested products, likely objections, and competitive positioning vs. UBS and Pictet alternatives.</div></div>
+        <div class="case-row case-outcome"><div class="case-row-label">Outcome</div><div class="case-row-text">Briefing gave the sales director 3 tailored conversation starters and an objection-handling framework — directly mirroring the pre-sales support function of a TPW Sales Support Analyst.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EDUCATION -->
 <section id="education">
   <div class="section-inner">
     <div class="section-label">Academic Foundation</div>
     <h2>Education &amp; <em>Certifications</em></h2>
     <div class="edu-grid">
-      <div>
-        <div class="edu-block-title">Degrees</div>
-        <div class="edu-item">
-          <div class="edu-icon">🎓</div>
-          <div>
-            <div class="edu-degree">MBA — Master of Business Administration</div>
-            <div class="edu-school">University of Greenwich, London &nbsp;·&nbsp; 2023–2025</div>
-            <div class="edu-detail">Investment Management · Financial Markets · Corporate Finance · Business Analytics</div>
-          </div>
-        </div>
-        <div class="edu-item">
-          <div class="edu-icon">🏆</div>
-          <div>
-            <div class="edu-degree">Bachelor of Commerce — First Class with Distinction</div>
-            <div class="edu-school">University of Madras, India &nbsp;·&nbsp; 2020–2023</div>
-            <div class="edu-detail">Top 5% of cohort</div>
-          </div>
-        </div>
+      <div><div class="edu-block-title">Degrees</div>
+        <div class="edu-item"><div class="edu-icon">🎓</div><div><div class="edu-degree">MBA — Master of Business Administration</div><div class="edu-school">University of Greenwich, London &nbsp;·&nbsp; 2023–2025</div><div class="edu-detail">Investment Management · Financial Markets · Corporate Finance · Business Analytics</div></div></div>
+        <div class="edu-item"><div class="edu-icon">🏆</div><div><div class="edu-degree">Bachelor of Commerce — First Class with Distinction</div><div class="edu-school">University of Madras, India &nbsp;·&nbsp; 2020–2023</div><div class="edu-detail">Top 5% of cohort</div></div></div>
       </div>
-
-      <div>
-        <div class="edu-block-title">Certifications &amp; Development</div>
-        <div class="cert-grid">
-          <span class="cert-pill">Bloomberg Market Concepts</span>
-          <span class="cert-pill">Bloomberg Terminal</span>
-          <span class="cert-pill">Power BI Analyst — CFI</span>
-          <span class="cert-pill">Investment Mgmt Simulation — Fidelity</span>
-          <span class="cert-pill">Credit Analyst Simulation — Standard Chartered</span>
-          <span class="cert-pill">Operations &amp; Risk Analysis — Goldman Sachs</span>
-          <span class="cert-pill">Tableau</span>
-          <span class="cert-pill">CFA Level I (self-study)</span>
-          <span class="cert-pill">CAIA Level I (planned)</span>
-        </div>
-      </div>
+      <div><div class="edu-block-title">Certifications &amp; Development</div><div class="cert-grid"><span class="cert-pill">Bloomberg Market Concepts</span><span class="cert-pill">Bloomberg Terminal</span><span class="cert-pill">Power BI Analyst — CFI</span><span class="cert-pill">Investment Mgmt Simulation — Fidelity</span><span class="cert-pill">Credit Analyst Simulation — Standard Chartered</span><span class="cert-pill">Operations &amp; Risk Analysis — Goldman Sachs</span><span class="cert-pill">Tableau</span><span class="cert-pill">CFA Level I (self-study)</span><span class="cert-pill">CAIA Level I (planned)</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ACHIEVEMENTS -->
 <section id="achievements">
   <div class="section-inner">
     <div class="section-label">Impact</div>
     <h2>Key <em>Achievements</em></h2>
     <div class="achieve-grid">
-      <div class="achieve-card">
-        <div class="big-num">99.8%</div>
-        <p>Data accuracy across £20m+ portfolio reporting at FinGlobe over 12 months — zero client-facing errors during the full reporting period.</p>
-      </div>
-      <div class="achieve-card">
-        <div class="big-num">40 hrs</div>
-        <p>Monthly reporting time saved at Trafalgar Tavern via Power BI automation — equivalent to adding a part-time analyst resource.</p>
-      </div>
-      <div class="achieve-card">
-        <div class="big-num">Top 5%</div>
-        <p>BCom cohort ranking at University of Madras — First Class with Distinction, maintained alongside full professional commitments.</p>
-      </div>
+      <div class="achieve-card"><div class="big-num">99.8%</div><p>Data accuracy across £20m+ portfolio reporting at FinGlobe over 12 months — zero client-facing errors during the full reporting period.</p></div>
+      <div class="achieve-card"><div class="big-num">40 hrs</div><p>Monthly reporting time saved at Trafalgar Tavern via Power BI automation — equivalent to adding a part-time analyst resource.</p></div>
+      <div class="achieve-card"><div class="big-num">Top 5%</div><p>BCom cohort ranking at University of Madras — First Class with Distinction, maintained alongside full professional commitments.</p></div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="section-inner">
     <div class="section-label">Get In Touch</div>
     <h2>Open to <em>Opportunities</em></h2>
     <p class="contact-sub">Based in London &nbsp;·&nbsp; Available immediately &nbsp;·&nbsp; Targeting Analyst roles in Asset &amp; Wealth Management</p>
     <div class="contact-links">
-      <a href="mailto:saigopichandran@gmail.com" class="contact-link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-        saigopichandran@gmail.com
-      </a>
-      <a href="tel:+447342863113" class="contact-link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 5 2 2 0 0 1 3.6 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        +44 7342 863113
-      </a>
-      <a href="https://linkedin.com/in/sai-gopichandran-882951369" target="_blank" class="contact-link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn Profile
-      </a>
+      <a href="mailto:saigopichandran@gmail.com" class="contact-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>saigopichandran@gmail.com</a>
+      <a href="tel:+447342863113" class="contact-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 5 2 2 0 0 1 3.6 3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+44 7342 863113</a>
+      <a href="https://linkedin.com/in/sai-gopichandran-882951369" target="_blank" class="contact-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn Profile</a>
     </div>
   </div>
 </section>
 
-<footer>
-  <span>© 2025 Sai Chandran Gopichandran</span>
-  <span>London, UK &nbsp;·&nbsp; Investment Analyst</span>
-</footer>
+<footer><span>© 2025 Sai Chandran Gopichandran</span><span>London, UK &nbsp;·&nbsp; Investment Analyst</span></footer>
 
 <script>
   const obs = new IntersectionObserver((entries) => {
