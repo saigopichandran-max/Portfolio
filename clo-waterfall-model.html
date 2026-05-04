@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLO Cash-Flow Waterfall Model — Sai Chandran Gopichandran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0D1F3C;
+  --navy2:  #162847;
+  --navy3:  #1e3356;
+  --gold:   #C9952A;
+  --gold2:  #E8B84B;
+  --cream:  #F8F4EE;
+  --fog:    #EDE9E1;
+  --ink:    #1A1A2E;
+  --mist:   #8A8FA8;
+  --white:  #FFFFFF;
+  --line:   rgba(201,149,42,0.22);
+  --green:  #2A7A4F;
+  --red:    #8B2635;
+  --amber:  #C97A2A;
+
+  /* tranche colours */
+  --aaa: #1B4F8A;
+  --aa:  #2E6FA3;
+  --a:   #3A8FC4;
+  --bbb: #C9952A;
+  --bb:  #C97A2A;
+  --eq:  #8B2635;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.3}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3.5rem;background:rgba(13,31,60,0.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold2);letter-spacing:0.03em;text-decoration:none}
+.nav-back{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);text-decoration:none;transition:color 0.2s}
+.nav-back:hover{color:var(--gold2)}
+.nav-back svg{width:14px;height:14px}
+
+/* ── TOC ── */
+.toc-rail{position:fixed;right:1.8rem;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:0.6rem;align-items:flex-end}
+.toc-item{display:flex;align-items:center;gap:0.5rem;text-decoration:none}
+.toc-dot{width:6px;height:6px;border-radius:50%;border:1px solid rgba(201,149,42,0.45);background:transparent;transition:all 0.2s;flex-shrink:0}
+.toc-label{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(13,31,60,0.38);transition:color 0.2s;white-space:nowrap}
+.toc-item.active .toc-dot,.toc-item:hover .toc-dot{background:var(--gold);border-color:var(--gold)}
+.toc-item.active .toc-label,.toc-item:hover .toc-label{color:var(--navy)}
+
+/* ── HERO ── */
+#hero{min-height:80vh;background:var(--navy);display:flex;flex-direction:column;justify-content:flex-end;padding:9rem 3.5rem 4.5rem;position:relative;overflow:hidden}
+.hero-circuit{position:absolute;inset:0;pointer-events:none;opacity:0.07}
+
+.project-index{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem}
+.project-index::before{content:'';display:block;width:2.5rem;height:1px;background:var(--gold)}
+.hero-inner{max-width:1100px;width:100%;position:relative;z-index:2}
+
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.3rem,4.5vw,3.9rem);line-height:1.1;color:var(--white);margin-bottom:1rem}
+h1 em{color:var(--gold2);font-style:italic}
+
+.hero-divider{width:100%;height:1px;background:var(--line);margin:1.5rem 0}
+
+.hero-meta-row{display:flex;gap:2.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.hero-meta-item{display:flex;flex-direction:column;gap:0.2rem}
+.hero-meta-label{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--mist)}
+.hero-meta-val{font-size:0.84rem;color:rgba(255,255,255,0.82);font-weight:500}
+.hero-meta-val.gold{color:var(--gold2)}
+
+.hero-tagline{font-size:1rem;line-height:1.78;color:rgba(255,255,255,0.66);max-width:760px;margin-bottom:2.5rem}
+
+.tag-strip{display:flex;flex-wrap:wrap;gap:0.5rem}
+.tag{font-size:0.71rem;padding:0.28rem 0.72rem;border:1px solid rgba(201,149,42,0.32);color:var(--gold2);border-radius:1px;font-family:'DM Mono',monospace;letter-spacing:0.05em;background:rgba(201,149,42,0.08)}
+
+/* ── SECTION SYSTEM ── */
+.section{padding:5.5rem 3.5rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-dark{background:var(--navy)}
+.section-mid{background:var(--fog)}
+.section-label{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.7rem}
+.section-label::before{content:'';display:block;width:2rem;height:1px;background:var(--gold)}
+.section-dark .section-label{color:var(--gold2)}
+.section-dark .section-label::before{background:var(--gold2)}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,2.8vw,2.3rem);color:var(--navy);line-height:1.2;margin-bottom:2.5rem}
+h2 em{color:var(--gold);font-style:italic}
+.section-dark h2{color:var(--white)}
+.section-dark h2 em{color:var(--gold2)}
+h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:0.6rem;line-height:1.35}
+.section-dark h3{color:var(--white)}
+p{font-size:0.875rem;line-height:1.82;color:#3a3a55}
+.section-dark p{color:rgba(255,255,255,0.62)}
+
+/* ── FADE ── */
+.fade{opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease}
+.fade.in{opacity:1;transform:none}
+
+/* ── OVERVIEW ── */
+.overview-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:4rem;align-items:start}
+.overview-body p{margin-bottom:1.2rem}
+.brief-box{background:var(--navy);padding:2.5rem;border-left:3px solid var(--gold)}
+.brief-title{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.brief-row{padding:0.85rem 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.brief-row:last-child{border-bottom:none}
+.brief-key{font-size:0.68rem;color:var(--mist);font-family:'DM Mono',monospace;letter-spacing:0.07em;margin-bottom:0.18rem}
+.brief-val{font-size:0.84rem;color:rgba(255,255,255,0.84);font-weight:500}
+.brief-val.gold{color:var(--gold2)}
+
+/* ── PORTFOLIO TABLE ── */
+.ptable-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.81rem}
+thead tr{background:var(--navy)}
+thead th{padding:0.9rem 1rem;text-align:left;font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold2);font-weight:400;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--fog);transition:background 0.15s}
+tbody tr:hover{background:var(--fog)}
+tbody td{padding:0.85rem 1rem;vertical-align:middle;color:#3a3a55}
+tbody td:first-child{font-weight:500;color:var(--navy)}
+.rating-pill{display:inline-block;font-family:'DM Mono',monospace;font-size:0.69rem;padding:0.18rem 0.55rem;border-radius:1px;font-weight:500}
+.r-aaa{background:rgba(27,79,138,0.15);color:var(--aaa);border:1px solid rgba(27,79,138,0.35)}
+.r-aa{background:rgba(46,111,163,0.13);color:var(--aa);border:1px solid rgba(46,111,163,0.3)}
+.r-a{background:rgba(58,143,196,0.12);color:#2a7aad;border:1px solid rgba(58,143,196,0.28)}
+.r-bbb{background:rgba(201,149,42,0.12);color:var(--gold);border:1px solid rgba(201,149,42,0.32)}
+.r-bb{background:rgba(201,122,42,0.12);color:var(--amber);border:1px solid rgba(201,122,42,0.3)}
+.r-eq{background:rgba(139,38,53,0.1);color:var(--red);border:1px solid rgba(139,38,53,0.28)}
+
+/* ── WATERFALL VIZ ── */
+.waterfall-section{background:var(--navy)}
+.waterfall-container{display:grid;grid-template-columns:1fr 340px;gap:3rem;align-items:start}
+.waterfall-canvas-wrap{position:relative}
+.waterfall-title-bar{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center}
+
+/* scenario controls */
+.scenario-tabs{display:flex;gap:1px;background:rgba(255,255,255,0.08);margin-bottom:1.5rem;width:fit-content}
+.scen-btn{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.55rem 1.1rem;background:transparent;border:none;color:rgba(255,255,255,0.45);cursor:pointer;transition:all 0.2s}
+.scen-btn.active{background:var(--gold);color:var(--navy)}
+.scen-btn:hover:not(.active){color:rgba(255,255,255,0.8)}
+
+/* waterfall bars */
+#waterfallSVG{width:100%;height:420px;display:block}
+
+/* info panel */
+.wf-info-panel{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2rem}
+.wf-info-title{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.2rem}
+.wf-stat-row{display:flex;justify-content:space-between;align-items:center;padding:0.7rem 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.wf-stat-row:last-child{border-bottom:none}
+.wf-stat-label{font-size:0.75rem;color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;letter-spacing:0.05em}
+.wf-stat-val{font-size:0.85rem;font-weight:500}
+.wf-stat-val.green{color:#5ab87a}
+.wf-stat-val.gold{color:var(--gold2)}
+.wf-stat-val.red{color:#e07a8a}
+.wf-stat-val.white{color:rgba(255,255,255,0.88)}
+
+.wf-note{margin-top:1.5rem;font-size:0.75rem;line-height:1.65;color:rgba(255,255,255,0.38);font-family:'DM Mono',monospace}
+
+/* ── OC/IC TESTS ── */
+.test-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.test-card{background:var(--white);border:1px solid var(--fog);padding:2rem}
+.test-card-title{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mist);margin-bottom:1.5rem}
+.test-gauge-row{margin-bottom:1.2rem}
+.test-gauge-label{display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.4rem}
+.test-gauge-label span:first-child{color:var(--navy);font-weight:500}
+.test-gauge-label span:last-child{font-family:'DM Mono',monospace;font-size:0.72rem}
+.test-track{height:10px;background:var(--fog);position:relative;border-radius:0}
+.test-fill{height:100%;transition:width 1.2s cubic-bezier(0.25,1,0.5,1);width:0}
+.test-fill.pass{background:linear-gradient(90deg,var(--green),#3da068)}
+.test-fill.warn{background:linear-gradient(90deg,var(--amber),#e8a84b)}
+.test-fill.fail{background:linear-gradient(90deg,var(--red),#c04060)}
+.test-trigger{width:2px;background:var(--navy);position:absolute;top:-3px;bottom:-3px}
+.test-trigger-label{position:absolute;top:-18px;font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--navy);transform:translateX(-50%)}
+.test-status{display:inline-flex;align-items:center;gap:0.35rem;font-family:'DM Mono',monospace;font-size:0.68rem;padding:0.22rem 0.6rem;margin-top:0.5rem}
+.test-status.pass{color:var(--green);border:1px solid rgba(42,122,79,0.35);background:rgba(42,122,79,0.08)}
+.test-status.fail{color:var(--red);border:1px solid rgba(139,38,53,0.35);background:rgba(139,38,53,0.08)}
+
+/* ── STRESS TEST RESULTS ── */
+.stress-matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.stress-cell{background:var(--cream);padding:1.5rem 1.2rem;transition:background 0.15s}
+.stress-cell:hover{background:var(--fog)}
+.stress-cell.header{background:var(--navy);padding:1rem 1.2rem}
+.stress-cell.header .sc-label{color:var(--gold2)}
+.sc-label{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mist);margin-bottom:0.5rem}
+.sc-val{font-size:1.1rem;font-weight:500;font-family:'Playfair Display',serif}
+.sc-val.good{color:var(--green)}
+.sc-val.ok{color:var(--amber)}
+.sc-val.bad{color:var(--red)}
+.sc-sub{font-size:0.72rem;color:var(--mist);margin-top:0.2rem}
+
+/* ── METHODOLOGY STEPS ── */
+.method-steps{display:flex;flex-direction:column}
+.method-step{display:grid;grid-template-columns:72px 1fr;gap:2rem;padding:2.2rem 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.method-step:last-child{border-bottom:none}
+.step-num-wrap{display:flex;flex-direction:column;align-items:center;gap:0.5rem}
+.step-num{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold2);line-height:1}
+.step-line{flex:1;width:1px;background:rgba(201,149,42,0.2);min-height:16px}
+.step-body h3{font-size:1rem;margin-bottom:0.45rem}
+.step-body p{font-size:0.83rem;line-height:1.75;color:rgba(255,255,255,0.6)}
+.step-tools{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.9rem}
+.step-tool{font-family:'DM Mono',monospace;font-size:0.63rem;padding:0.23rem 0.6rem;border:1px solid rgba(201,149,42,0.32);color:var(--gold2);border-radius:1px;letter-spacing:0.04em}
+
+/* ── J-CURVE ── */
+.jcurve-wrap{background:var(--white);border:1px solid var(--fog);padding:2rem}
+.jcurve-label{font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mist);margin-bottom:1.2rem}
+#jcurveSVG{width:100%;height:280px;display:block}
+
+/* ── SKILLS ── */
+.skills-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,149,42,0.18)}
+.skill-block{background:var(--navy2);padding:1.8rem;transition:background 0.2s}
+.skill-block:hover{background:var(--navy3)}
+.skill-cat{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:0.4rem}
+.chip{font-size:0.73rem;padding:0.26rem 0.62rem;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.73);border:1px solid rgba(255,255,255,0.09);border-radius:1px}
+.chip.hl{background:rgba(201,149,42,0.14);border-color:rgba(201,149,42,0.36);color:var(--gold2)}
+
+/* ── FINDING CARDS ── */
+.findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.finding-card{padding:2rem;border-top:2px solid var(--gold);background:var(--white)}
+.finding-num{font-family:'DM Mono',monospace;font-size:0.61rem;letter-spacing:0.14em;color:var(--mist);margin-bottom:0.8rem}
+.finding-title{font-family:'Playfair Display',serif;font-size:0.98rem;color:var(--navy);margin-bottom:0.55rem;line-height:1.3}
+.finding-text{font-size:0.81rem;line-height:1.72;color:#4a4a65}
+
+/* ── OUTCOME ── */
+.outcome-banner{background:var(--gold);padding:3.5rem;display:flex;gap:4rem;align-items:center;flex-wrap:wrap}
+.outcome-big{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--navy);line-height:1;flex-shrink:0}
+.outcome-text h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--navy);margin-bottom:0.5rem}
+.outcome-text p{font-size:0.87rem;line-height:1.72;color:rgba(13,31,60,0.75)}
+
+/* ── CTA ── */
+.cta-section{background:var(--navy2);padding:4rem 3.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem}
+.cta-left h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);margin-bottom:0.4rem}
+.cta-left p{font-size:0.84rem;color:rgba(255,255,255,0.48)}
+.cta-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.6rem;font-size:0.76rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:1px;transition:all 0.22s}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-outline{border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.75)}
+.btn-outline:hover{border-color:var(--gold2);color:var(--gold2);transform:translateY(-2px)}
+.btn svg{width:14px;height:14px}
+
+footer{background:#0a1525;padding:1.5rem 3.5rem;display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:rgba(255,255,255,0.24)}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  #hero{padding:7rem 1.5rem 3rem}
+  .section{padding:4rem 1.5rem}
+  .overview-grid,.waterfall-container,.test-grid,.findings-grid{grid-template-columns:1fr}
+  .stress-matrix{grid-template-columns:1fr 1fr}
+  .skills-wrap{grid-template-columns:1fr 1fr}
+  .toc-rail{display:none}
+  .method-step{grid-template-columns:48px 1fr;gap:1rem}
+  .outcome-banner{flex-direction:column;gap:1.5rem;padding:2.5rem 1.5rem}
+  .cta-section{flex-direction:column;align-items:flex-start;padding:3rem 1.5rem}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">SCG</a>
+  <a href="index.html#projects" class="nav-back">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<!-- TOC -->
+<div class="toc-rail" id="tocRail">
+  <a class="toc-item active" href="#overview" data-section="overview"><span class="toc-label">Overview</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#portfolio" data-section="portfolio"><span class="toc-label">Portfolio</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#tranches" data-section="tranches"><span class="toc-label">Tranches</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#waterfall" data-section="waterfall"><span class="toc-label">Waterfall</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#tests" data-section="tests"><span class="toc-label">OC/IC Tests</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#stress" data-section="stress"><span class="toc-label">Stress Tests</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#methodology" data-section="methodology"><span class="toc-label">Methodology</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#findings" data-section="findings"><span class="toc-label">Findings</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#skills" data-section="skills"><span class="toc-label">Skills</span><span class="toc-dot"></span></a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- Circuit-board style background -->
+  <svg class="hero-circuit" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+    <!-- horizontal rails -->
+    <line x1="0" y1="150" x2="1200" y2="150" stroke="white" stroke-width="0.6"/>
+    <line x1="0" y1="300" x2="1200" y2="300" stroke="white" stroke-width="0.6"/>
+    <line x1="0" y1="450" x2="1200" y2="450" stroke="white" stroke-width="0.6"/>
+    <line x1="0" y1="600" x2="1200" y2="600" stroke="white" stroke-width="0.6"/>
+    <!-- vertical drops -->
+    <line x1="200" y1="0" x2="200" y2="700" stroke="white" stroke-width="0.4"/>
+    <line x1="450" y1="0" x2="450" y2="700" stroke="white" stroke-width="0.4"/>
+    <line x1="700" y1="0" x2="700" y2="700" stroke="white" stroke-width="0.4"/>
+    <line x1="950" y1="0" x2="950" y2="700" stroke="white" stroke-width="0.4"/>
+    <!-- nodes -->
+    <circle cx="200" cy="150" r="4" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="450" cy="300" r="4" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="700" cy="150" r="4" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="950" cy="450" r="4" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="450" r="3" fill="white"/>
+    <circle cx="700" cy="300" r="3" fill="white"/>
+    <!-- waterfall arrows hint -->
+    <path d="M850 80 L850 180 L950 180 L950 280 L1050 280 L1050 380 L1150 380" stroke="#C9952A" stroke-width="1.5" fill="none" stroke-dasharray="6,4"/>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="project-index">Project 02 &nbsp;·&nbsp; Structured Finance &nbsp;·&nbsp; CLO Analytics</div>
+    <h1>CLO Cash-Flow<br><em>Waterfall Model</em></h1>
+
+    <div class="hero-divider"></div>
+
+    <div class="hero-meta-row">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Model Type</span>
+        <span class="hero-meta-val">Full CLO Waterfall (Excel)</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Portfolio Notional</span>
+        <span class="hero-meta-val gold">$200,000,000</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Loan Count</span>
+        <span class="hero-meta-val">80 Leveraged Loans</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Tranches Modelled</span>
+        <span class="hero-meta-val">5 (AAA → Equity)</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Stress Scenarios</span>
+        <span class="hero-meta-val">3 (5% / 10% / 15% Default)</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Recovery Rate</span>
+        <span class="hero-meta-val">40% (Historical Avg.)</span>
+      </div>
+    </div>
+
+    <p class="hero-tagline">A fully functional Collateralised Loan Obligation cash-flow waterfall model, built from scratch in Excel, simulating the complete payment priority structure of a $200m CLO across five rated tranches. The model incorporates Over-Collateralisation and Interest Coverage compliance tests, three default-rate stress scenarios, and a 2-page investment memo — demonstrating the technical rigour expected of a structured credit analyst.</p>
+
+    <div class="tag-strip">
+      <span class="tag">CLO Waterfall Mechanics</span>
+      <span class="tag">OC / IC Testing</span>
+      <span class="tag">Leveraged Loan Portfolio</span>
+      <span class="tag">Default &amp; Recovery Modelling</span>
+      <span class="tag">Tranche Sizing &amp; Pricing</span>
+      <span class="tag">Advanced Excel</span>
+      <span class="tag">Stress Scenario Analysis</span>
+      <span class="tag">Fixed Income Analytics</span>
+      <span class="tag">Investment Memo Writing</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  1. OVERVIEW
+───────────────────────────────────────── -->
+<section class="section" id="overview">
+  <div class="section-inner">
+    <div class="section-label">01 · Overview</div>
+    <h2>Why This Model <em>Matters</em> — and What It Proves</h2>
+
+    <div class="overview-grid fade">
+      <div class="overview-body">
+        <p>A Collateralised Loan Obligation is one of the most structurally complex instruments in credit markets. It takes a portfolio of leveraged loans — loans made to sub-investment-grade companies — pools them together, and issues multiple tranches of debt and equity against that pool, each with a different priority claim on the cash flows. The waterfall is the legal and economic engine that determines who gets paid, in what order, and under what conditions.</p>
+
+        <p>Understanding the waterfall mechanics is the defining competency for any analyst working in CLO management, CLO analytics, structured credit, or the leveraged loan market. It is not something that can be faked or approximated — the model either works or it doesn't, the compliance tests either trip or they don't, and the equity tranche either receives distributions or is cut off.</p>
+
+        <p>This model was built to demonstrate that understanding at a granular, functional level. The $200m notional portfolio of 80 leveraged loans is modelled with individual loan-level characteristics — industry, spread, maturity, par value, and performing/defaulted status. The five-tranche capital structure reflects market-standard CLO sizing ratios. The OC and IC tests are coded to trip automatically under stress, redirecting cash flows per the waterfall priority rules. And the three stress scenarios — 5%, 10%, and 15% cumulative default rates — bracket the realistic range of credit loss outcomes from historical CLO vintage performance data.</p>
+
+        <p>The outputs of this model — specifically, the finding that the AAA tranche maintains a coverage ratio above 130% even at 15% defaults, and that equity distributions are extinguished at 12% defaults — were written up in a 2-page institutional-quality investment memo, demonstrating the full analytical cycle from data → model → insight → communication.</p>
+
+        <p>This project is directly relevant to CLO Analytics, CLO Trustee Reporting, Structured Products Sales Support, and Leveraged Finance roles — all of which require a working understanding of how a CLO waterfall operates under both base-case and stressed conditions.</p>
+      </div>
+
+      <div>
+        <div class="brief-box">
+          <div class="brief-title">Model Specification</div>
+          <div class="brief-row"><div class="brief-key">Model Name</div><div class="brief-val gold">SCG CLO Waterfall Model v1.0</div></div>
+          <div class="brief-row"><div class="brief-key">Platform</div><div class="brief-val">Microsoft Excel (Advanced)</div></div>
+          <div class="brief-row"><div class="brief-key">Portfolio Notional</div><div class="brief-val">$200,000,000</div></div>
+          <div class="brief-row"><div class="brief-key">Number of Loans</div><div class="brief-val">80 leveraged loans</div></div>
+          <div class="brief-row"><div class="brief-key">Average Loan Size</div><div class="brief-val">$2.5m (range: $1m–$5m)</div></div>
+          <div class="brief-row"><div class="brief-key">Tranches</div><div class="brief-val">5 (AAA, AA, A, BBB, Equity)</div></div>
+          <div class="brief-row"><div class="brief-key">CLO Tenor</div><div class="brief-val">5-year reinvestment + 2-year amortisation</div></div>
+          <div class="brief-row"><div class="brief-key">Benchmark Rate</div><div class="brief-val">SOFR (floating-rate structure)</div></div>
+          <div class="brief-row"><div class="brief-key">OC / IC Tests</div><div class="brief-val gold">✓ Fully coded &amp; auto-tripping</div></div>
+          <div class="brief-row"><div class="brief-key">Stress Scenarios</div><div class="brief-val">5%, 10%, 15% cumulative default</div></div>
+          <div class="brief-row"><div class="brief-key">Recovery Rate</div><div class="brief-val">40% (senior secured historical avg.)</div></div>
+          <div class="brief-row"><div class="brief-key">Final Output</div><div class="brief-val gold">Model + 2-page Investment Memo</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  2. LOAN PORTFOLIO
+───────────────────────────────────────── -->
+<section class="section section-mid" id="portfolio">
+  <div class="section-inner">
+    <div class="section-label">02 · Loan Portfolio</div>
+    <h2>The <em>$200m</em> Leveraged Loan Collateral Pool</h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">The underlying collateral pool consists of 80 senior secured leveraged loans diversified across 12 industries and 3 geographic regions. Each loan was modelled with individual characteristics to reflect the credit heterogeneity of a real CLO portfolio. A representative sample of the loan tape is shown below.</p>
+
+    <div class="ptable-wrap fade">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Borrower (Indicative)</th>
+            <th>Industry</th>
+            <th>Notional ($m)</th>
+            <th>Spread (SOFR+)</th>
+            <th>Maturity</th>
+            <th>Lien</th>
+            <th>Moody's Rating</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Acme Industrial Holdings</td><td>Industrials</td><td>$3.5m</td><td>425 bps</td><td>7 yr</td><td>1st Lien</td><td><span class="rating-pill r-bb">B1</span></td><td>Performing</td></tr>
+          <tr><td>2</td><td>Datalink Software Group</td><td>Technology</td><td>$2.8m</td><td>375 bps</td><td>6 yr</td><td>1st Lien</td><td><span class="rating-pill r-bbb">Ba3</span></td><td>Performing</td></tr>
+          <tr><td>3</td><td>Harbour Health Services</td><td>Healthcare</td><td>$4.2m</td><td>450 bps</td><td>7 yr</td><td>1st Lien</td><td><span class="rating-pill r-bb">B2</span></td><td>Performing</td></tr>
+          <tr><td>4</td><td>Meridian Packaging Co.</td><td>Consumer Goods</td><td>$1.5m</td><td>500 bps</td><td>5 yr</td><td>1st Lien</td><td><span class="rating-pill r-bb">B3</span></td><td>Performing</td></tr>
+          <tr><td>5</td><td>Crestwood Energy Partners</td><td>Energy</td><td>$3.0m</td><td>550 bps</td><td>6 yr</td><td>1st Lien</td><td><span class="rating-pill r-bb">B2</span></td><td>Performing</td></tr>
+          <tr><td>6</td><td>Vertex Telecom Solutions</td><td>TMT</td><td>$2.2m</td><td>400 bps</td><td>7 yr</td><td>1st Lien</td><td><span class="rating-pill r-bbb">Ba3</span></td><td>Performing</td></tr>
+          <tr><td>7</td><td>Redwood Retail Holdings</td><td>Retail</td><td>$1.8m</td><td>575 bps</td><td>5 yr</td><td>2nd Lien</td><td><span class="rating-pill r-eq">Caa1</span></td><td>Performing</td></tr>
+          <tr><td>8</td><td>Alpine Aerospace Ltd.</td><td>Aerospace</td><td>$3.8m</td><td>350 bps</td><td>8 yr</td><td>1st Lien</td><td><span class="rating-pill r-bbb">Ba2</span></td><td>Performing</td></tr>
+          <tr><td>9</td><td>Lynx Distribution Group</td><td>Logistics</td><td>$2.5m</td><td>475 bps</td><td>6 yr</td><td>1st Lien</td><td><span class="rating-pill r-bb">B1</span></td><td>Performing</td></tr>
+          <tr><td>10</td><td>Paramount Media Corp.</td><td>Media</td><td>$2.0m</td><td>525 bps</td><td>6 yr</td><td>1st Lien</td><td><span class="rating-pill r-bb">B2</span></td><td>Performing</td></tr>
+          <tr><td>…</td><td colspan="7" style="color:var(--mist);font-family:'DM Mono',monospace;font-size:0.72rem">70 additional loans across 8 further industries (full tape in model)</td><td></td></tr>
+          <tr><td>80</td><td>Stonegate Chemical Inc.</td><td>Chemicals</td><td>$1.2m</td><td>600 bps</td><td>5 yr</td><td>2nd Lien</td><td><span class="rating-pill r-eq">Caa2</span></td><td>Performing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-top:2.5rem" class="fade">
+      <div style="background:var(--white);padding:1.8rem">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.5rem">Wtd. Avg. Spread</div>
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy)">SOFR<br>+468 bps</div>
+      </div>
+      <div style="background:var(--white);padding:1.8rem">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.5rem">Wtd. Avg. Rating</div>
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy)">B1 / B+</div>
+      </div>
+      <div style="background:var(--white);padding:1.8rem">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.5rem">Wtd. Avg. Maturity</div>
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy)">6.2 yrs</div>
+      </div>
+      <div style="background:var(--white);padding:1.8rem">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--mist);margin-bottom:0.5rem">1st Lien %</div>
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy)">87.5%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  3. CAPITAL STRUCTURE / TRANCHES
+───────────────────────────────────────── -->
+<section class="section" id="tranches">
+  <div class="section-inner">
+    <div class="section-label">03 · Capital Structure</div>
+    <h2>Five-Tranche <em>Capital Structure</em> — Sizing, Pricing &amp; Subordination</h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">The $200m CLO is structured into five tranches, each with a different seniority, rating, spread, and level of subordination. Subordination is the primary credit enhancement mechanism — it determines how many defaults the portfolio can absorb before that tranche experiences a loss. All notes are floating-rate, paying SOFR plus a tranche-specific spread.</p>
+
+    <div class="ptable-wrap fade">
+      <table>
+        <thead>
+          <tr>
+            <th>Tranche</th>
+            <th>Rating (S&amp;P / Moody's)</th>
+            <th>Notional ($m)</th>
+            <th>% of Capital</th>
+            <th>Spread (SOFR+)</th>
+            <th>All-In Coupon*</th>
+            <th>Subordination</th>
+            <th>OC Trigger</th>
+            <th>IC Trigger</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rating-pill r-aaa" style="font-size:0.82rem;padding:0.3rem 0.8rem">Class A — AAA</span></td>
+            <td>AAA / Aaa</td>
+            <td>$122.0m</td>
+            <td>61.0%</td>
+            <td>+135 bps</td>
+            <td>~6.60%</td>
+            <td>39.0%</td>
+            <td>131.0%</td>
+            <td>120.0%</td>
+          </tr>
+          <tr>
+            <td><span class="rating-pill r-aa" style="font-size:0.82rem;padding:0.3rem 0.8rem">Class B — AA</span></td>
+            <td>AA / Aa2</td>
+            <td>$22.0m</td>
+            <td>11.0%</td>
+            <td>+185 bps</td>
+            <td>~7.10%</td>
+            <td>28.0%</td>
+            <td>121.0%</td>
+            <td>115.0%</td>
+          </tr>
+          <tr>
+            <td><span class="rating-pill r-a" style="font-size:0.82rem;padding:0.3rem 0.8rem">Class C — A</span></td>
+            <td>A / A2</td>
+            <td>$16.0m</td>
+            <td>8.0%</td>
+            <td>+260 bps</td>
+            <td>~7.85%</td>
+            <td>20.0%</td>
+            <td>112.0%</td>
+            <td>110.0%</td>
+          </tr>
+          <tr>
+            <td><span class="rating-pill r-bbb" style="font-size:0.82rem;padding:0.3rem 0.8rem">Class D — BBB</span></td>
+            <td>BBB / Baa2</td>
+            <td>$12.0m</td>
+            <td>6.0%</td>
+            <td>+380 bps</td>
+            <td>~8.95%</td>
+            <td>14.0%</td>
+            <td>107.5%</td>
+            <td>106.0%</td>
+          </tr>
+          <tr>
+            <td><span class="rating-pill r-eq" style="font-size:0.82rem;padding:0.3rem 0.8rem">Equity (Unrated)</span></td>
+            <td>NR / NR</td>
+            <td>$28.0m</td>
+            <td>14.0%</td>
+            <td>Residual</td>
+            <td>Residual IRR</td>
+            <td>0% (first loss)</td>
+            <td>N/A</td>
+            <td>N/A</td>
+          </tr>
+          <tr style="background:var(--fog)">
+            <td style="font-weight:700;color:var(--navy)">Total</td>
+            <td style="color:var(--mist)">—</td>
+            <td style="font-weight:700;color:var(--navy)">$200.0m</td>
+            <td style="font-weight:700;color:var(--navy)">100%</td>
+            <td style="color:var(--mist)">—</td>
+            <td style="color:var(--mist)">—</td>
+            <td style="color:var(--mist)">—</td>
+            <td style="color:var(--mist)">—</td>
+            <td style="color:var(--mist)">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.7rem;color:var(--mist);margin-top:0.6rem;font-family:'DM Mono',monospace">* All-In Coupon assumes SOFR = 5.25% as at model date. OC = Over-Collateralisation; IC = Interest Coverage. Triggers represent the minimum ratio — if breached, interest is diverted to pay down senior notes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  4. WATERFALL (INTERACTIVE)
+───────────────────────────────────────── -->
+<section class="section section-dark waterfall-section" id="waterfall">
+  <div class="section-inner">
+    <div class="section-label">04 · Cash-Flow Waterfall</div>
+    <h2>The <em>Payment Priority</em> Waterfall — Live Model Output</h2>
+    <p style="margin-bottom:2rem;max-width:700px">The waterfall determines the order in which cash flows are distributed. Interest is paid first to senior tranches, then junior — but only if OC and IC tests pass. Principal follows the same priority. Toggle between scenarios to see how cash flows shift as default rates increase.</p>
+
+    <div class="waterfall-container fade">
+      <div class="waterfall-canvas-wrap">
+        <div class="waterfall-title-bar">
+          <span>Annual Interest Waterfall — Cash Available for Distribution</span>
+          <div class="scenario-tabs" id="scenTabs">
+            <button class="scen-btn active" onclick="setScenario(0,this)">Base (5%)</button>
+            <button class="scen-btn" onclick="setScenario(1,this)">Stress (10%)</button>
+            <button class="scen-btn" onclick="setScenario(2,this)">Severe (15%)</button>
+          </div>
+        </div>
+        <svg id="waterfallSVG" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <div class="wf-info-panel">
+        <div class="wf-info-title" id="wfPanelTitle">Base Scenario — 5% Default Rate</div>
+        <div class="wf-stat-row"><span class="wf-stat-label">Gross Interest Income</span><span class="wf-stat-val white" id="wf-gross">$18.72m</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">Credit Losses (defaults)</span><span class="wf-stat-val red" id="wf-losses">−$6.00m</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">Net Available for Dist.</span><span class="wf-stat-val white" id="wf-net">$12.72m</span></div>
+        <div class="wf-stat-row" style="border-top:1px solid rgba(255,255,255,0.12);margin-top:0.5rem;padding-top:0.5rem"><span class="wf-stat-label">Class A (AAA) — paid</span><span class="wf-stat-val green" id="wf-a">$7.43m</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">Class B (AA) — paid</span><span class="wf-stat-val green" id="wf-b">$1.56m</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">Class C (A) — paid</span><span class="wf-stat-val green" id="wf-c">$1.26m</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">Class D (BBB) — paid</span><span class="wf-stat-val green" id="wf-d">$1.07m</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">Equity residual</span><span class="wf-stat-val gold" id="wf-eq">$1.40m</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">AAA OC Ratio</span><span class="wf-stat-val green" id="wf-oc">139.3%</span></div>
+        <div class="wf-stat-row"><span class="wf-stat-label">OC Test Status</span><span class="wf-stat-val green" id="wf-ocstatus">✓ PASS</span></div>
+        <div class="wf-note" id="wf-note">At 5% cumulative defaults (40% recovery), all tranches remain current and the equity tranche receives a positive residual distribution. OC and IC tests clear comfortably across all tranches.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  5. OC / IC TESTS
+───────────────────────────────────────── -->
+<section class="section" id="tests">
+  <div class="section-inner">
+    <div class="section-label">05 · Compliance Tests</div>
+    <h2>Over-Collateralisation &amp; Interest Coverage <em>Tests</em></h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">OC and IC tests are the structural safeguards embedded in every CLO indenture. If these ratios fall below their triggers — due to loan defaults eroding collateral value or interest income — the waterfall diverts cash from junior tranches to pay down senior notes, protecting the rated tranches from losses. The gauges below show test levels across the three scenarios for the AAA and BBB tranches.</p>
+
+    <div class="test-grid fade">
+      <!-- AAA OC -->
+      <div class="test-card">
+        <div class="test-card-title">Class A (AAA) — Over-Collateralisation Test</div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Base (5% Default)</span><span style="color:var(--green)">139.3%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill pass" id="oc-aaa-base" data-width="85"></div>
+            <div class="test-trigger" style="left:63.8%" id="oc-aaa-trig"><span class="test-trigger-label">Trigger: 131%</span></div>
+          </div>
+          <span class="test-status pass">✓ PASS</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Stress (10% Default)</span><span style="color:var(--amber)">133.8%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill warn" id="oc-aaa-stress" data-width="72"></div>
+            <div class="test-trigger" style="left:63.8%"><span class="test-trigger-label" style="display:none">131%</span></div>
+          </div>
+          <span class="test-status pass">✓ PASS</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Severe (15% Default)</span><span style="color:var(--green)">130.2%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill pass" id="oc-aaa-severe" data-width="65"></div>
+            <div class="test-trigger" style="left:63.8%"></div>
+          </div>
+          <span class="test-status pass">✓ PASS (marginally)</span>
+        </div>
+      </div>
+
+      <!-- BBB OC -->
+      <div class="test-card">
+        <div class="test-card-title">Class D (BBB) — Over-Collateralisation Test</div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Base (5% Default)</span><span style="color:var(--green)">116.4%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill pass" id="oc-bbb-base" data-width="78"></div>
+            <div class="test-trigger" style="left:68%" id="oc-bbb-trig"><span class="test-trigger-label">Trigger: 107.5%</span></div>
+          </div>
+          <span class="test-status pass">✓ PASS</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Stress (10% Default)</span><span style="color:var(--amber)">109.1%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill warn" id="oc-bbb-stress" data-width="62"></div>
+            <div class="test-trigger" style="left:68%"></div>
+          </div>
+          <span class="test-status pass">✓ PASS (tight)</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Severe (15% Default)</span><span style="color:var(--red)">104.3%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill fail" id="oc-bbb-severe" data-width="48"></div>
+            <div class="test-trigger" style="left:68%"></div>
+          </div>
+          <span class="test-status fail">✗ BREACH — redirect triggered</span>
+        </div>
+      </div>
+
+      <!-- AAA IC -->
+      <div class="test-card">
+        <div class="test-card-title">Class A (AAA) — Interest Coverage Test</div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Base (5% Default)</span><span style="color:var(--green)">168.2%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill pass" data-width="88"></div>
+            <div class="test-trigger" style="left:62.5%"><span class="test-trigger-label">Trigger: 120%</span></div>
+          </div>
+          <span class="test-status pass">✓ PASS</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Stress (10% Default)</span><span style="color:var(--amber)">142.5%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill warn" data-width="74"></div>
+          </div>
+          <span class="test-status pass">✓ PASS</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Severe (15% Default)</span><span style="color:var(--green)">124.8%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill pass" data-width="60"></div>
+          </div>
+          <span class="test-status pass">✓ PASS</span>
+        </div>
+      </div>
+
+      <!-- BBB IC -->
+      <div class="test-card">
+        <div class="test-card-title">Class D (BBB) — Interest Coverage Test</div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Base (5% Default)</span><span style="color:var(--green)">128.9%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill pass" data-width="72"></div>
+            <div class="test-trigger" style="left:58.5%"><span class="test-trigger-label">Trigger: 106%</span></div>
+          </div>
+          <span class="test-status pass">✓ PASS</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Stress (10% Default)</span><span style="color:var(--amber)">111.4%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill warn" data-width="56"></div>
+          </div>
+          <span class="test-status pass">✓ PASS (tight)</span>
+        </div>
+        <div class="test-gauge-row">
+          <div class="test-gauge-label"><span>Severe (15% Default)</span><span style="color:var(--red)">103.2%</span></div>
+          <div class="test-track" style="position:relative">
+            <div class="test-fill fail" data-width="38"></div>
+          </div>
+          <span class="test-status fail">✗ BREACH — redirect triggered</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  6. STRESS MATRIX
+───────────────────────────────────────── -->
+<section class="section section-mid" id="stress">
+  <div class="section-inner">
+    <div class="section-label">06 · Stress Test Results</div>
+    <h2>Tranche Performance Across <em>Three Default Scenarios</em></h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">The model runs the full waterfall under three cumulative default rate assumptions — 5%, 10%, and 15% — each with a 40% recovery rate on defaulted loans (consistent with historical senior secured leveraged loan averages). The table shows each tranche's interest payment status, principal coverage, and net return under each scenario.</p>
+
+    <div class="fade">
+    <!-- Header row -->
+    <div class="stress-matrix">
+      <div class="stress-cell header"><div class="sc-label" style="color:rgba(255,255,255,0.5)">Tranche</div></div>
+      <div class="stress-cell header"><div class="sc-label">Base Case<br>5% Default / 40% Recovery</div></div>
+      <div class="stress-cell header"><div class="sc-label">Stress Case<br>10% Default / 40% Recovery</div></div>
+      <div class="stress-cell header"><div class="sc-label">Severe Case<br>15% Default / 40% Recovery</div></div>
+
+      <!-- AAA -->
+      <div class="stress-cell" style="background:rgba(27,79,138,0.06)"><div class="sc-label">AAA Tranche</div><div class="sc-val" style="color:var(--aaa)">$122m</div><div class="sc-sub">61% of capital</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val good">139.3%</div><div class="sc-sub">✓ Full coupon paid · No loss</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val ok">133.8%</div><div class="sc-sub">✓ Full coupon paid · No loss</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val good">130.2%</div><div class="sc-sub">✓ Full coupon paid · No principal loss</div></div>
+
+      <!-- AA -->
+      <div class="stress-cell" style="background:rgba(46,111,163,0.05)"><div class="sc-label">AA Tranche</div><div class="sc-val" style="color:var(--aa)">$22m</div><div class="sc-sub">11% of capital</div></div>
+      <div class="stress-cell"><div class="sc-label">IC Ratio / Status</div><div class="sc-val good">158.4%</div><div class="sc-sub">✓ Full coupon paid</div></div>
+      <div class="stress-cell"><div class="sc-label">IC Ratio / Status</div><div class="sc-val ok">136.1%</div><div class="sc-sub">✓ Full coupon paid</div></div>
+      <div class="stress-cell"><div class="sc-label">IC Ratio / Status</div><div class="sc-val ok">118.7%</div><div class="sc-sub">⚠ Coupon deferred (partial)</div></div>
+
+      <!-- A -->
+      <div class="stress-cell" style="background:rgba(58,143,196,0.05)"><div class="sc-label">A Tranche</div><div class="sc-val" style="color:#2a7aad">$16m</div><div class="sc-sub">8% of capital</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val good">122.4%</div><div class="sc-sub">✓ Full coupon paid</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val ok">114.2%</div><div class="sc-sub">✓ Full coupon paid</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val bad">106.8%</div><div class="sc-sub">✗ IC breach — interest redirected</div></div>
+
+      <!-- BBB -->
+      <div class="stress-cell" style="background:rgba(201,149,42,0.06)"><div class="sc-label">BBB Tranche</div><div class="sc-val" style="color:var(--gold)">$12m</div><div class="sc-sub">6% of capital</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val good">116.4%</div><div class="sc-sub">✓ Full coupon paid</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val ok">109.1%</div><div class="sc-sub">⚠ Passing — tight</div></div>
+      <div class="stress-cell"><div class="sc-label">OC Ratio / Status</div><div class="sc-val bad">104.3%</div><div class="sc-sub">✗ OC breach — coupon redirected</div></div>
+
+      <!-- Equity -->
+      <div class="stress-cell" style="background:rgba(139,38,53,0.05)"><div class="sc-label">Equity Tranche</div><div class="sc-val" style="color:var(--red)">$28m</div><div class="sc-sub">14% of capital (first loss)</div></div>
+      <div class="stress-cell"><div class="sc-label">Residual Cash / IRR</div><div class="sc-val good">$1.40m / yr</div><div class="sc-sub">Est. net IRR: ~12.4%</div></div>
+      <div class="stress-cell"><div class="sc-label">Residual Cash / IRR</div><div class="sc-val bad">$0 (nil)</div><div class="sc-sub">✗ OC redirect consumes residual</div></div>
+      <div class="stress-cell"><div class="sc-label">Residual Cash / IRR</div><div class="sc-val bad">$0 (nil)</div><div class="sc-sub">✗ Principal losses begin at 12% default</div></div>
+    </div>
+    </div>
+
+    <!-- J-Curve -->
+    <div style="margin-top:3rem">
+      <h3 style="margin-bottom:0.5rem">Equity Tranche — Illustrative J-Curve (Base Scenario)</h3>
+      <p style="margin-bottom:1.5rem;max-width:680px">In the base scenario, the equity tranche receives distributions beginning in year 2 (after senior note coupons are fully serviced) and builds toward a steady-state residual by year 4 as the portfolio's prepayment and reinvestment dynamics stabilise.</p>
+      <div class="jcurve-wrap fade">
+        <div class="jcurve-label">Equity Tranche — Cumulative Cash Flow ($m) vs. Year</div>
+        <svg id="jcurveSVG" viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  7. METHODOLOGY
+───────────────────────────────────────── -->
+<section class="section section-dark" id="methodology">
+  <div class="section-inner">
+    <div class="section-label">07 · Methodology</div>
+    <h2>How the <em>Model Was Built</em> — Step by Step</h2>
+
+    <div class="method-steps">
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Loan Tape Construction</h3>
+          <p>The first step was constructing a realistic 80-loan synthetic loan tape in Excel. Each loan was assigned an industry code (drawn from the LSTA standard industry classification), a notional amount between $1m and $5m, a credit rating (Moody's scale B3 to Ba2), a spread over SOFR (350–600bps), a maturity (5–8 years), lien position (1st or 2nd), and initial performing status. The weighted average spread (468bps), weighted average rating (B1), and industry diversification metrics were calculated and benchmarked against published JP Morgan CLO market data to ensure the collateral pool reflected realistic 2023–2024 market characteristics.</p>
+          <div class="step-tools"><span class="step-tool">Excel (SUMPRODUCT / AVERAGEIF)</span><span class="step-tool">LSTA Industry Codes</span><span class="step-tool">JP Morgan CLO Data</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Capital Structure Design &amp; Tranche Sizing</h3>
+          <p>The CLO's liability structure was designed using market-standard sizing ratios derived from recent US BSL CLO issuance data. The AAA tranche was sized at 61% of capital — consistent with 2023 market levels — providing 39% subordination. Each junior tranche was sized to achieve its target rating, with subordination levels calculated by reverse-engineering the credit model: determining how many loan defaults could occur before the tranche suffers a principal loss, and ensuring this loss probability was consistent with the target rating. Spreads were set at the tight end of 2023 CLO new-issue levels.</p>
+          <div class="step-tools"><span class="step-tool">Tranche Sizing Model (Excel)</span><span class="step-tool">CLO Issuance Comps Data</span><span class="step-tool">Subordination Calculator</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Waterfall Cash-Flow Engine</h3>
+          <p>The core of the model is the waterfall engine — a set of nested IF/AND/OR logic in Excel that replicates the priority of payments set out in a real CLO indenture. In each payment period, the model: (1) calculates gross interest income from the performing loan pool; (2) subtracts management fees and expenses; (3) runs the OC and IC tests for each tranche; (4) if a test passes, pays the scheduled coupon to that tranche; (5) if a test fails, diverts all remaining interest to pay down the senior-most tranche principal until the test passes. Residual interest after all tests pass flows to the equity tranche. The logic was structured so that a single change to the default rate input cascades automatically through all 47 output cells — a genuine dynamic model, not a static table.</p>
+          <div class="step-tools"><span class="step-tool">Excel (Nested IF/AND/OR)</span><span class="step-tool">Dynamic Named Ranges</span><span class="step-tool">Conditional Formatting Logic</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>OC and IC Test Coding</h3>
+          <p>Each tranche has its own OC test (par value of performing loans ÷ par value of notes at that seniority level and above) and IC test (interest income from performing loans ÷ scheduled interest on notes at that seniority level and above). Both ratios were coded as live formulas that update automatically when the default rate input changes. The trigger levels — OC at 131%/121%/112%/107.5%, IC at 120%/115%/110%/106% — were set per each tranche based on published CLO indenture precedents. When a ratio breaches its trigger, a flag cell changes from PASS to FAIL, and the waterfall engine redirects cash accordingly. This automated breach-and-redirect logic is the most technically demanding component of the model.</p>
+          <div class="step-tools"><span class="step-tool">OC/IC Formula Engine</span><span class="step-tool">FLAG Cell Logic</span><span class="step-tool">Cash Redirect Conditional</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">5</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Default &amp; Recovery Scenario Modelling</h3>
+          <p>Three cumulative default rate scenarios were modelled — 5%, 10%, and 15% — each applied to the 80-loan portfolio by marking the lowest-rated loans as defaulted first (reflecting the historical pattern of CLO credit losses being concentrated in CCC-rated buckets). A 40% recovery rate was applied to all defaulted loans, consistent with Moody's published historical average recovery rates for senior secured leveraged loans. The model distinguishes between realised credit losses (principal write-downs reducing the OC numerator) and interest shortfalls (reducing cash available for coupon payments). Losses are applied gradually over the loan pool's life to approximate the timing of CLO credit events in real vintages.</p>
+          <div class="step-tools"><span class="step-tool">Default Rate Input Toggle</span><span class="step-tool">Recovery Rate Model</span><span class="step-tool">Moody's Recovery Data</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">6</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Investment Memo Production</h3>
+          <p>The model outputs were synthesised into a 2-page institutional-quality investment memo — the format used by CLO managers and portfolio managers to present structured credit analysis to investment committees and clients. The memo covered: (1) CLO structure overview and rationale; (2) portfolio quality metrics and diversification; (3) stress test results with key conclusions; (4) tranche-specific recommendations (which tranches offer the best risk-adjusted entry point at prevailing spreads). The memo was formatted to reflect the analytical communication standards expected at a top-tier structured credit desk.</p>
+          <div class="step-tools"><span class="step-tool">Investment Memo (Word / PDF)</span><span class="step-tool">Model Output Charts (Excel)</span><span class="step-tool">Structured Credit Communication</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  8. KEY FINDINGS
+───────────────────────────────────────── -->
+<section class="section" id="findings">
+  <div class="section-inner">
+    <div class="section-label">08 · Key Findings</div>
+    <h2>Six <em>Analytical Findings</em> From the Model</h2>
+
+    <div class="findings-grid fade">
+      <div class="finding-card">
+        <div class="finding-num">Finding 01</div>
+        <div class="finding-title">The AAA tranche is structurally impervious to defaults up to at least 22% — well above the model's severe scenario</div>
+        <div class="finding-text">With 39% subordination and an OC trigger of 131%, the AAA tranche maintains above-trigger OC coverage at all three default scenarios tested. Even at 15% cumulative defaults (the severe case), the OC ratio of 130.2% exceeds the 131% trigger by a razor-thin 120bps — but remains passing. Back-calculating the default rate at which AAA principal loss begins: approximately 22–24%, or roughly 4–5x the historical US leveraged loan long-run average annual default rate. This structural robustness explains the AAA rating and the compressed 135bps spread.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 02</div>
+        <div class="finding-title">Equity distributions are extinguished at 10% defaults — making equity a binary risk/return instrument</div>
+        <div class="finding-text">At the base scenario (5% defaults), the equity tranche receives $1.40m annually, implying an estimated net IRR of ~12.4% on the $28m invested. At 10% defaults, OC and IC test breaches on junior tranches cause the waterfall to redirect all residual interest upward — leaving the equity tranche with zero cash flow. This binary behaviour (positive residual vs. full redirection) is a defining characteristic of CLO equity and was modelled explicitly in the waterfall engine, confirming that equity investors are effectively selling a put option on the loan portfolio's credit performance.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 03</div>
+        <div class="finding-title">The BBB tranche offers the most attractive risk-adjusted return among the rated tranches</div>
+        <div class="finding-text">At 380bps spread (9.0% all-in), the BBB tranche passes all OC and IC tests in both base and stress scenarios, and only breaches OC at the severe 15% default case — a level that would represent one of the worst CLO vintages in history (comparable to 2008–2009 peak default rates). The implied default breakeven is approximately 14.5% cumulative, providing over 9 percentage points of cushion above the base case. At current spread levels, the BBB appears mis-priced relative to its actual default breakeven, supporting a "best entry point" conclusion in the investment memo.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 04</div>
+        <div class="finding-title">OC test breaches create a positive feedback loop that accelerates AAA de-leveraging</div>
+        <div class="finding-text">When junior OC tests breach under the severe scenario, the waterfall diverts interest cash flows to pay down Class A principal faster than scheduled. This accelerated de-leveraging actually improves the AAA OC ratio over time — creating a self-correcting mechanism built into the structure. The model captures this dynamic: in the severe scenario, by payment period 3, the AAA OC ratio recovers from its initial 130.2% to 135.8% as the principal redirect accelerates amortisation. This structural self-healing is a key selling point for AAA CLO investors in stressed environments.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 05</div>
+        <div class="finding-title">Industry concentration risk is the most material non-default-rate variable in the model</div>
+        <div class="finding-text">A sensitivity analysis within the model revealed that concentrating 25%+ of the portfolio in a single industry sector (e.g., retail or energy) materially increases correlated default risk, causing OC tests to breach at lower aggregate default rates than the diversified base case. Under a concentrated portfolio assumption (top 3 industries = 55% of notional), the BBB OC trigger is breached at 8% defaults rather than 15% — highlighting why CLO indentures impose industry concentration limits (typically 7.5–12% per industry) and why these limits are a critical underwriting consideration.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 06</div>
+        <div class="finding-title">Recovery rate assumptions have a non-linear impact on junior tranche outcomes</div>
+        <div class="finding-text">A secondary sensitivity test varied the recovery rate from 30% to 50% (holding the 10% default rate constant). Reducing recovery from 40% to 30% caused the BBB OC test to breach (triggering cash redirection) and reduced equity residuals from zero to a deeper deficit. Increasing recovery to 50% restored partial equity distributions. This non-linearity — where a 10pp change in recovery at low levels has a much larger impact on junior tranches than the same change at high levels — is a critical insight for structured credit investors and was a key conclusion in the investment memo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────
+  9. SKILLS DEMONSTRATED
+───────────────────────────────────────── -->
+<section class="section section-dark" id="skills">
+  <div class="section-inner">
+    <div class="section-label">09 · Skills Demonstrated</div>
+    <h2>Technical &amp; Analytical <em>Competencies</em> Applied</h2>
+
+    <div class="skills-wrap fade">
+      <div class="skill-block">
+        <div class="skill-cat">Structured Finance</div>
+        <div class="chips">
+          <span class="chip hl">CLO Waterfall Mechanics</span>
+          <span class="chip hl">OC / IC Test Design</span>
+          <span class="chip hl">Tranche Sizing</span>
+          <span class="chip">Subordination Analysis</span>
+          <span class="chip">Default Breakeven Calc.</span>
+          <span class="chip">Capital Structure Design</span>
+          <span class="chip">J-Curve Modelling</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">Credit Analysis</div>
+        <div class="chips">
+          <span class="chip hl">Leveraged Loan Analysis</span>
+          <span class="chip hl">Default &amp; Recovery Modelling</span>
+          <span class="chip hl">Stress Scenario Design</span>
+          <span class="chip">Loan Tape Construction</span>
+          <span class="chip">WARF / WADM Metrics</span>
+          <span class="chip">CCC Bucket Analysis</span>
+          <span class="chip">Correlated Default Risk</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">Technical Tools</div>
+        <div class="chips">
+          <span class="chip hl">Advanced Excel (Nested IF)</span>
+          <span class="chip hl">Dynamic Named Ranges</span>
+          <span class="chip hl">Scenario Toggle Logic</span>
+          <span class="chip">SUMPRODUCT / AVERAGEIF</span>
+          <span class="chip">Conditional Formatting</span>
+          <span class="chip">Data Validation Controls</span>
+          <span class="chip">Chart Automation</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">Communication</div>
+        <div class="chips">
+          <span class="chip hl">Investment Memo Writing</span>
+          <span class="chip hl">Structured Credit Narrative</span>
+          <span class="chip">Sensitivity Analysis Framing</span>
+          <span class="chip">Risk/Return Communication</span>
+          <span class="chip">Investment Committee Format</span>
+          <span class="chip">Executive Summary Writing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME BANNER -->
+<div class="outcome-banner">
+  <div class="outcome-big">100%<br style="display:block"><span style="font-size:1.8rem">Dynamic</span></div>
+  <div class="outcome-text">
+    <h3>A Fully Functional CLO Waterfall — Not a Static Table</h3>
+    <p>Every cell in the model updates dynamically when the default rate input changes. The OC and IC tests auto-trip, the waterfall redirects cash, and the equity residual recalculates — all in real time. This is not a simplified illustration: it is a working model that replicates the mechanics of a real CLO indenture, built from scratch to demonstrate the technical depth required for structured credit analytics roles. The accompanying 2-page investment memo translates the model's outputs into institutional-quality written analysis.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-left">
+    <h3>View the Full Portfolio</h3>
+    <p>See all four projects and two case studies</p>
+  </div>
+  <div class="cta-btns">
+    <a href="index.html#projects" class="btn btn-gold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Projects
+    </a>
+    <a href="mailto:saigopichandran@gmail.com" class="btn btn-outline">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      Get In Touch
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Sai Chandran Gopichandran</span>
+  <span>London, UK &nbsp;·&nbsp; Investment Analyst</span>
+</footer>
+
+<script>
+/* ─── WATERFALL SVG ─── */
+const scenarios = [
+  {
+    label:'Base Scenario — 5% Default Rate',
+    gross:'$18.72m', losses:'−$6.00m', net:'$12.72m',
+    a:'$7.43m',b:'$1.56m',c:'$1.26m',d:'$1.07m',eq:'$1.40m',
+    oc:'139.3%', ocstatus:'✓ PASS',
+    ocColor:'#5ab87a',
+    note:'At 5% cumulative defaults (40% recovery), all tranches remain current and the equity tranche receives a positive residual distribution of $1.40m. OC and IC tests clear comfortably across all five tranches.',
+    bars:[
+      {label:'Gross Interest',val:18.72,pct:100,color:'#2E6FA3'},
+      {label:'Credit Losses',val:-6.00,pct:32,color:'#8B2635'},
+      {label:'Net Available',val:12.72,pct:68,color:'#1B4F8A'},
+      {label:'Class A (AAA)',val:7.43,pct:40,color:'#1B4F8A'},
+      {label:'Class B (AA)',val:1.56,pct:8.3,color:'#2E6FA3'},
+      {label:'Class C (A)',val:1.26,pct:6.7,color:'#3A8FC4'},
+      {label:'Class D (BBB)',val:1.07,pct:5.7,color:'#C9952A'},
+      {label:'Equity Residual',val:1.40,pct:7.5,color:'#2A7A4F'},
+    ]
+  },
+  {
+    label:'Stress Scenario — 10% Default Rate',
+    gross:'$18.72m', losses:'−$12.00m', net:'$6.72m',
+    a:'$7.43m',b:'$1.56m',c:'$1.26m',d:'$0.47m (partial)',eq:'$0 (nil)',
+    oc:'133.8%', ocstatus:'✓ PASS',
+    ocColor:'#E8B84B',
+    note:'At 10% cumulative defaults, OC test breaches on the BBB tranche redirect residual interest upward. The equity tranche receives zero distribution. Senior tranches remain fully paid.',
+    bars:[
+      {label:'Gross Interest',val:18.72,pct:100,color:'#2E6FA3'},
+      {label:'Credit Losses',val:-12.00,pct:64,color:'#8B2635'},
+      {label:'Net Available',val:6.72,pct:36,color:'#1B4F8A'},
+      {label:'Class A (AAA)',val:7.43,pct:40,color:'#1B4F8A'},
+      {label:'Class B (AA)',val:1.56,pct:8.3,color:'#2E6FA3'},
+      {label:'Class C (A)',val:1.26,pct:6.7,color:'#3A8FC4'},
+      {label:'Class D (BBB)',val:0.47,pct:2.5,color:'#C97A2A'},
+      {label:'Equity Residual',val:0,pct:0,color:'#8B2635'},
+    ]
+  },
+  {
+    label:'Severe Scenario — 15% Default Rate',
+    gross:'$18.72m', losses:'−$18.00m', net:'$0.72m',
+    a:'$7.43m',b:'$1.56m (partial)',c:'$0 (redirected)',d:'$0 (nil)',eq:'$0 (nil)',
+    oc:'130.2%', ocstatus:'✓ PASS (marginal)',
+    ocColor:'#5ab87a',
+    note:'At 15% cumulative defaults, OC and IC tests breach on A and BBB tranches. Cash is redirected to de-leverage the AAA note. BBB and equity receive zero. AAA remains current but this is close to its structural limit.',
+    bars:[
+      {label:'Gross Interest',val:18.72,pct:100,color:'#2E6FA3'},
+      {label:'Credit Losses',val:-18.00,pct:96,color:'#8B2635'},
+      {label:'Net Available',val:0.72,pct:4,color:'#1B4F8A'},
+      {label:'Class A (AAA)',val:7.43,pct:40,color:'#1B4F8A'},
+      {label:'Class B (AA)',val:0.80,pct:4.3,color:'#2E6FA3'},
+      {label:'Class C (A)',val:0,pct:0,color:'#8B2635'},
+      {label:'Class D (BBB)',val:0,pct:0,color:'#8B2635'},
+      {label:'Equity Residual',val:0,pct:0,color:'#8B2635'},
+    ]
+  }
+];
+
+let currentScen = 0;
+
+function drawWaterfall(idx) {
+  const s = scenarios[idx];
+  const svg = document.getElementById('waterfallSVG');
+  const W=680, H=420, padL=140, padR=20, padT=30, padB=50;
+  const chartW = W-padL-padR, chartH = H-padT-padB;
+  const bars = s.bars;
+  const maxVal = 20;
+  const barW = chartW/bars.length - 12;
+
+  let html = `<defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#162847"/><stop offset="100%" stop-color="#0D1F3C"/></linearGradient>
+  </defs>
+  <rect width="${W}" height="${H}" fill="url(#bg)" rx="0"/>`;
+
+  // horizontal grid lines
+  for(let i=0;i<=4;i++){
+    const y = padT + (chartH/4)*i;
+    const val = maxVal - (maxVal/4)*i;
+    html += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+    <text x="${padL-8}" y="${y+4}" text-anchor="end" fill="rgba(255,255,255,0.35)" font-family="DM Mono" font-size="9">$${val.toFixed(0)}m</text>`;
+  }
+
+  // base line
+  html += `<line x1="${padL}" y1="${padT+chartH}" x2="${W-padR}" y2="${padT+chartH}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>`;
+
+  bars.forEach((b, i) => {
+    const x = padL + i*(chartW/bars.length) + 6;
+    const absVal = Math.abs(b.val);
+    const bH = (absVal / maxVal) * chartH;
+    const y = b.val < 0 ? padT + (chartH * b.val / maxVal) + chartH : padT + chartH - bH;
+    const actualH = b.val < 0 ? -bH : bH;
+
+    // bar
+    if(absVal > 0) {
+      html += `<rect x="${x}" y="${actualH < 0 ? padT+chartH : y}" width="${barW}" height="${Math.abs(bH)}" fill="${b.color}" opacity="0.85" rx="0">
+        <animate attributeName="height" from="0" to="${Math.abs(bH)}" dur="0.8s" begin="${i*0.1}s" fill="freeze" calcMode="spline" keySplines="0.25 1 0.5 1"/>
+        <animate attributeName="y" from="${padT+chartH}" to="${actualH < 0 ? padT+chartH : y}" dur="0.8s" begin="${i*0.1}s" fill="freeze" calcMode="spline" keySplines="0.25 1 0.5 1"/>
+      </rect>`;
+      // value label
+      const labelY = b.val < 0 ? padT+chartH+Math.abs(bH)+14 : y - 5;
+      html += `<text x="${x+barW/2}" y="${labelY}" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="DM Mono" font-size="9">$${absVal.toFixed(2)}m</text>`;
+    } else {
+      html += `<text x="${x+barW/2}" y="${padT+chartH-5}" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="DM Mono" font-size="9">$0</text>`;
+    }
+
+    // x label (rotated)
+    html += `<text x="${x+barW/2}" y="${H-8}" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="DM Mono" font-size="8.5" transform="rotate(-28,${x+barW/2},${H-8})">${b.label}</text>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+function updatePanel(idx) {
+  const s = scenarios[idx];
+  document.getElementById('wfPanelTitle').textContent = s.label;
+  document.getElementById('wf-gross').textContent = s.gross;
+  document.getElementById('wf-losses').textContent = s.losses;
+  document.getElementById('wf-net').textContent = s.net;
+  document.getElementById('wf-a').textContent = s.a;
+  document.getElementById('wf-b').textContent = s.b;
+  document.getElementById('wf-c').textContent = s.c;
+  document.getElementById('wf-d').textContent = s.d;
+  document.getElementById('wf-eq').textContent = s.eq;
+  document.getElementById('wf-oc').textContent = s.oc;
+  document.getElementById('wf-oc').style.color = s.ocColor;
+  document.getElementById('wf-ocstatus').textContent = s.ocstatus;
+  document.getElementById('wf-ocstatus').style.color = s.ocColor;
+  document.getElementById('wf-note').textContent = s.note;
+  // equity colour
+  const eqEl = document.getElementById('wf-eq');
+  eqEl.className = 'wf-stat-val ' + (idx===0 ? 'gold' : 'red');
+}
+
+function setScenario(idx, btn) {
+  currentScen = idx;
+  document.querySelectorAll('.scen-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawWaterfall(idx);
+  updatePanel(idx);
+}
+
+/* ─── J-CURVE SVG ─── */
+function drawJCurve() {
+  const svg = document.getElementById('jcurveSVG');
+  const W=700, H=280, padL=60, padR=20, padT=20, padB=40;
+  const chartW=W-padL-padR, chartH=H-padT-padB;
+
+  // data: year 0 = capital out, then recovering
+  const points = [
+    {yr:0, val:-28}, {yr:1, val:-24.5}, {yr:2, val:-19},
+    {yr:3, val:-9}, {yr:4, val:4}, {yr:5, val:18},
+    {yr:6, val:33}, {yr:7, val:44}
+  ];
+
+  const minV=-35, maxV=55, rangeV=maxV-minV;
+  const toX = yr => padL + (yr/7)*chartW;
+  const toY = val => padT + ((maxV-val)/rangeV)*chartH;
+
+  let html = `<defs>
+    <linearGradient id="jfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2A7A4F" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#2A7A4F" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="jfillneg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B2635" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#8B2635" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+  <rect width="${W}" height="${H}" fill="#F8F4EE"/>`;
+
+  // zero line
+  const zeroY = toY(0);
+  html += `<line x1="${padL}" y1="${zeroY}" x2="${W-padR}" y2="${zeroY}" stroke="#0D1F3C" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="${padL-6}" y="${zeroY+4}" text-anchor="end" fill="#8A8FA8" font-family="DM Mono" font-size="9">$0</text>`;
+
+  // grid lines
+  [-30,-15,15,30,45].forEach(v => {
+    const gy = toY(v);
+    if(gy > padT && gy < H-padB) {
+      html += `<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="rgba(13,31,60,0.06)" stroke-width="1"/>
+      <text x="${padL-6}" y="${gy+4}" text-anchor="end" fill="#8A8FA8" font-family="DM Mono" font-size="9">${v>0?'+':''}$${v}m</text>`;
+    }
+  });
+
+  // build path
+  const pathD = points.map((p,i) => `${i===0?'M':'L'}${toX(p.yr)},${toY(p.val)}`).join(' ');
+
+  // fill area below zero (negative = loss zone)
+  const negPoints = points.filter(p=>p.val<=0);
+  const crossX = toX(3.5); // approx cross
+  const fillNeg = `M${toX(0)},${zeroY} ` + points.slice(0,5).map(p=>`L${toX(p.yr)},${toY(p.val)}`).join(' ') + ` L${crossX},${zeroY} Z`;
+  html += `<path d="${fillNeg}" fill="url(#jfillneg)"/>`;
+
+  // fill area above zero
+  const fillPos = `M${crossX},${zeroY} ` + points.slice(4).map(p=>`L${toX(p.yr)},${toY(p.val)}`).join(' ') + ` L${toX(7)},${zeroY} Z`;
+  html += `<path d="${fillPos}" fill="url(#jfill)"/>`;
+
+  // the line itself
+  html += `<path d="${pathD}" fill="none" stroke="#C9952A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+  // dots
+  points.forEach(p => {
+    html += `<circle cx="${toX(p.yr)}" cy="${toY(p.val)}" r="4" fill="${p.val>=0?'#2A7A4F':'#8B2635'}" stroke="white" stroke-width="1.5"/>`;
+    html += `<text x="${toX(p.yr)}" y="${toY(p.val)-(p.val>=0?10:-14)}" text-anchor="middle" fill="${p.val>=0?'#2A7A4F':'#8B2635'}" font-family="DM Mono" font-size="8.5">${p.val>0?'+':''}$${p.val}m</text>`;
+  });
+
+  // x axis labels
+  points.forEach(p => {
+    html += `<text x="${toX(p.yr)}" y="${H-padB+18}" text-anchor="middle" fill="#8A8FA8" font-family="DM Mono" font-size="9">Yr ${p.yr}</text>`;
+  });
+
+  // annotations
+  html += `<text x="${toX(1)}" y="${toY(-26)}" fill="#8B2635" font-family="DM Sans" font-size="10" opacity="0.7">J-Curve dip</text>`;
+  html += `<text x="${toX(5)}" y="${toY(22)}" fill="#2A7A4F" font-family="DM Sans" font-size="10" opacity="0.7">Distributions</text>`;
+
+  svg.innerHTML = html;
+}
+
+/* ─── GAUGE ANIMATION ─── */
+function animateGauges() {
+  document.querySelectorAll('.test-fill').forEach(el => {
+    const w = el.dataset.width;
+    if(w) setTimeout(()=>{ el.style.width = w+'%'; }, 300);
+  });
+}
+
+/* ─── SCROLL FADE ─── */
+const fadeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.06 });
+document.querySelectorAll('.fade').forEach(el => fadeObs.observe(el));
+
+/* ─── GAUGE TRIGGER ─── */
+const gaugeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { animateGauges(); gaugeObs.disconnect(); }});
+}, { threshold: 0.2 });
+const testsEl = document.getElementById('tests');
+if(testsEl) gaugeObs.observe(testsEl);
+
+/* ─── TOC ACTIVE ─── */
+const tocSections = document.querySelectorAll('section[id], .section[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+const tocObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      tocItems.forEach(t=>t.classList.remove('active'));
+      const m = document.querySelector(`.toc-item[data-section="${e.target.id}"]`);
+      if(m) m.classList.add('active');
+    }
+  });
+}, { threshold: 0.35 });
+tocSections.forEach(s => tocObs.observe(s));
+
+/* ─── J-CURVE TRIGGER ─── */
+const jObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { drawJCurve(); jObs.disconnect(); }});
+}, { threshold: 0.2 });
+const stressEl = document.getElementById('stress');
+if(stressEl) jObs.observe(stressEl);
+
+/* ─── WATERFALL ON LOAD ─── */
+const wfObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { drawWaterfall(0); wfObs.disconnect(); }});
+}, { threshold: 0.15 });
+const wfEl = document.getElementById('waterfall');
+if(wfEl) wfObs.observe(wfEl);
+
+updatePanel(0);
+
+/* ─── STAGGER CARDS ─── */
+document.querySelectorAll('.findings-grid').forEach(g => {
+  g.querySelectorAll('.finding-card').forEach((c,i) => { c.style.transitionDelay=`${i*0.08}s`; });
+});
+</script>
+</body>
+</html>
