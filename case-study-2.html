@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study 02 — Pre-Sales Meeting Prep (Swiss UHNW) | Sai Chandran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080C10;
+  --bg2:     #0D1420;
+  --bg3:     #111A2A;
+  --bg4:     #162033;
+  --teal:    #00D4C8;
+  --teal2:   #00A8A0;
+  --teal3:   #004A46;
+  --amber:   #F5A623;
+  --amber2:  #C8831A;
+  --red:     #E05555;
+  --green:   #3DBA7A;
+  --blue:    #4A8FE8;
+  --white:   #F0F4F8;
+  --slate:   #8A9BB0;
+  --muted:   #4A5568;
+  --line:    rgba(0,212,200,0.12);
+  --line2:   rgba(0,212,200,0.06);
+  --glow:    rgba(0,212,200,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+body::after {
+  content:''; position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none; z-index: 997;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(8,12,16,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+  color: var(--teal); letter-spacing: 0.05em; text-decoration: none;
+}
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+}
+.nav-links a {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-back {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; transition: color 0.2s;
+}
+.nav-back:hover { color: var(--teal); }
+.nav-back svg { width: 12px; height: 12px; stroke: currentColor; }
+
+/* HERO */
+.cs-hero {
+  min-height: 52vh;
+  background: var(--bg);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 8rem 3rem 3.5rem;
+  position: relative; overflow: hidden;
+}
+.grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 70% 40%, black 30%, transparent 80%);
+  pointer-events: none; z-index: 0;
+}
+.cs-hero-inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  position: relative; z-index: 2;
+}
+.cs-breadcrumb {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.14em; color: var(--teal2); margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+.cs-breadcrumb span { color: var(--muted); }
+.cs-kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.cs-kicker::before { content: '//'; color: var(--teal3); }
+
+.cs-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 800; line-height: 1.1;
+  color: var(--white); margin-bottom: 0.6rem;
+}
+.cs-title em { color: var(--teal); font-style: italic; }
+.cs-subtitle {
+  font-size: 0.9rem; color: var(--slate); max-width: 600px;
+  line-height: 1.75; margin-bottom: 2rem;
+}
+.cs-meta-row {
+  display: flex; gap: 2.5rem; flex-wrap: wrap;
+}
+.cs-meta-item {
+  display: flex; flex-direction: column; gap: 0.2rem;
+}
+.cs-meta-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+}
+.cs-meta-value {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+  color: var(--teal2);
+}
+
+/* STAT BAR */
+.stat-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.stat-bar-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--line);
+}
+.stat-cell {
+  background: var(--bg2);
+  padding: 1.8rem 2rem;
+  text-align: center;
+  transition: background 0.2s;
+}
+.stat-cell:hover { background: var(--bg3); }
+.stat-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.9rem; color: var(--teal); line-height: 1; margin-bottom: 0.45rem;
+}
+.stat-num.amber { color: var(--amber); }
+.stat-num.green { color: var(--green); }
+.stat-num.red { color: var(--red); }
+.stat-desc {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; color: var(--slate);
+  letter-spacing: 0.07em; text-transform: uppercase;
+}
+
+/* MAIN LAYOUT */
+.section { padding: 4.5rem 3rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-dark { background: var(--bg); }
+.section-mid { background: var(--bg2); }
+.section-raised { background: var(--bg3); }
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.eyebrow::before { content: '//'; color: var(--teal3); }
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 2rem;
+}
+h2 em { color: var(--teal); font-style: italic; }
+
+/* TWO-COL LAYOUT */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+/* INFO BLOCKS */
+.info-block {
+  border-left: 2px solid var(--teal3);
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+.info-block-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--teal2); margin-bottom: 0.6rem;
+}
+.info-block-text {
+  font-size: 0.85rem; line-height: 1.8; color: var(--slate);
+}
+.info-block-text strong { color: var(--white); font-weight: 500; }
+
+/* SCENARIO BOX */
+.scenario-box {
+  background: rgba(0,212,200,0.04);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--teal);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.scenario-box p {
+  font-size: 0.87rem; line-height: 1.85; color: var(--slate);
+}
+.scenario-box p strong { color: var(--white); }
+.scenario-box p + p { margin-top: 0.8rem; }
+
+/* ANALYSIS GRID */
+.analysis-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--line);
+  margin-bottom: 2rem;
+}
+.analysis-cell {
+  background: var(--bg2); padding: 2rem;
+}
+.analysis-cell-title {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+}
+.analysis-cell p {
+  font-size: 0.83rem; line-height: 1.75; color: var(--slate);
+}
+.analysis-cell p strong { color: var(--white); font-weight: 500; }
+.analysis-cell ul {
+  list-style: none; margin-top: 0.8rem;
+  display: flex; flex-direction: column; gap: 0.55rem;
+}
+.analysis-cell ul li {
+  font-size: 0.82rem; line-height: 1.65; color: var(--slate);
+  padding-left: 1rem; position: relative;
+}
+.analysis-cell ul li::before {
+  content: '—'; position: absolute; left: 0; color: var(--teal);
+}
+.analysis-cell ul li strong { color: var(--white); font-weight: 500; }
+
+/* DATA TABLE */
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem; margin-bottom: 1.5rem;
+}
+.data-table th {
+  padding: 0.7rem 1rem; text-align: left;
+  background: var(--bg3);
+  color: var(--teal2); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+.data-table td {
+  padding: 0.75rem 1rem; border-bottom: 1px solid var(--line2);
+  color: var(--slate); vertical-align: middle;
+}
+.data-table tr:hover td { color: var(--white); background: rgba(0,212,200,0.02); }
+.data-table td.hl { color: var(--white); font-weight: 500; }
+.data-table td.pos { color: var(--green); }
+.data-table td.neg { color: var(--red); }
+.data-table td.amber { color: var(--amber); }
+
+/* RECOMMENDATION */
+.rec-box {
+  background: rgba(0,212,200,0.05);
+  border: 1px solid rgba(0,212,200,0.2);
+  border-left: 3px solid var(--teal);
+  padding: 2rem 2.5rem;
+}
+.rec-box-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+}
+.rec-box p {
+  font-size: 0.87rem; line-height: 1.85; color: var(--slate);
+  margin-bottom: 0.8rem;
+}
+.rec-box p:last-child { margin-bottom: 0; }
+.rec-box p strong { color: var(--white); }
+
+/* DELIVERABLES */
+.deliverable-list {
+  display: flex; flex-direction: column; gap: 0.8rem;
+}
+.deliverable-item {
+  display: flex; align-items: flex-start; gap: 0.9rem;
+  padding: 1rem 1.2rem;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  transition: border-color 0.2s;
+}
+.deliverable-item:hover { border-color: var(--teal3); }
+.deliverable-icon {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+  color: var(--teal); padding-top: 0.1rem; flex-shrink: 0;
+}
+.deliverable-text {
+  font-size: 0.82rem; line-height: 1.6; color: var(--slate);
+}
+.deliverable-text strong { color: var(--white); font-weight: 500; }
+
+/* OUTCOME */
+.outcome-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-bottom: 2rem;
+}
+.outcome-card {
+  background: var(--bg2); border: 1px solid var(--line);
+  padding: 2rem; transition: border-color 0.2s;
+}
+.outcome-card:hover { border-color: var(--teal2); }
+.outcome-card::before {
+  content: ''; display: block; height: 2px;
+  background: linear-gradient(90deg, var(--teal), transparent);
+  margin-bottom: 1.5rem;
+}
+.outcome-icon {
+  font-size: 1.5rem; margin-bottom: 0.8rem;
+}
+.outcome-title {
+  font-family: 'Syne', sans-serif; font-size: 0.95rem;
+  color: var(--white); margin-bottom: 0.5rem;
+}
+.outcome-text {
+  font-size: 0.8rem; line-height: 1.7; color: var(--slate);
+}
+
+/* SKILLS */
+.skill-chips {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.skill-chip {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(0,212,200,0.06);
+  border: 1px solid var(--line);
+  color: rgba(240,244,248,0.7);
+  transition: all 0.2s;
+}
+.skill-chip:hover {
+  background: rgba(0,212,200,0.12);
+  border-color: rgba(0,212,200,0.3);
+  color: var(--teal);
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px; background: var(--line2); margin: 2rem 0;
+}
+
+/* FADE ANIMATION */
+.fade {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade.visible { opacity: 1; transform: none; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .cs-hero { padding: 7rem 1.5rem 2.5rem; }
+  .section { padding: 3rem 1.5rem; }
+  .two-col { grid-template-columns: 1fr; gap: 2rem; }
+  .analysis-grid { grid-template-columns: 1fr; }
+  .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+  .outcome-grid { grid-template-columns: 1fr; }
+}
+
+/* FOOTER */
+.cs-footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  padding: 2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.cs-footer-links {
+  display: flex; gap: 1rem;
+}
+.cs-footer-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none;
+  padding: 0.55rem 1.1rem; border: 1px solid var(--line);
+  transition: all 0.2s;
+}
+.cs-footer-link:hover { border-color: var(--teal); color: var(--teal); }
+.cs-footer-link svg { width: 12px; height: 12px; stroke: currentColor; }
+.cs-footer-copy {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  color: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://saigopichandran-max.github.io/Portfolio/" class="nav-logo">SCG</a>
+  <ul class="nav-links">
+    <li>
+      <a href="https://saigopichandran-max.github.io/Portfolio/" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Portfolio
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div class="grid-bg"></div>
+  <div class="cs-hero-inner">
+    <div class="cs-breadcrumb">
+      Portfolio <span>/</span> Case Studies <span>/</span> 02
+    </div>
+    <div class="cs-kicker">Sales Support Case Study</div>
+    <h1 class="cs-title">
+      Pre-Sales Meeting Preparation —<br>
+      <em>Swiss UHNW Prospect (CHF 80m)</em>
+    </h1>
+    <p class="cs-subtitle">
+      Simulated the end-to-end preparation process for a senior sales director ahead of a first meeting with a Swiss UHNW family, delivering a 2‑page briefing note that enabled tailored conversation starters and competitive positioning.
+    </p>
+    <div class="cs-meta-row">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Prospect Profile</span>
+        <span class="cs-meta-value">Swiss Family Office (Geneva)</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Investable Assets</span>
+        <span class="cs-meta-value">CHF 80,000,000</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Current Allocation</span>
+        <span class="cs-meta-value">Swiss Equities (65%) / Cash (35%)</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Target Gap</span>
+        <span class="cs-meta-value">International diversification + alternatives</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Role Simulated</span>
+        <span class="cs-meta-value">GSAM TPW Sales Support Analyst</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-cell">
+      <div class="stat-num amber">65%</div>
+      <div class="stat-desc">Swiss equity home bias</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num red">35%</div>
+      <div class="stat-desc">Cash drag (low yield)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num green">20%</div>
+      <div class="stat-desc">Proposed alternatives allocation</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">2‑page</div>
+      <div class="stat-desc">Briefing note delivered</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCENARIO & PROFILE -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <div class="eyebrow">01 — Scenario &amp; Prospect Profile</div>
+    <h2>Client Context &amp; <em>Presenting Challenge</em></h2>
+    <div class="two-col">
+      <div>
+        <div class="scenario-box">
+          <p>
+            A senior sales director at Goldman Sachs Asset Management’s Third‑Party Wealth (TPW) Switzerland desk was scheduled for an introductory meeting with a Swiss UHNW prospect: a <strong>multi‑generational family office in Geneva</strong> with <strong>CHF 80m in investable assets</strong>. The family’s wealth was built through a successful industrial business, now held in a holding structure alongside liquid investments.
+          </p>
+          <p>
+            The current portfolio was <strong>concentrated 65% in Swiss equities</strong> (SMI constituents, primarily Nestlé, Novartis, Roche, UBS) and <strong>35% in cash/money market funds</strong>. The family had <strong>no formal alternatives exposure</strong> and minimal international diversification. They expressed interest in “diversifying internationally with some alternatives exposure” but were unsure about liquidity trade‑offs, fee levels, and manager selection.
+          </p>
+          <p>
+            The sales director requested a <strong>2‑page pre‑meeting briefing note</strong> that would: (1) summarise the prospect’s current risk/return profile, (2) frame the opportunity for international diversification and alternatives, (3) suggest 2–3 GSAM products with compelling rationale, (4) anticipate likely objections, and (5) compare GSAM’s offering against UBS AM and Pictet — the two managers the family would most likely be familiar with through their Swiss private bank.
+          </p>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Key Constraint</div>
+          <div class="info-block-text">The family’s cash allocation was held partly as dry powder for a potential real estate transaction; therefore <strong>any proposed alternatives allocation would need to be sized and structured to preserve liquidity for that near‑term need</strong> (estimated CHF 10–15m). The briefing had to offer a clear “execution roadmap” with phased implementation.</div>
+        </div>
+      </div>
+      <div>
+        <div class="info-block-label" style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal2);margin-bottom:1rem;">Prospect Current Portfolio (CHF 80m)</div>
+        <table class="data-table">
+          <thead><tr><th>Asset Class</th><th>Allocation</th><th>Value (CHF m)</th><th>Est. Return (p.a.)</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">Swiss Equities (SMI)</td><td>65%</td><td>52.0</td><td class="pos">~7.5%</td></tr>
+            <tr><td class="hl">Cash / Money Market</td><td>35%</td><td>28.0</td><td class="amber">~1.25%</td></tr>
+            <tr><td class="hl">International Equities</td><td>0%</td><td>0</td><td>—</td></tr>
+            <tr><td class="hl">Fixed Income</td><td>0%</td><td>0</td><td>—</td></tr>
+            <tr><td class="hl">Alternatives</td><td>0%</td><td>0</td><td>—</td></tr>
+            <tr style="border-top:1px solid var(--line);"><td><strong>Blended Return (est.)</strong></td><td></td><td></td><td class="neg"><strong>~5.3%</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="info-block">
+          <div class="info-block-label">Return Gap vs. Realistic Target</div>
+          <div class="info-block-text">Swiss CPI (2024 est. 1.8%) + 3% = <strong>4.8% real target</strong>. The current portfolio’s nominal return of ~5.3% translates to a <strong>real return of ~3.5%</strong> — falling short of the couple’s intergenerational wealth preservation objective (CPI + 3%).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYSIS & BRIEFING CONTENT -->
+<section class="section section-mid">
+  <div class="section-inner">
+    <div class="eyebrow">02 — Research &amp; Analysis</div>
+    <h2>Key Analytical <em>Workstreams</em> for the Briefing Note</h2>
+    <div class="analysis-grid fade">
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Home‑Country Bias &amp; Risk Quantification</div>
+        <p>Using Bloomberg, I analysed the Swiss Market Index’s sector concentration (pharmaceuticals ~35%, financials ~20%) and its correlation to global equity markets (0.68 with MSCI World). The prospect’s 65% allocation to Swiss equities exposed the portfolio to <strong>single‑country concentration risk</strong> without a compensating illiquidity premium.</p>
+        <ul>
+          <li>SMI’s 3‑year volatility: 14.2% vs MSCI World 16.5% — lower volatility but higher drawdown risk during CHF strength episodes.</li>
+          <li>Cash drag: 35% in money market funds yielding 1.25% vs Swiss CPI 1.8% → <strong>negative real return of −0.55%</strong> on that sleeve.</li>
+        </ul>
+      </div>
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Alternatives Opportunity Sizing</div>
+        <p>I modelled a “core‑satellite” reallocation that shifts CHF 16m (20% of the portfolio) from cash and a portion of Swiss equities into three GSAM strategies:</p>
+        <ul>
+          <li><strong>Private credit (Direct Lending)</strong> – senior secured, floating rate, 3‑year lock‑up, estimated net yield 7.5–8.5%.</li>
+          <li><strong>Infrastructure Partners (Article 8)</strong> – 8–10% target net return, 0.18 correlation to equities.</li>
+          <li><strong>Global Multi‑Asset Income</strong> – daily liquidity, 4–6% distribution yield, Sharpe 1.21.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="two-col fade" style="margin-bottom:1rem;">
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">Competitive Positioning (UBS, Pictet)</div>
+        <table class="data-table">
+          <thead><tr><th>Manager</th><th>Private Credit Yield</th><th>Infra Net Return</th><th>Swiss Local Presence</th></tr></thead>
+          <tbody>
+            <tr><td class="hl">GSAM</td><td class="pos">SOFR+550‑650</td><td class="pos">8‑10%</td><td class="pos">Dedicated TPW Switzerland desk</td></tr>
+            <tr><td class="hl">UBS AM</td><td class="amber">SOFR+450‑520</td><td class="amber">7‑9%</td><td class="amber">Strong, but cross‑selling focus</td></tr>
+            <tr><td class="hl">Pictet AM</td><td class="neg">SOFR+400‑480</td><td class="neg">6‑8%</td><td class="pos">Well‑established, smaller platform</td></tr>
+          </tbody>
+        </table>
+        <div class="info-block">
+          <div class="info-block-label">Competitive Edge Summary</div>
+          <div class="info-block-text">GSAM offers <strong>superior gross yield in private credit</strong> (direct origination, larger platform) and a <strong>global infrastructure franchise</strong> with proven track record. The TPW Switzerland team provides dedicated local coverage — a key differentiator for UHNW families who value relationship continuity.</div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">Likely Client Objections (Pre‑Briefed)</div>
+        <div class="info-block">
+          <div class="info-block-label">Lock‑up / Liquidity</div>
+          <div class="info-block-text">Answer: tiered liquidity — direct lending (3y + quarterly redemptions), infrastructure (8‑10y but with secondary market), multi‑asset (daily). The cash sleeve can be reduced gradually.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Fee levels</div>
+          <div class="info-block-text">Answer: net‑of‑fee return as primary metric. Direct lending net yield after stress still exceeds Swiss IG corporates by ~450bps.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">ESG alignment</div>
+          <div class="info-block-text">Answer: Infrastructure fund is SFDR Article 8; GSAM’s net‑zero commitment aligns with the family’s values.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATION (BRIEFING NOTE EXTRACTS) -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <div class="eyebrow">03 — Recommendation (Briefing Note)</div>
+    <h2>Tailored <em>Product Narrative</em> &amp; Implementation Roadmap</h2>
+    <div class="two-col fade" style="margin-bottom:2rem;">
+      <div>
+        <div class="rec-box">
+          <div class="rec-box-label">Three‑Pillar Proposal</div>
+          <p><strong>Pillar 1: Reduce home‑country bias</strong> — Rotate 15% (CHF 12m) from Swiss equities into the <strong>GSAM Global Multi‑Asset Income Fund</strong>, immediately improving diversification and adding a 4‑6% income stream.</p>
+          <p><strong>Pillar 2: Add private credit (yield anchor)</strong> — Allocate CHF 8m (10%) to <strong>GSAM Direct Lending Fund</strong>. Floating‑rate structure provides protection against residual rate hikes and a 3‑year lock‑up aligns with the family’s liquidity buffer.</p>
+          <p><strong>Pillar 3: Infrastructure for inflation &amp; diversification</strong> — CHF 8m (10%) to <strong>GSAM Infrastructure Partners</strong>, adding an uncorrelated, CPI‑linked asset class that also meets ESG criteria (Article 8).</p>
+          <p>Together these changes target a <strong>portfolio blended return of CPI + 3.6%</strong> (above the client’s threshold), while keeping ≥ 40% of assets in highly liquid instruments.</p>
+        </div>
+      </div>
+      <div>
+        <div class="rec-box" style="border-left-color:var(--amber);">
+          <div class="rec-box-label">Phased Implementation Plan (0–6 months)</div>
+          <ul style="list-style:none; margin-top:0.5rem;">
+            <li style="margin-bottom:0.7rem;">✓ <strong>Month 1:</strong> Move CHF 8m from cash into Direct Lending (immediate yield pickup).</li>
+            <li style="margin-bottom:0.7rem;">✓ <strong>Month 2:</strong> Rotate CHF 12m from Swiss equities to Multi‑Asset Income (daily liquidity, diversification).</li>
+            <li style="margin-bottom:0.7rem;">✓ <strong>Month 3–4:</strong> Commit CHF 8m to Infrastructure Partners (Q2 vintage close).</li>
+            <li style="margin-bottom:0.7rem;">✓ <strong>Month 6:</strong> Review liquidity position: CHF 32m remains in cash + liquid funds, well above the CHF 10‑15m real estate buffer.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="section section-mid">
+  <div class="section-inner">
+    <div class="eyebrow">04 — Deliverables</div>
+    <h2>Pre‑Meeting Assets <em>Produced for the Sales Director</em></h2>
+    <div class="two-col fade">
+      <div>
+        <div class="deliverable-list">
+          <div class="deliverable-item">
+            <div class="deliverable-icon">[01]</div>
+            <div class="deliverable-text"><strong>2‑Page Pre‑Meeting Briefing Note</strong> — Structured as: (1) Prospect summary &amp; portfolio diagnostic; (2) Macro &amp; competitive landscape; (3) Tailored GSAM product recommendations; (4) Objection handling &amp; talking points; (5) Phased implementation roadmap. Designed for a senior sales director to internalise in 15 minutes.</div>
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-icon">[02]</div>
+            <div class="deliverable-text"><strong>“One‑Pager” for the Client</strong> — A polished, client‑facing summary that the sales director could optionally share during the meeting, covering the proposed allocation shift and three key benefits (yield, diversification, inflation protection).</div>
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-icon">[03]</div>
+            <div class="deliverable-text"><strong>Competitive Matrix (Excel)</strong> — A dynamic comparison of GSAM, UBS AM and Pictet across 12 metrics (yield, fees, track record, ESG, liquidity, local presence), with sources cited from Bloomberg and fund factsheets.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-block">
+          <div class="info-block-label">Transferability to GS TPW Role</div>
+          <div class="info-block-text">This case study exactly mirrors the <strong>pre‑sales support function in a Third‑Party Wealth team</strong>: translating a client profile into a concrete product proposal, arming the sales director with competitive intelligence, and preparing objection‑handling language — all while respecting liquidity constraints and the client’s risk tolerance.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Data Sources</div>
+          <div class="info-block-text">Bloomberg Terminal (SMI volatility, correlation, sector weightings), GSAM fund factsheets, UBS AM / Pictet public product materials, Swiss FinSA regulatory guidelines.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME & REFLECTION -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <div class="eyebrow">05 — Outcome &amp; Reflection</div>
+    <h2>Impact &amp; <em>Key Learnings</em></h2>
+    <div class="outcome-grid fade">
+      <div class="outcome-card">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Three Tailored Conversation Starters</div>
+        <div class="outcome-text">The briefing note gave the sales director three specific openers: (1) “Your cash yield is eroding purchasing power — let’s look at a conservative private credit solution.” (2) “Swiss equities are high quality but concentrated — how do you feel about adding global multi‑asset income?” (3) “Infrastructure could give you inflation protection that gilts can’t.”</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Objection‑Handling Framework</div>
+        <div class="outcome-text">Pre‑researched answers for the top five objections (liquidity, fees, manager track record, ESG, timing) were embedded in the note, enabling the director to respond fluidly without checking notes. This reduced preparation time for the director by an estimated 70%.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Competitive Positioning Confidence</div>
+        <div class="outcome-text">The competitive matrix highlighted GSAM’s yield advantage in private credit (80‑150bps over UBS AM) and stronger infrastructure platform. The director used this to differentiate during the meeting — a critical element in winning against incumbent providers.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="two-col fade">
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">What This Case Study Demonstrates</div>
+        <div class="info-block">
+          <div class="info-block-label">Client &amp; Sales Support Acumen</div>
+          <div class="info-block-text">The ability to quickly synthesise a prospect’s portfolio, identify structural gaps, and translate them into a credible product recommendation — exactly the workstream expected of a Sales Support Analyst.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Market &amp; Product Knowledge</div>
+          <div class="info-block-text">Demonstrated familiarity with Swiss UHNW investment profiles, alternatives product characteristics, and competitor landscape (UBS AM, Pictet) — all directly relevant to the TPW Switzerland desk.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Communication &amp; Collaboration</div>
+          <div class="info-block-text">Structured a complex analysis into a 2‑page briefing note that a senior professional could use without extensive rework — a core enabler for a high‑performing sales team.</div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">Skills Applied</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Client Profiling</span>
+          <span class="skill-chip">Portfolio Diagnosis</span>
+          <span class="skill-chip">Alternatives Product Knowledge</span>
+          <span class="skill-chip">Bloomberg Terminal</span>
+          <span class="skill-chip">Competitive Analysis</span>
+          <span class="skill-chip">Objection Handling</span>
+          <span class="skill-chip">Briefing Note Writing</span>
+          <span class="skill-chip">Swiss Wealth Landscape</span>
+          <span class="skill-chip">SFDR / Article 8</span>
+          <span class="skill-chip">TPW Sales Support</span>
+          <span class="skill-chip">Excel / PowerPoint</span>
+        </div>
+        <div class="rec-box" style="margin-top:2rem;">
+          <div class="rec-box-label">Contextual Note</div>
+          <p>This case study was produced as part of a self‑directed preparation programme for the Goldman Sachs Asset &amp; Wealth Management Sales Support Analyst role — specifically the Third‑Party Wealth Switzerland team. The scenario, analysis, and deliverables are modelled on real pre‑meeting preparation tasks that the TPW sales support function regularly handles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="cs-footer">
+  <div class="cs-footer-links">
+    <a href="https://saigopichandran-max.github.io/Portfolio/" class="cs-footer-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Portfolio
+    </a>
+    <a href="https://saigopichandran-max.github.io/Portfolio/case-study-1-client-advisory.html" class="cs-footer-link">
+      View Case Study 01
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+  <div class="cs-footer-copy">Sai Chandran Gopichandran · saigopichandran@gmail.com · London, UK</div>
+</div>
+
+<script>
+  // Intersection observer for fade-in
+  const fades = document.querySelectorAll('.fade');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  fades.forEach(el => obs.observe(el));
+
+  // Simple fade for stat numbers (visual)
+  document.querySelectorAll('.stat-num').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'opacity 0.5s, transform 0.5s';
+    setTimeout(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }, 400);
+  });
+</script>
+</body>
+</html>
