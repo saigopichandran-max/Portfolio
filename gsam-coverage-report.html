@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSAM Multi-Asset Coverage Report — Sai Chandran Gopichandran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:  #0D1F3C;
+  --navy2: #162847;
+  --navy3: #1e3356;
+  --gold:  #C9952A;
+  --gold2: #E8B84B;
+  --cream: #F8F4EE;
+  --fog:   #EDE9E1;
+  --ink:   #1A1A2E;
+  --mist:  #8A8FA8;
+  --white: #FFFFFF;
+  --line:  rgba(201,149,42,0.22);
+  --green: #2D7A4F;
+  --red:   #8B2635;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+
+/* noise texture */
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:0.3}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3.5rem;background:rgba(13,31,60,0.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold2);letter-spacing:0.03em;text-decoration:none}
+.nav-back{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);text-decoration:none;transition:color 0.2s}
+.nav-back:hover{color:var(--gold2)}
+.nav-back svg{width:14px;height:14px}
+
+/* ── HERO ── */
+#hero{min-height:78vh;background:var(--navy);display:flex;flex-direction:column;justify-content:flex-end;padding:9rem 3.5rem 4rem;position:relative;overflow:hidden}
+.hero-geo{position:absolute;inset:0;pointer-events:none}
+.hero-geo circle{fill:none;stroke:var(--gold);stroke-opacity:0.07}
+.hero-geo rect{fill:none;stroke:var(--gold);stroke-opacity:0.05}
+.hero-grid-lines line{stroke:var(--gold);stroke-opacity:0.06}
+
+.project-index{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem}
+.project-index::before{content:'';display:block;width:2.5rem;height:1px;background:var(--gold)}
+
+.hero-inner{max-width:1100px;width:100%}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4.5vw,4rem);line-height:1.1;color:var(--white);margin-bottom:1rem}
+h1 em{color:var(--gold2);font-style:italic}
+
+.hero-meta-row{display:flex;gap:3rem;align-items:center;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-meta-item{display:flex;flex-direction:column;gap:0.2rem}
+.hero-meta-label{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--mist)}
+.hero-meta-val{font-size:0.85rem;color:rgba(255,255,255,0.82);font-weight:500}
+.hero-meta-val.gold{color:var(--gold2)}
+
+.hero-divider{width:100%;height:1px;background:var(--line);margin-bottom:2.5rem}
+
+.hero-tagline{font-size:1.05rem;line-height:1.75;color:rgba(255,255,255,0.68);max-width:720px;margin-bottom:2.5rem}
+
+.tag-strip{display:flex;flex-wrap:wrap;gap:0.5rem}
+.tag{font-size:0.72rem;padding:0.3rem 0.75rem;border:1px solid rgba(201,149,42,0.35);color:var(--gold2);border-radius:1px;font-family:'DM Mono',monospace;letter-spacing:0.06em}
+.tag.dark{background:rgba(201,149,42,0.12)}
+
+/* ── STICKY TOC ── */
+.toc-rail{position:fixed;right:2rem;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:0.6rem;align-items:flex-end}
+.toc-item{display:flex;align-items:center;gap:0.5rem;text-decoration:none;cursor:pointer}
+.toc-dot{width:6px;height:6px;border-radius:50%;border:1px solid rgba(201,149,42,0.5);background:transparent;transition:all 0.2s;flex-shrink:0}
+.toc-label{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(13,31,60,0.4);transition:color 0.2s;white-space:nowrap}
+.toc-item.active .toc-dot,.toc-item:hover .toc-dot{background:var(--gold);border-color:var(--gold)}
+.toc-item.active .toc-label,.toc-item:hover .toc-label{color:var(--navy)}
+
+/* ── SECTION SYSTEM ── */
+.section{padding:5.5rem 3.5rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-label{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.7rem}
+.section-label::before{content:'';display:block;width:2rem;height:1px;background:var(--gold)}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,2.8vw,2.3rem);color:var(--navy);line-height:1.2;margin-bottom:2.5rem}
+h2 em{color:var(--gold);font-style:italic}
+h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--navy);margin-bottom:0.75rem;line-height:1.3}
+p{font-size:0.88rem;line-height:1.8;color:#3a3a55}
+
+/* fade-in */
+.fade{opacity:0;transform:translateY(22px);transition:opacity 0.55s ease,transform 0.55s ease}
+.fade.in{opacity:1;transform:none}
+
+/* ── OVERVIEW GRID ── */
+.overview-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:4rem;align-items:start}
+.overview-body p{margin-bottom:1.2rem}
+.overview-body p:last-child{margin-bottom:0}
+
+.brief-box{background:var(--navy);padding:2.5rem;border-left:3px solid var(--gold)}
+.brief-box-title{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.brief-row{padding:0.9rem 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.brief-row:last-child{border-bottom:none}
+.brief-key{font-size:0.7rem;color:var(--mist);font-family:'DM Mono',monospace;letter-spacing:0.08em;margin-bottom:0.2rem}
+.brief-val{font-size:0.85rem;color:rgba(255,255,255,0.85);font-weight:500}
+.brief-val.gold{color:var(--gold2)}
+
+/* ── OBJECTIVES ── */
+.obj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.obj-card{background:var(--cream);padding:2rem;transition:background 0.2s}
+.obj-card:hover{background:var(--fog)}
+.obj-num{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;color:var(--mist);margin-bottom:1rem}
+.obj-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--navy);margin-bottom:0.6rem;line-height:1.3}
+.obj-text{font-size:0.82rem;line-height:1.7;color:#4a4a65}
+
+/* ── DARK SECTION ── */
+.section-dark{background:var(--navy)}
+.section-dark .section-label{color:var(--gold2)}
+.section-dark .section-label::before{background:var(--gold2)}
+.section-dark h2{color:var(--white)}
+.section-dark h2 em{color:var(--gold2)}
+.section-dark h3{color:var(--white)}
+.section-dark p{color:rgba(255,255,255,0.65)}
+
+/* ── METHODOLOGY STEPS ── */
+.method-steps{display:flex;flex-direction:column;gap:0px}
+.method-step{display:grid;grid-template-columns:80px 1fr;gap:2rem;padding:2.5rem 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.method-step:last-child{border-bottom:none}
+.step-num-wrap{display:flex;flex-direction:column;align-items:center;gap:0.5rem;padding-top:0.2rem}
+.step-num{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--gold2);line-height:1}
+.step-line{flex:1;width:1px;background:rgba(201,149,42,0.25);min-height:20px}
+.step-body h3{font-size:1.05rem;margin-bottom:0.5rem}
+.step-body p{font-size:0.84rem;line-height:1.75;color:rgba(255,255,255,0.62)}
+.step-tools{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem}
+.step-tool{font-family:'DM Mono',monospace;font-size:0.65rem;padding:0.25rem 0.65rem;border:1px solid rgba(201,149,42,0.35);color:var(--gold2);border-radius:1px;letter-spacing:0.05em}
+
+/* ── ASSET CLASS CARDS ── */
+.asset-tabs{display:flex;gap:0;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:0}
+.asset-tab{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1.3rem;cursor:pointer;color:var(--mist);border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-left:none;border-right:none;border-top:none}
+.asset-tab.active{color:var(--navy);border-bottom-color:var(--gold);font-weight:500}
+.asset-tab:hover{color:var(--navy)}
+
+.asset-panels{background:var(--white);border:1px solid var(--fog);border-top:none}
+.asset-panel{display:none;padding:2.5rem}
+.asset-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.asset-panel-left h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy);margin-bottom:1rem}
+.asset-panel-left p{font-size:0.84rem;line-height:1.78;color:#3a3a55;margin-bottom:1rem}
+.asset-panel-left p:last-child{margin-bottom:0}
+
+.metric-list{display:flex;flex-direction:column;gap:0.8rem}
+.metric-row{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 1rem;background:var(--cream);border-left:2px solid var(--gold)}
+.metric-row-label{font-size:0.78rem;color:var(--mist);font-family:'DM Mono',monospace;letter-spacing:0.05em}
+.metric-row-val{font-size:0.88rem;font-weight:500;color:var(--navy)}
+.metric-row-val.pos{color:var(--green)}
+.metric-row-val.neg{color:var(--red)}
+.metric-row-val.gold{color:var(--gold)}
+
+/* ── FINDINGS TABLE ── */
+.findings-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+thead tr{background:var(--navy)}
+thead th{padding:1rem 1.2rem;text-align:left;font-family:'DM Mono',monospace;font-size:0.64rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold2);font-weight:400;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--fog);transition:background 0.15s}
+tbody tr:hover{background:var(--fog)}
+tbody td{padding:1rem 1.2rem;vertical-align:middle;color:#3a3a55}
+tbody td:first-child{font-weight:500;color:var(--navy)}
+.badge{display:inline-flex;align-items:center;font-size:0.69rem;padding:0.2rem 0.55rem;border-radius:1px;font-family:'DM Mono',monospace;letter-spacing:0.05em}
+.badge-green{background:rgba(45,122,79,0.1);color:var(--green);border:1px solid rgba(45,122,79,0.3)}
+.badge-gold{background:rgba(201,149,42,0.1);color:var(--gold);border:1px solid rgba(201,149,42,0.3)}
+.badge-red{background:rgba(139,38,53,0.12);color:var(--red);border:1px solid rgba(139,38,53,0.25)}
+
+/* ── CLIENT SEGMENTATION ── */
+.segment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.segment-card{border:1px solid var(--fog);padding:2rem;background:var(--white);transition:transform 0.25s,box-shadow 0.25s}
+.segment-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(13,31,60,0.08)}
+.segment-icon{font-size:1.6rem;margin-bottom:1rem}
+.segment-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--navy);margin-bottom:0.5rem}
+.segment-desc{font-size:0.81rem;line-height:1.7;color:#4a4a65;margin-bottom:1.2rem}
+.segment-products{display:flex;flex-wrap:wrap;gap:0.4rem}
+.seg-tag{font-size:0.67rem;padding:0.2rem 0.55rem;background:var(--fog);color:var(--mist);border-radius:1px;font-family:'DM Mono',monospace}
+
+/* ── VISUAL CHART BARS ── */
+.chart-wrap{padding:2rem;background:var(--white);border:1px solid var(--fog)}
+.chart-title{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mist);margin-bottom:1.5rem}
+.bar-row{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.bar-row:last-child{margin-bottom:0}
+.bar-label{font-size:0.78rem;color:var(--navy);width:180px;flex-shrink:0;font-weight:500}
+.bar-track{flex:1;height:24px;background:var(--fog);position:relative;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--navy2));transition:width 1.2s cubic-bezier(0.25,1,0.5,1);width:0}
+.bar-fill.gold{background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.bar-fill.green{background:linear-gradient(90deg,#2D7A4F,#3da068)}
+.bar-pct{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--white);position:absolute;right:0.5rem;top:50%;transform:translateY(-50%)}
+.bar-val{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--mist);width:80px;text-align:right;flex-shrink:0}
+
+/* ── KEY FINDINGS ── */
+.findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.finding-card{padding:2rem;border-top:2px solid var(--gold);background:var(--white)}
+.finding-num{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;color:var(--mist);margin-bottom:0.8rem}
+.finding-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--navy);margin-bottom:0.6rem;line-height:1.3}
+.finding-text{font-size:0.82rem;line-height:1.72;color:#4a4a65}
+
+/* ── RECOMMENDATIONS ── */
+.rec-list{display:flex;flex-direction:column;gap:1px;background:var(--line)}
+.rec-item{background:var(--cream);display:grid;grid-template-columns:56px 1fr auto;align-items:start;gap:1.5rem;padding:2rem;transition:background 0.2s}
+.rec-item:hover{background:var(--fog)}
+.rec-priority{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.5rem;border:1px solid var(--line);text-align:center;color:var(--gold);border-color:var(--gold)}
+.rec-priority.high{border-color:var(--navy);color:var(--navy);background:rgba(13,31,60,0.05)}
+.rec-body h3{font-size:0.95rem;color:var(--navy);margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;font-weight:500}
+.rec-body p{font-size:0.82rem;line-height:1.7;color:#4a4a65}
+.rec-impact{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;color:var(--mist);white-space:nowrap;padding-top:0.2rem}
+
+/* ── SKILLS DEMONSTRATED ── */
+.skills-section{background:var(--navy)}
+.skills-section .section-label{color:var(--gold2)}
+.skills-section .section-label::before{background:var(--gold2)}
+.skills-section h2{color:var(--white)}
+.skills-section h2 em{color:var(--gold2)}
+
+.skills-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,149,42,0.2)}
+.skill-block{background:var(--navy2);padding:1.8rem;transition:background 0.2s}
+.skill-block:hover{background:var(--navy3)}
+.skill-block-cat{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem}
+.skill-chips{display:flex;flex-wrap:wrap;gap:0.4rem}
+.skill-chip{font-size:0.74rem;padding:0.28rem 0.65rem;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.09);border-radius:1px}
+.skill-chip.hl{background:rgba(201,149,42,0.15);border-color:rgba(201,149,42,0.38);color:var(--gold2)}
+
+/* ── OUTCOME ── */
+.outcome-banner{background:var(--gold);padding:3.5rem;display:flex;gap:4rem;align-items:center;flex-wrap:wrap}
+.outcome-big{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--navy);line-height:1;flex-shrink:0}
+.outcome-text h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--navy);margin-bottom:0.5rem}
+.outcome-text p{font-size:0.88rem;line-height:1.72;color:rgba(13,31,60,0.78)}
+
+/* ── CTA / FOOTER NAV ── */
+.cta-section{background:var(--navy2);padding:4rem 3.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem}
+.cta-left h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);margin-bottom:0.4rem}
+.cta-left p{font-size:0.85rem;color:rgba(255,255,255,0.5)}
+.cta-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.6rem;font-size:0.76rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:1px;transition:all 0.22s}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-outline{border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.75)}
+.btn-outline:hover{border-color:var(--gold2);color:var(--gold2);transform:translateY(-2px)}
+.btn svg{width:14px;height:14px}
+
+footer{background:#0a1525;padding:1.5rem 3.5rem;display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:rgba(255,255,255,0.25)}
+
+/* responsive */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  #hero{padding:7rem 1.5rem 3rem}
+  .section{padding:4rem 1.5rem}
+  .overview-grid,.asset-panel.active,.findings-grid,.case-grid,.edu-grid{grid-template-columns:1fr}
+  .obj-grid,.segment-grid,.skills-wrap{grid-template-columns:1fr}
+  .toc-rail{display:none}
+  .method-step{grid-template-columns:50px 1fr;gap:1.2rem}
+  .cta-section{flex-direction:column;align-items:flex-start}
+  .outcome-banner{flex-direction:column;gap:1.5rem;padding:2.5rem 1.5rem}
+  .hero-meta-row{gap:1.5rem}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">SCG</a>
+  <a href="index.html#projects" class="nav-back">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<!-- TOC -->
+<div class="toc-rail" id="tocRail">
+  <a class="toc-item active" href="#overview" data-section="overview"><span class="toc-label">Overview</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#objectives" data-section="objectives"><span class="toc-label">Objectives</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#methodology" data-section="methodology"><span class="toc-label">Methodology</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#coverage" data-section="coverage"><span class="toc-label">Coverage</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#findings" data-section="findings"><span class="toc-label">Findings</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#segmentation" data-section="segmentation"><span class="toc-label">Clients</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#recommendations" data-section="recommendations"><span class="toc-label">Recs</span><span class="toc-dot"></span></a>
+  <a class="toc-item" href="#skills" data-section="skills"><span class="toc-label">Skills</span><span class="toc-dot"></span></a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <svg class="hero-geo" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+    <circle cx="1050" cy="120" r="380" stroke-width="0.8"/>
+    <circle cx="1050" cy="120" r="250" stroke-width="0.8"/>
+    <circle cx="1050" cy="120" r="130" stroke-width="0.8"/>
+    <line x1="0" y1="350" x2="1200" y2="350" stroke="white" stroke-opacity="0.04" stroke-width="0.6" class="hero-grid-lines"/>
+    <line x1="600" y1="0" x2="600" y2="700" stroke="white" stroke-opacity="0.04" stroke-width="0.6" class="hero-grid-lines"/>
+    <rect x="100" y="80" width="320" height="200" rx="0" stroke-opacity="0.04" stroke-width="0.8"/>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="project-index">Project 01 &nbsp;·&nbsp; Product Research &nbsp;·&nbsp; Asset Management</div>
+
+    <h1>GSAM Multi-Asset<br><em>Coverage Report</em></h1>
+
+    <div class="hero-divider"></div>
+
+    <div class="hero-meta-row">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Format</span>
+        <span class="hero-meta-val">15-Page Research Report</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Scope</span>
+        <span class="hero-meta-val gold">Goldman Sachs Asset Management</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Universe</span>
+        <span class="hero-meta-val">Public Markets + Private Assets</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Target Market</span>
+        <span class="hero-meta-val">Swiss Wealth &amp; UHNW Clients</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Tools Used</span>
+        <span class="hero-meta-val">Bloomberg · Excel · Power BI</span>
+      </div>
+    </div>
+
+    <p class="hero-tagline">An independent, sell-side–style coverage report analysing Goldman Sachs Asset Management's complete product suite — from liquid public markets to illiquid private assets — benchmarked, stress-tested, and mapped to Swiss wealth client segments. Produced to demonstrate the depth of product knowledge and analytical rigour expected of a Sales Support Analyst in a top-tier asset manager.</p>
+
+    <div class="tag-strip">
+      <span class="tag dark">Product Due Diligence</span>
+      <span class="tag dark">Multi-Asset Research</span>
+      <span class="tag dark">Client Segmentation</span>
+      <span class="tag dark">Performance Attribution</span>
+      <span class="tag dark">Bloomberg Terminal</span>
+      <span class="tag dark">Fee Structure Analysis</span>
+      <span class="tag dark">Risk-Adjusted Returns</span>
+      <span class="tag dark">Private Markets</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  1. OVERVIEW
+───────────────────────────────────────────── -->
+<section class="section" id="overview">
+  <div class="section-inner">
+    <div class="section-label">01 · Overview</div>
+    <h2>What <em>This Report</em> Is — and Why It Was Built</h2>
+
+    <div class="overview-grid fade">
+      <div class="overview-body">
+        <p>This project was conceived as a direct response to a recurring challenge in wealth management sales: senior sales professionals spend significant time preparing product knowledge from scratch before client meetings. This report was designed to serve as a comprehensive, standing reference — the kind a Sales Support Analyst would produce and maintain in a Third-Party Wealth team.</p>
+
+        <p>Goldman Sachs Asset Management manages over <strong>$2.5 trillion in AUM</strong> across some of the most sophisticated multi-asset strategies in the industry. The breadth of the product shelf — spanning daily-liquidity public market funds through to decade-long lock-up private equity vehicles — creates a real knowledge management challenge for anyone supporting external distribution teams.</p>
+
+        <p>This 15-page report solves that problem. It provides a structured, analyst-written overview of GSAM's key strategies across six asset classes, including risk-adjusted performance analysis, fee decomposition, peer benchmarking, and — critically — a client segmentation layer that maps each product to the specific wealth client profile most likely to allocate.</p>
+
+        <p>The Swiss wealth market was chosen as the target client base because of its distinctive characteristics: a high concentration of UHNW and HNW wealth, a regulatory environment shaped by Swiss FinSA and MiFID II equivalence, a strong preference for alternatives exposure, and a cultural orientation toward long-term capital preservation over short-term yield chasing. These factors make the Swiss market a natural testing ground for the full depth of GSAM's product range.</p>
+
+        <p>Every data point in the report was sourced, cross-referenced, and validated using Bloomberg Terminal, GSAM's published fund factsheets, and public regulatory filings — reflecting the data integrity disciplines applied in a professional investment analyst role.</p>
+      </div>
+
+      <div>
+        <div class="brief-box">
+          <div class="brief-box-title">Project Specification</div>
+          <div class="brief-row">
+            <div class="brief-key">Report Title</div>
+            <div class="brief-val gold">GSAM Multi-Asset Product Coverage Report</div>
+          </div>
+          <div class="brief-row">
+            <div class="brief-key">Pages Produced</div>
+            <div class="brief-val">15 pages (incl. exec summary &amp; appendices)</div>
+          </div>
+          <div class="brief-row">
+            <div class="brief-key">Asset Classes Covered</div>
+            <div class="brief-val">6 (Equity, Fixed Income, Multi-Asset, Private Equity, Infrastructure, Private Credit)</div>
+          </div>
+          <div class="brief-row">
+            <div class="brief-key">Products Analysed</div>
+            <div class="brief-val">14 GSAM strategies in detail</div>
+          </div>
+          <div class="brief-row">
+            <div class="brief-key">Client Segments Mapped</div>
+            <div class="brief-val">3 (UHNW, HNW, Family Office)</div>
+          </div>
+          <div class="brief-row">
+            <div class="brief-key">Benchmarks Used</div>
+            <div class="brief-val">MSCI ACWI, Bloomberg Aggregate, HFRX, S&amp;P 500, Swiss Market Index</div>
+          </div>
+          <div class="brief-row">
+            <div class="brief-key">Primary Tools</div>
+            <div class="brief-val">Bloomberg Terminal, Advanced Excel, Power BI, GSAM Fund Factsheets</div>
+          </div>
+          <div class="brief-row">
+            <div class="brief-key">Role Simulated</div>
+            <div class="brief-val gold">TPW Sales Support Analyst — Swiss Desk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  2. OBJECTIVES
+───────────────────────────────────────────── -->
+<section class="section" style="background:var(--fog)" id="objectives">
+  <div class="section-inner">
+    <div class="section-label">02 · Objectives</div>
+    <h2>Six <em>Research Objectives</em> That Drove the Analysis</h2>
+
+    <div class="obj-grid fade">
+      <div class="obj-card">
+        <div class="obj-num">01</div>
+        <div class="obj-title">Map GSAM's Full Product Universe</div>
+        <div class="obj-text">Produce a complete inventory of GSAM strategies available to Swiss wealth clients — categorised by asset class, liquidity profile, minimum investment, and regulatory eligibility — filling a gap that no single public source addresses comprehensively.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">02</div>
+        <div class="obj-title">Analyse Risk-Adjusted Performance</div>
+        <div class="obj-text">Benchmark key strategies against appropriate indices using Sharpe ratio, Sortino ratio, maximum drawdown, and volatility metrics sourced from Bloomberg Terminal — going beyond headline return figures to understand the true cost of performance.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">03</div>
+        <div class="obj-title">Decompose Fee Structures</div>
+        <div class="obj-text">Identify and compare management fees, performance fees, and total expense ratios across strategies — contextualising GSAM's pricing against peers (BlackRock, Vanguard, Schroders, UBS AM) to build a competitive intelligence picture relevant to client conversations.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">04</div>
+        <div class="obj-title">Model Private Markets Characteristics</div>
+        <div class="obj-text">Analyse the illiquidity premium, commitment period, J-curve dynamics, and IRR targets for GSAM's private equity, infrastructure, and private credit offerings — producing the kind of deep structural knowledge needed to field UHNW client questions on alternatives.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">05</div>
+        <div class="obj-title">Build a Client Suitability Framework</div>
+        <div class="obj-text">Create a structured mapping from GSAM product characteristics to Swiss wealth client profiles — considering risk tolerance, time horizon, liquidity need, regulatory suitability, and tax considerations under Swiss law — to enable tailored pre-meeting preparation.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">06</div>
+        <div class="obj-title">Produce a Sales-Ready Reference Document</div>
+        <div class="obj-text">Package all analysis into a format that a sales director could hand to a new team member or reference directly in a client meeting — with executive summary, quick-reference tables, and a product selector guide as the final deliverables.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  3. METHODOLOGY
+───────────────────────────────────────────── -->
+<section class="section section-dark" id="methodology">
+  <div class="section-inner">
+    <div class="section-label">03 · Methodology</div>
+    <h2>A <em>Rigorous, Five-Phase</em> Research Process</h2>
+
+    <div class="method-steps">
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Universe Definition &amp; Data Collection</h3>
+          <p>The first phase established scope: identifying all GSAM strategies accessible to Swiss-domiciled wealth clients via UCITS, registered fund, and direct subscription structures. Source documents included GSAM's official fund factsheets, KIID/KID documents filed under MiFID II, Bloomberg fund analytics, and public GSAM investor materials. A master data file was constructed in Excel with 47 data fields per fund — covering AUM, inception date, benchmark, fee structure, risk metrics, liquidity terms, and regulatory status.</p>
+          <div class="step-tools"><span class="step-tool">Bloomberg Fund Analytics</span><span class="step-tool">Advanced Excel</span><span class="step-tool">GSAM Factsheets</span><span class="step-tool">KID / KIID Documents</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Performance Analysis &amp; Benchmarking</h3>
+          <p>For each strategy in scope, a five-year return series was pulled from Bloomberg (where available) and supplemented with GSAM-published performance tables. Metrics calculated included: annualised return (1Y, 3Y, 5Y), volatility, Sharpe ratio, Sortino ratio, maximum drawdown, and Calmar ratio. Each strategy was benchmarked against its stated benchmark and a peer group of 3–5 comparable funds from other managers — allowing both absolute and relative performance to be assessed. Calculations were performed in Excel using XIRR for irregular cash flows on private vehicles.</p>
+          <div class="step-tools"><span class="step-tool">Bloomberg Terminal</span><span class="step-tool">Excel (XIRR / SUMPRODUCT)</span><span class="step-tool">MSCI Indices</span><span class="step-tool">Bloomberg Aggregate</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Fee Structure Decomposition</h3>
+          <p>Management fees, performance fees (including hurdle rate, high watermark provisions, and crystallisation frequency), and total expense ratios were compiled for all 14 strategies. A visual fee comparison matrix was constructed in Power BI, enabling rapid comparison of GSAM's fee positioning against Schroders, BlackRock, Vanguard, and UBS AM on a like-for-like basis. Net-of-fee return calculations were run to determine the true alpha generation after cost — a metric that is frequently overlooked in headline performance discussions.</p>
+          <div class="step-tools"><span class="step-tool">Power BI</span><span class="step-tool">Fee Decomposition Model (Excel)</span><span class="step-tool">Peer Benchmarking</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Private Markets Structural Analysis</h3>
+          <p>For GSAM's three private asset strategies (private equity, infrastructure, private credit), a bespoke structural analysis was conducted. This included modelling the J-curve cash-flow profile for a hypothetical CHF 5m commitment over a 10-year fund life, illustrating the deployment period, value-creation phase, and harvest period. IRR sensitivity analysis was run at base, bull, and bear case assumptions. The opportunity cost of the illiquidity premium was modelled against a liquid 60/40 portfolio — producing a quantified estimate of the additional return required to justify the lock-up.</p>
+          <div class="step-tools"><span class="step-tool">J-Curve Modelling (Excel)</span><span class="step-tool">IRR Sensitivity Analysis</span><span class="step-tool">Scenario Modelling</span></div>
+        </div>
+      </div>
+
+      <div class="method-step fade">
+        <div class="step-num-wrap"><div class="step-num">5</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h3>Client Suitability Mapping &amp; Report Production</h3>
+          <p>The final phase synthesised all analysis into a client-facing framework. A suitability matrix was constructed mapping each of the 14 GSAM strategies to three Swiss wealth client segments (UHNW family offices, HNW private banking clients, and institutional pension clients) across five suitability dimensions: liquidity tolerance, risk appetite, investment horizon, regulatory constraints, and tax efficiency. The final 15-page report was produced in a format reflecting institutional research house standards — with executive summary, product deep-dives, and a back-of-book product selector guide.</p>
+          <div class="step-tools"><span class="step-tool">Suitability Matrix (Excel)</span><span class="step-tool">PowerPoint / Report Design</span><span class="step-tool">Swiss FinSA Framework</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  4. ASSET CLASS COVERAGE
+───────────────────────────────────────────── -->
+<section class="section" id="coverage">
+  <div class="section-inner">
+    <div class="section-label">04 · Asset Class Coverage</div>
+    <h2>Six Asset Classes, <em>Fourteen Strategies</em> in Detail</h2>
+
+    <div class="fade">
+      <div class="asset-tabs" role="tablist">
+        <button class="asset-tab active" role="tab" onclick="showPanel('equity',this)">Public Equity</button>
+        <button class="asset-tab" role="tab" onclick="showPanel('fi',this)">Fixed Income</button>
+        <button class="asset-tab" role="tab" onclick="showPanel('ma',this)">Multi-Asset</button>
+        <button class="asset-tab" role="tab" onclick="showPanel('pe',this)">Private Equity</button>
+        <button class="asset-tab" role="tab" onclick="showPanel('infra',this)">Infrastructure</button>
+        <button class="asset-tab" role="tab" onclick="showPanel('pc',this)">Private Credit</button>
+      </div>
+
+      <div class="asset-panels">
+
+        <!-- EQUITY -->
+        <div class="asset-panel active" id="panel-equity">
+          <div class="asset-panel-left">
+            <h3>Global Equity Strategies</h3>
+            <p>GSAM's public equity shelf covers three flagship strategies analysed in depth: the <strong>GSAM Global Equity Partners Fund</strong>, the <strong>GSAM Emerging Markets Equity Fund</strong>, and the <strong>GSAM Systematic Global Equity</strong> factor strategy.</p>
+            <p>The Global Equity Partners Fund was the primary focus — a high-conviction, concentrated portfolio of 35–50 names with a quality-growth bias. The analysis assessed sector concentration risk (heavy Information Technology and Healthcare tilt), geographic distribution (70%+ US weight), and the fund's ability to generate alpha over the MSCI ACWI benchmark net of its 75bps management fee.</p>
+            <p>A five-year rolling Sharpe ratio analysis revealed consistent risk-adjusted outperformance in low-volatility regimes, with underperformance during the 2022 growth sell-off — an important client conversation point for Swiss investors with capital preservation mandates.</p>
+          </div>
+          <div>
+            <div class="metric-list">
+              <div class="metric-row"><span class="metric-row-label">5Y Annualised Return</span><span class="metric-row-val pos">+14.2%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Benchmark (MSCI ACWI)</span><span class="metric-row-val">+11.8%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Alpha Generated</span><span class="metric-row-val pos">+2.4%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Sharpe Ratio (5Y)</span><span class="metric-row-val gold">0.89</span></div>
+              <div class="metric-row"><span class="metric-row-label">Max Drawdown</span><span class="metric-row-val neg">−24.1%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Annualised Volatility</span><span class="metric-row-val">16.3%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Management Fee</span><span class="metric-row-val">75 bps</span></div>
+              <div class="metric-row"><span class="metric-row-label">Min. Investment</span><span class="metric-row-val">CHF 100,000</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FIXED INCOME -->
+        <div class="asset-panel" id="panel-fi">
+          <div class="asset-panel-left">
+            <h3>Fixed Income Strategies</h3>
+            <p>Three fixed income strategies were covered: <strong>GSAM Global Fixed Income Plus</strong>, <strong>GSAM Short Duration Bond Fund</strong>, and <strong>GSAM Strategic Income Fund</strong>. The analysis was conducted against the backdrop of the 2022–2024 rate hiking cycle — making duration positioning a central analytical concern.</p>
+            <p>The Short Duration Bond Fund was identified as the most relevant strategy for Swiss UHNW clients with capital preservation mandates — its sub-2-year duration insulated it from the MTM losses that hit long-duration strategies, with only −2.1% drawdown in 2022 vs. the Bloomberg Global Aggregate's −16.2% decline.</p>
+            <p>The Strategic Income Fund's 5.8% yield-to-maturity (as at analysis date) was benchmarked against Swiss government bonds at 1.2% and CHF-denominated investment-grade corporates at 2.9% — quantifying the yield pick-up available from moving into GSAM's higher-quality multi-sector strategy.</p>
+          </div>
+          <div>
+            <div class="metric-list">
+              <div class="metric-row"><span class="metric-row-label">Strategic Income YTM</span><span class="metric-row-val gold">5.8%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Short Duration Drawdown (2022)</span><span class="metric-row-val pos">−2.1%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Benchmark Drawdown (2022)</span><span class="metric-row-val neg">−16.2%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Average Duration (Short Dur.)</span><span class="metric-row-val">1.8 years</span></div>
+              <div class="metric-row"><span class="metric-row-label">Average Credit Quality</span><span class="metric-row-val gold">BBB+</span></div>
+              <div class="metric-row"><span class="metric-row-label">Swiss Govt Bond Yield (ref.)</span><span class="metric-row-val">1.2%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Yield Pick-Up vs. Sovereign</span><span class="metric-row-val pos">+460 bps</span></div>
+              <div class="metric-row"><span class="metric-row-label">Management Fee Range</span><span class="metric-row-val">45–65 bps</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MULTI-ASSET -->
+        <div class="asset-panel" id="panel-ma">
+          <div class="asset-panel-left">
+            <h3>Multi-Asset Strategies</h3>
+            <p>GSAM's multi-asset shelf — particularly the <strong>GSAM Global Multi-Asset Income Fund</strong> and the <strong>GSAM Tactical Tilt Overlay</strong> — was identified as the highest-relevance product set for the Swiss UHNW segment, given the market's strong preference for holistic, mandate-like solutions over single-asset-class funds.</p>
+            <p>The Multi-Asset Income Fund targets a 4–6% annual income distribution while managing total return volatility below 8% — a profile that maps directly to the income-generation needs of retired UHNW clients drawing from portfolios. The fund's asset allocation process (combining strategic asset allocation with tactical overlays) was documented in detail, including the risk budget framework that constrains individual sleeve drawdowns.</p>
+            <p>A scenario analysis was conducted modelling the fund's estimated return under three macro regimes: soft landing, stagflation, and recession — providing the kind of forward-looking stress analysis that supports client conversations about portfolio resilience.</p>
+          </div>
+          <div>
+            <div class="metric-list">
+              <div class="metric-row"><span class="metric-row-label">Target Income Distribution</span><span class="metric-row-val gold">4–6% p.a.</span></div>
+              <div class="metric-row"><span class="metric-row-label">Target Volatility</span><span class="metric-row-val">&lt; 8% p.a.</span></div>
+              <div class="metric-row"><span class="metric-row-label">3Y Realised Return</span><span class="metric-row-val pos">+7.4%</span></div>
+              <div class="metric-row"><span class="metric-row-label">3Y Realised Volatility</span><span class="metric-row-val pos">6.1%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Sharpe Ratio (3Y)</span><span class="metric-row-val gold">1.21</span></div>
+              <div class="metric-row"><span class="metric-row-label">Scenario: Soft Landing</span><span class="metric-row-val pos">+8.2% est.</span></div>
+              <div class="metric-row"><span class="metric-row-label">Scenario: Stagflation</span><span class="metric-row-val neg">+1.9% est.</span></div>
+              <div class="metric-row"><span class="metric-row-label">Scenario: Recession</span><span class="metric-row-val neg">−3.4% est.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRIVATE EQUITY -->
+        <div class="asset-panel" id="panel-pe">
+          <div class="asset-panel-left">
+            <h3>Private Equity</h3>
+            <p>The <strong>GSAM Vintage Private Equity Programme</strong> — a fund-of-funds structure offering diversified access to top-quartile buyout, growth equity, and venture managers — was analysed in depth. The illiquid nature of this vehicle required a fundamentally different analytical framework from the public market strategies.</p>
+            <p>A J-curve cash-flow model was built for a hypothetical CHF 5m commitment, illustrating the expected capital calls (concentrated in years 1–3), distributions (beginning in years 4–6), and residual NAV through the fund's 10-year life. Net IRR targets of 15–18% were stress-tested across base, bull, and bear scenarios, with the bear case (12% net IRR) still modelled as providing a meaningful premium over the public equity Sharpe-adjusted return over the same period.</p>
+            <p>Crucially, the analysis included an opportunity cost comparison: if the committed capital had been deployed into GSAM's global equity fund at inception, the public market equivalent (PME) methodology was applied to determine the IRR hurdle required to justify the private equity premium after accounting for the lock-up.</p>
+          </div>
+          <div>
+            <div class="metric-list">
+              <div class="metric-row"><span class="metric-row-label">Target Net IRR</span><span class="metric-row-val gold">15–18%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Bear Case Net IRR</span><span class="metric-row-val">12%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Target TVPI Multiple</span><span class="metric-row-val gold">1.8–2.2x</span></div>
+              <div class="metric-row"><span class="metric-row-label">Fund Life</span><span class="metric-row-val">10 years (+ 2 ext.)</span></div>
+              <div class="metric-row"><span class="metric-row-label">Deployment Period</span><span class="metric-row-val">3–4 years</span></div>
+              <div class="metric-row"><span class="metric-row-label">Min. Commitment</span><span class="metric-row-val">CHF 1,000,000</span></div>
+              <div class="metric-row"><span class="metric-row-label">Management Fee</span><span class="metric-row-val">1.5% (on committed)</span></div>
+              <div class="metric-row"><span class="metric-row-label">Performance Fee</span><span class="metric-row-val">20% over 8% hurdle</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INFRASTRUCTURE -->
+        <div class="asset-panel" id="panel-infra">
+          <div class="asset-panel-left">
+            <h3>Infrastructure</h3>
+            <p>The <strong>GSAM Infrastructure Partners Fund</strong> was analysed as a core-plus infrastructure vehicle targeting long-duration, inflation-linked cash flows across energy transition, digital infrastructure, and social infrastructure assets in OECD markets.</p>
+            <p>The strategy's appeal to Swiss UHNW clients was framed around three axes: inflation protection (contracted revenue streams linked to CPI), low correlation to public markets (analysed via rolling 36-month correlation with MSCI ACWI at 0.18), and ESG alignment — particularly relevant given the Swiss market's strong orientation toward sustainable investing.</p>
+            <p>The report modelled a portfolio-level diversification analysis: adding a 10% infrastructure allocation to a typical 60/40 Swiss client portfolio was estimated to reduce overall portfolio volatility by 0.8 percentage points while improving the Sharpe ratio from 0.72 to 0.81 — a quantified case for inclusion rather than a qualitative assertion.</p>
+          </div>
+          <div>
+            <div class="metric-list">
+              <div class="metric-row"><span class="metric-row-label">Target Net Return</span><span class="metric-row-val gold">8–10% p.a.</span></div>
+              <div class="metric-row"><span class="metric-row-label">Income Yield Component</span><span class="metric-row-val pos">4–5% p.a.</span></div>
+              <div class="metric-row"><span class="metric-row-label">Correlation to MSCI ACWI</span><span class="metric-row-val pos">0.18</span></div>
+              <div class="metric-row"><span class="metric-row-label">Inflation Linkage</span><span class="metric-row-val gold">~70% of revenues</span></div>
+              <div class="metric-row"><span class="metric-row-label">Portfolio Volatility Reduction</span><span class="metric-row-val pos">−0.8 pp (10% alloc.)</span></div>
+              <div class="metric-row"><span class="metric-row-label">Sharpe Improvement</span><span class="metric-row-val pos">0.72 → 0.81</span></div>
+              <div class="metric-row"><span class="metric-row-label">Fund Life</span><span class="metric-row-val">12 years</span></div>
+              <div class="metric-row"><span class="metric-row-label">ESG Classification</span><span class="metric-row-val gold">Article 8 (SFDR)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRIVATE CREDIT -->
+        <div class="asset-panel" id="panel-pc">
+          <div class="asset-panel-left">
+            <h3>Private Credit</h3>
+            <p>The <strong>GSAM Direct Lending Fund</strong> was the centrepiece of the private credit analysis — a senior secured direct lending strategy targeting upper-middle-market companies in the US and Europe with EBITDA of $25–150m. The strategy targets a gross yield of SOFR + 550–650bps, with the floating-rate structure providing natural protection in rising rate environments.</p>
+            <p>The report's most technically demanding section involved building a credit stress model for the loan portfolio: assuming a 10% default rate and 40% recovery rate (consistent with historical senior secured averages), the net yield after credit losses was modelled at approximately 7.8% — still significantly above investment-grade fixed income alternatives available to Swiss clients in CHF or EUR.</p>
+            <p>The analysis also examined the covenant package in GSAM's direct loans (financial maintenance covenants vs. the covenant-lite syndicated market), arguing that the structural protections embedded in direct lending justify its premium over public high-yield bonds — an important point for client conversations about the risk-return trade-off.</p>
+          </div>
+          <div>
+            <div class="metric-list">
+              <div class="metric-row"><span class="metric-row-label">Target Gross Yield</span><span class="metric-row-val gold">SOFR + 550–650 bps</span></div>
+              <div class="metric-row"><span class="metric-row-label">Current All-In Yield (est.)</span><span class="metric-row-val gold">~10.5–11.5%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Modelled Net Yield (stress)</span><span class="metric-row-val pos">~7.8%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Assumed Default Rate</span><span class="metric-row-val">10% (stress case)</span></div>
+              <div class="metric-row"><span class="metric-row-label">Assumed Recovery Rate</span><span class="metric-row-val">40%</span></div>
+              <div class="metric-row"><span class="metric-row-label">Rate Sensitivity</span><span class="metric-row-val pos">Floating (SOFR)</span></div>
+              <div class="metric-row"><span class="metric-row-label">Lien Position</span><span class="metric-row-val gold">Senior Secured (1st lien)</span></div>
+              <div class="metric-row"><span class="metric-row-label">Lock-Up</span><span class="metric-row-val">3-year + quarterly redemptions</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end asset-panels -->
+    </div><!-- end fade -->
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  5. KEY FINDINGS
+───────────────────────────────────────────── -->
+<section class="section" style="background:var(--fog)" id="findings">
+  <div class="section-inner">
+    <div class="section-label">05 · Key Findings</div>
+    <h2>Eight <em>Analytical Findings</em> That Shaped the Recommendations</h2>
+
+    <!-- comparative bar chart -->
+    <div class="chart-wrap fade" style="margin-bottom:2.5rem" id="barChart">
+      <div class="chart-title">5-Year Risk-Adjusted Return by Strategy (Sharpe Ratio)</div>
+      <div class="bar-row"><span class="bar-label">Multi-Asset Income</span><div class="bar-track"><div class="bar-fill gold" data-width="100"><span class="bar-pct">1.21</span></div></div><span class="bar-val">Best in class</span></div>
+      <div class="bar-row"><span class="bar-label">Global Equity Partners</span><div class="bar-track"><div class="bar-fill" data-width="74"><span class="bar-pct">0.89</span></div></div><span class="bar-val">Above index</span></div>
+      <div class="bar-row"><span class="bar-label">MSCI ACWI (benchmark)</span><div class="bar-track"><div class="bar-fill green" data-width="65"><span class="bar-pct">0.78</span></div></div><span class="bar-val">Benchmark</span></div>
+      <div class="bar-row"><span class="bar-label">Strategic Income Fund</span><div class="bar-track"><div class="bar-fill" data-width="60"><span class="bar-pct">0.72</span></div></div><span class="bar-val">Solid credit</span></div>
+      <div class="bar-row"><span class="bar-label">Emerging Markets Equity</span><div class="bar-track"><div class="bar-fill" data-width="38"><span class="bar-pct">0.46</span></div></div><span class="bar-val">Higher vol.</span></div>
+    </div>
+
+    <!-- full findings table -->
+    <div class="findings-wrap fade">
+      <table>
+        <thead>
+          <tr>
+            <th>Strategy</th>
+            <th>Asset Class</th>
+            <th>5Y Return</th>
+            <th>Sharpe</th>
+            <th>Max DD</th>
+            <th>Mgmt Fee</th>
+            <th>Peer Ranking</th>
+            <th>Swiss Suitability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Global Equity Partners</td><td>Public Equity</td><td>+14.2%</td><td>0.89</td><td>−24.1%</td><td>75 bps</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+          <tr><td>Emerging Markets Equity</td><td>Public Equity</td><td>+8.1%</td><td>0.46</td><td>−32.7%</td><td>90 bps</td><td><span class="badge badge-gold">2nd Quartile</span></td><td><span class="badge badge-gold">Selective</span></td></tr>
+          <tr><td>Systematic Global Equity</td><td>Public Equity</td><td>+12.8%</td><td>0.82</td><td>−19.4%</td><td>50 bps</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+          <tr><td>Global Fixed Income Plus</td><td>Fixed Income</td><td>+4.2%</td><td>0.58</td><td>−9.8%</td><td>55 bps</td><td><span class="badge badge-gold">2nd Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+          <tr><td>Short Duration Bond</td><td>Fixed Income</td><td>+3.1%</td><td>0.71</td><td>−2.1%</td><td>45 bps</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+          <tr><td>Strategic Income Fund</td><td>Fixed Income</td><td>+6.4%</td><td>0.72</td><td>−12.3%</td><td>65 bps</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+          <tr><td>Global Multi-Asset Income</td><td>Multi-Asset</td><td>+7.4%</td><td>1.21</td><td>−8.6%</td><td>80 bps</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+          <tr><td>Tactical Tilt Overlay</td><td>Multi-Asset</td><td>+5.9%</td><td>0.68</td><td>−11.2%</td><td>60 bps</td><td><span class="badge badge-gold">2nd Quartile</span></td><td><span class="badge badge-gold">Selective</span></td></tr>
+          <tr><td>Vintage PE Programme</td><td>Private Equity</td><td>18.3% IRR*</td><td>N/A</td><td>N/A</td><td>1.5% + 20%</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-gold">UHNW Only</span></td></tr>
+          <tr><td>Infrastructure Partners</td><td>Infrastructure</td><td>9.1% net*</td><td>N/A</td><td>N/A</td><td>1.25% + 15%</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+          <tr><td>Direct Lending Fund</td><td>Private Credit</td><td>~10.8% gross*</td><td>N/A</td><td>N/A</td><td>1.25% + 17.5%</td><td><span class="badge badge-green">Top Quartile</span></td><td><span class="badge badge-green">High</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.7rem;color:var(--mist);margin-top:0.75rem;font-family:'DM Mono',monospace">* Private markets returns are IRR / net return figures based on published fund data and modelled estimates. Peer rankings based on Morningstar / Bloomberg peer group analysis. All metrics sourced as at analysis date.</p>
+    </div>
+
+    <div style="height:3rem"></div>
+
+    <div class="findings-grid fade">
+      <div class="finding-card">
+        <div class="finding-num">Finding 01</div>
+        <div class="finding-title">The Multi-Asset Income Fund offers the best risk-adjusted return profile for Swiss capital preservation mandates</div>
+        <div class="finding-text">With a Sharpe ratio of 1.21 — the highest across all 11 liquid strategies analysed — and a maximum drawdown of only −8.6%, the Global Multi-Asset Income Fund dominates on a risk-adjusted basis. Its income orientation and sub-8% volatility target align precisely with the needs of Swiss UHNW clients drawing regular distributions from their portfolios.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 02</div>
+        <div class="finding-title">Private credit offers the most compelling yield opportunity for clients prepared to accept 3-year lock-ups</div>
+        <div class="finding-text">The Direct Lending Fund's gross yield of SOFR + 550–650bps represents a 460bps pickup over Swiss investment-grade corporates. Even after a conservative stress scenario (10% default, 40% recovery), the net yield of ~7.8% exceeds every liquid fixed income alternative available in the Swiss market — a compelling case for allocating 5–10% of a balanced portfolio to direct lending.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 03</div>
+        <div class="finding-title">GSAM's fee structure is competitive in alternatives but premium-priced in public equity</div>
+        <div class="finding-text">On a like-for-like peer comparison, GSAM's public equity management fees (50–90bps) sit in the second quartile — meaningfully higher than passive alternatives and at the upper end of the active manager range. In alternatives, GSAM's 1.25–1.5% / 15–20% terms are consistent with or below market for the strategy type and manager quality, offering better relative value at the high end of the product shelf.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 04</div>
+        <div class="finding-title">Infrastructure's low market correlation makes it uniquely valuable as a portfolio construction tool</div>
+        <div class="finding-text">A rolling 36-month correlation of 0.18 between the Infrastructure Partners Fund and the MSCI ACWI makes this the most powerful diversifier in the GSAM product range. The quantified portfolio-level impact — adding 10% infrastructure reduces overall portfolio volatility by 0.8pp and improves the Sharpe ratio from 0.72 to 0.81 — provides a compelling quantitative case that goes beyond the usual qualitative "diversification" argument.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 05</div>
+        <div class="finding-title">Duration risk is the defining risk factor for Swiss fixed income allocations in the current environment</div>
+        <div class="finding-text">The 2022 rate hiking cycle exposed a critical vulnerability in long-duration fixed income: the Bloomberg Global Aggregate fell −16.2% — its worst year on record. GSAM's Short Duration Bond Fund's −2.1% return in the same period demonstrates the value of duration management. The report recommends this fund as the core fixed income building block for Swiss clients with limited tolerance for interest rate sensitivity.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 06</div>
+        <div class="finding-title">The Emerging Markets Equity Fund is only suitable for a selective client subset</div>
+        <div class="finding-text">With a Sharpe ratio of 0.46 and a maximum drawdown of −32.7%, the EM Equity Fund requires careful client suitability assessment. While its long-term return potential is attractive, Swiss UHNW clients with capital preservation goals or risk-averse profiles should not be allocated to this strategy — a finding with direct implications for how it is positioned in client conversations.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 07</div>
+        <div class="finding-title">GSAM's private equity programme justifies its illiquidity premium on a PME basis</div>
+        <div class="finding-text">Applying the Public Market Equivalent methodology, a CHF 5m commitment to the Vintage PE Programme over a 10-year fund life outperformed a modelled equivalent investment in the GSAM Global Equity Fund by 4.2 percentage points of net IRR — demonstrating that the illiquidity premium is real and material, not merely a narrative construct.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">Finding 08</div>
+        <div class="finding-title">ESG alignment is a commercial priority, not just a values consideration, for the Swiss market</div>
+        <div class="finding-text">Swiss FinSA and Swiss SFDR-equivalent guidance increasingly require advisers to document ESG suitability assessments. GSAM's Article 8 classification for the Infrastructure Fund and its commitment to net-zero portfolio emissions by 2030 positions it well for Swiss clients where ESG documentation is a regulatory compliance requirement — a commercial differentiator in formal RFP processes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  6. CLIENT SEGMENTATION
+───────────────────────────────────────────── -->
+<section class="section section-dark" id="segmentation">
+  <div class="section-inner">
+    <div class="section-label">06 · Client Segmentation</div>
+    <h2>Matching <em>GSAM Products</em> to Swiss Wealth Client Profiles</h2>
+    <p style="margin-bottom:2.5rem;max-width:700px">The report's most commercially applicable section maps each strategy to three distinct Swiss wealth client archetypes — enabling a sales professional to rapidly identify the right product conversation for any incoming client profile.</p>
+
+    <div class="segment-grid fade">
+      <div class="segment-card">
+        <div class="segment-icon">🏛️</div>
+        <div class="segment-title">UHNW Family Office</div>
+        <div class="segment-desc">Investable assets CHF 50m+. Sophisticated investor status. Long investment horizon (intergenerational). High alternatives tolerance. Strong preference for bespoke mandates and co-investment rights. ESG and impact considerations increasingly central. Primary goal: capital preservation + real return above CPI.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--gold);letter-spacing:0.12em;margin-bottom:0.6rem;margin-top:1rem">Recommended GSAM Products</div>
+        <div class="segment-products">
+          <span class="seg-tag">Vintage PE Programme</span>
+          <span class="seg-tag">Infrastructure Partners</span>
+          <span class="seg-tag">Direct Lending Fund</span>
+          <span class="seg-tag">Multi-Asset Income</span>
+          <span class="seg-tag">Global Equity Partners</span>
+        </div>
+      </div>
+
+      <div class="segment-card">
+        <div class="segment-icon">💼</div>
+        <div class="segment-title">HNW Private Banking Client</div>
+        <div class="segment-desc">Investable assets CHF 1–10m. Professional investor or eligible counterparty. Medium-to-long investment horizon (10–20 years). Moderate alternatives allocation (10–20% of portfolio). Income generation important for lifestyle funding. Core concern: maintaining purchasing power and generating a 4–5% annual return.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--gold);letter-spacing:0.12em;margin-bottom:0.6rem;margin-top:1rem">Recommended GSAM Products</div>
+        <div class="segment-products">
+          <span class="seg-tag">Multi-Asset Income</span>
+          <span class="seg-tag">Strategic Income Fund</span>
+          <span class="seg-tag">Short Duration Bond</span>
+          <span class="seg-tag">Systematic Global Equity</span>
+          <span class="seg-tag">Direct Lending Fund</span>
+        </div>
+      </div>
+
+      <div class="segment-card">
+        <div class="segment-icon">🏦</div>
+        <div class="segment-title">Swiss Pension / Institutional</div>
+        <div class="segment-desc">Assets CHF 100m+. Subject to BVG/OPA asset allocation constraints. Liability-matching a primary consideration. Low tolerance for drawdowns exceeding 10–15% in any rolling 12-month period. Strong governance requirements and preference for Article 8/9 SFDR products. Requires detailed reporting packages.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--gold);letter-spacing:0.12em;margin-bottom:0.6rem;margin-top:1rem">Recommended GSAM Products</div>
+        <div class="segment-products">
+          <span class="seg-tag">Infrastructure Partners</span>
+          <span class="seg-tag">Global Fixed Income Plus</span>
+          <span class="seg-tag">Short Duration Bond</span>
+          <span class="seg-tag">Systematic Global Equity</span>
+          <span class="seg-tag">Tactical Tilt Overlay</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  7. RECOMMENDATIONS
+───────────────────────────────────────────── -->
+<section class="section" id="recommendations">
+  <div class="section-inner">
+    <div class="section-label">07 · Recommendations</div>
+    <h2>Five <em>Prioritised Recommendations</em> for the Swiss TPW Desk</h2>
+
+    <div class="rec-list fade">
+      <div class="rec-item">
+        <div class="rec-priority high">HIGH</div>
+        <div class="rec-body">
+          <h3>Lead with Multi-Asset Income in all initial HNW client conversations</h3>
+          <p>The Global Multi-Asset Income Fund's combination of best-in-class Sharpe ratio, 4–6% income target, and sub-8% volatility makes it the single most versatile product for the Swiss HNW segment. It should be the default entry point for clients who have not yet defined a specific strategy preference — providing a compelling income story that can be supplemented with specialist strategies as the relationship deepens.</p>
+        </div>
+        <div class="rec-impact">Impact: Revenue · Client Retention</div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-priority high">HIGH</div>
+        <div class="rec-body">
+          <h3>Position Private Credit as the primary yield solution above 5% for all client segments</h3>
+          <p>With Swiss sovereign yields at 1.2% and CHF IG corporates at sub-3%, the Direct Lending Fund's stress-tested net yield of ~7.8% addresses the most common client question in the current environment: "where do I find yield without taking unacceptable equity risk?" The floating-rate structure and senior secured seniority should be emphasised to address duration and credit risk concerns from more conservative clients.</p>
+        </div>
+        <div class="rec-impact">Impact: New Allocations · AUM Growth</div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-priority">MED</div>
+        <div class="rec-body">
+          <h3>Use the quantified infrastructure diversification case as a standard portfolio review tool</h3>
+          <p>The finding that a 10% infrastructure allocation improves portfolio Sharpe ratio from 0.72 to 0.81 and reduces volatility by 0.8pp is a powerful, quantified argument. This calculation should be run for each client's specific portfolio composition during annual reviews — presenting infrastructure not as an "alternative" but as a portfolio optimisation tool with a measurable, evidence-based case for inclusion.</p>
+        </div>
+        <div class="rec-impact">Impact: Cross-Sell · Portfolio Reviews</div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-priority">MED</div>
+        <div class="rec-body">
+          <h3>Restrict EM Equity conversations to UHNW clients with explicit growth mandates and 10+ year horizons</h3>
+          <p>The Emerging Markets Equity Fund's risk profile (0.46 Sharpe, −32.7% max drawdown) makes it unsuitable for capital preservation clients or those with shorter investment horizons. A suitability gate should be applied: this product should only be discussed with UHNW clients who have already allocated their core defensive position and are seeking satellite growth exposure as part of a clearly documented risk appetite.</p>
+        </div>
+        <div class="rec-impact">Impact: Risk Management · Suitability</div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-priority">LOW</div>
+        <div class="rec-body">
+          <h3>Develop a standing quarterly fee benchmarking update to maintain competitive intelligence</h3>
+          <p>The finding that GSAM's public equity fees are in the second quartile relative to peers creates a potential objection in client conversations — particularly from fee-sensitive family offices benchmarking against passive alternatives. A quarterly update to the peer benchmarking table in this report would equip the sales team to handle this objection proactively and to monitor any fee adjustments by Schroders, BlackRock, or UBS AM that could affect GSAM's competitive positioning.</p>
+        </div>
+        <div class="rec-impact">Impact: Retention · Competitive Intelligence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+  8. SKILLS DEMONSTRATED
+───────────────────────────────────────────── -->
+<section class="section skills-section" id="skills">
+  <div class="section-inner">
+    <div class="section-label">08 · Skills Demonstrated</div>
+    <h2>Technical &amp; Analytical <em>Competencies</em> Applied</h2>
+
+    <div class="skills-wrap fade">
+      <div class="skill-block">
+        <div class="skill-block-cat">Financial Analysis</div>
+        <div class="skill-chips">
+          <span class="skill-chip hl">Risk-Adjusted Return Analysis</span>
+          <span class="skill-chip hl">Sharpe / Sortino / Calmar</span>
+          <span class="skill-chip hl">Fee Decomposition</span>
+          <span class="skill-chip">Performance Attribution</span>
+          <span class="skill-chip">PME Methodology</span>
+          <span class="skill-chip">J-Curve Modelling</span>
+          <span class="skill-chip">IRR Sensitivity Analysis</span>
+          <span class="skill-chip">Net-of-Fee Return Calc.</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-cat">Technical Tools</div>
+        <div class="skill-chips">
+          <span class="skill-chip hl">Bloomberg Terminal</span>
+          <span class="skill-chip hl">Advanced Excel (XIRR)</span>
+          <span class="skill-chip hl">Power BI</span>
+          <span class="skill-chip">Bloomberg Fund Analytics</span>
+          <span class="skill-chip">Scenario Modelling</span>
+          <span class="skill-chip">Data Validation</span>
+          <span class="skill-chip">Pivot Tables / SUMPRODUCT</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-cat">Product Knowledge</div>
+        <div class="skill-chips">
+          <span class="skill-chip hl">Multi-Asset Strategies</span>
+          <span class="skill-chip hl">Private Equity Structures</span>
+          <span class="skill-chip hl">Direct Lending / Private Credit</span>
+          <span class="skill-chip">Infrastructure Funds</span>
+          <span class="skill-chip">UCITS Fund Structures</span>
+          <span class="skill-chip">Fund-of-Funds</span>
+          <span class="skill-chip">Alternative Risk Premia</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-cat">Regulatory &amp; Client</div>
+        <div class="skill-chips">
+          <span class="skill-chip hl">Client Suitability Mapping</span>
+          <span class="skill-chip hl">Swiss FinSA Framework</span>
+          <span class="skill-chip hl">MiFID II / SFDR</span>
+          <span class="skill-chip">KID / KIID Analysis</span>
+          <span class="skill-chip">UHNW Client Profiling</span>
+          <span class="skill-chip">ESG / Article 8 / Article 9</span>
+          <span class="skill-chip">Pre-Sales Preparation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME BANNER -->
+<div class="outcome-banner">
+  <div class="outcome-big">15 pp.</div>
+  <div class="outcome-text">
+    <h3>A Sales-Ready Research Document — Produced Independently</h3>
+    <p>The completed 15-page report covers 6 asset classes, 14 GSAM strategies, 3 Swiss client segments, a 5-recommendation action plan, and a back-of-book product selector guide. It was produced independently using Bloomberg Terminal, Advanced Excel, and Power BI — reflecting the data gathering, analytical, and communication skills expected of a Sales Support Analyst at a top-tier asset manager. It was reviewed by a senior finance professional and rated ready for use in a client-facing context.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-left">
+    <h3>View the Full Portfolio</h3>
+    <p>See all four projects and two case studies</p>
+  </div>
+  <div class="cta-btns">
+    <a href="index.html#projects" class="btn btn-gold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Projects
+    </a>
+    <a href="mailto:saigopichandran@gmail.com" class="btn btn-outline">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      Get In Touch
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Sai Chandran Gopichandran</span>
+  <span>London, UK &nbsp;·&nbsp; Investment Analyst</span>
+</footer>
+
+<script>
+// ── Tab switching ──
+function showPanel(id, btn) {
+  document.querySelectorAll('.asset-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.asset-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Scroll-triggered fade-in ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), 0);
+    }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+// ── Animated bars (trigger when in view) ──
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+        const w = bar.dataset.width;
+        setTimeout(() => { bar.style.width = w + '%'; }, 200);
+      });
+      barObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+const bc = document.getElementById('barChart');
+if (bc) barObserver.observe(bc);
+
+// ── TOC active state ──
+const sections = document.querySelectorAll('section[id], .section[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+const tocObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocItems.forEach(item => item.classList.remove('active'));
+      const match = document.querySelector(`.toc-item[data-section="${entry.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.35 });
+sections.forEach(s => tocObserver.observe(s));
+
+// ── Stagger cards in grids ──
+document.querySelectorAll('.obj-grid, .segment-grid, .findings-grid').forEach(grid => {
+  grid.querySelectorAll('.obj-card, .segment-card, .finding-card').forEach((card, i) => {
+    card.style.transitionDelay = (i * 0.08) + 's';
+  });
+});
+</script>
+</body>
+</html>
