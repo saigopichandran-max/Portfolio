@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study 01 — Client Asset Allocation Review | Sai Chandran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080C10;
+  --bg2:     #0D1420;
+  --bg3:     #111A2A;
+  --bg4:     #162033;
+  --teal:    #00D4C8;
+  --teal2:   #00A8A0;
+  --teal3:   #004A46;
+  --amber:   #F5A623;
+  --amber2:  #C8831A;
+  --red:     #E05555;
+  --green:   #3DBA7A;
+  --blue:    #4A8FE8;
+  --white:   #F0F4F8;
+  --slate:   #8A9BB0;
+  --muted:   #4A5568;
+  --line:    rgba(0,212,200,0.12);
+  --line2:   rgba(0,212,200,0.06);
+  --glow:    rgba(0,212,200,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+body::after {
+  content:''; position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none; z-index: 997;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(8,12,16,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+  color: var(--teal); letter-spacing: 0.05em; text-decoration: none;
+}
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+}
+.nav-links a {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-back {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; transition: color 0.2s;
+}
+.nav-back:hover { color: var(--teal); }
+.nav-back svg { width: 12px; height: 12px; stroke: currentColor; }
+
+/* HERO */
+.cs-hero {
+  min-height: 52vh;
+  background: var(--bg);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 8rem 3rem 3.5rem;
+  position: relative; overflow: hidden;
+}
+.grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 70% 40%, black 30%, transparent 80%);
+  pointer-events: none; z-index: 0;
+}
+.cs-hero-inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  position: relative; z-index: 2;
+}
+.cs-breadcrumb {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.14em; color: var(--teal2); margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+.cs-breadcrumb span { color: var(--muted); }
+.cs-kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.cs-kicker::before { content: '//'; color: var(--teal3); }
+
+.cs-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 800; line-height: 1.1;
+  color: var(--white); margin-bottom: 0.6rem;
+}
+.cs-title em { color: var(--teal); font-style: italic; }
+.cs-subtitle {
+  font-size: 0.9rem; color: var(--slate); max-width: 600px;
+  line-height: 1.75; margin-bottom: 2rem;
+}
+.cs-meta-row {
+  display: flex; gap: 2.5rem; flex-wrap: wrap;
+}
+.cs-meta-item {
+  display: flex; flex-direction: column; gap: 0.2rem;
+}
+.cs-meta-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+}
+.cs-meta-value {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+  color: var(--teal2);
+}
+
+/* STAT BAR */
+.stat-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.stat-bar-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--line);
+}
+.stat-cell {
+  background: var(--bg2);
+  padding: 1.8rem 2rem;
+  text-align: center;
+  transition: background 0.2s;
+}
+.stat-cell:hover { background: var(--bg3); }
+.stat-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.9rem; color: var(--teal); line-height: 1; margin-bottom: 0.45rem;
+}
+.stat-num.amber { color: var(--amber); }
+.stat-num.green { color: var(--green); }
+.stat-num.red { color: var(--red); }
+.stat-desc {
+  font-size: 0.62rem; color: var(--slate);
+  letter-spacing: 0.07em; text-transform: uppercase;
+}
+
+/* MAIN LAYOUT */
+.section { padding: 4.5rem 3rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-dark { background: var(--bg); }
+.section-mid { background: var(--bg2); }
+.section-raised { background: var(--bg3); }
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.eyebrow::before { content: '//'; color: var(--teal3); }
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 2rem;
+}
+h2 em { color: var(--teal); font-style: italic; }
+
+/* TWO-COL LAYOUT */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+.three-col {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* INFO BLOCKS */
+.info-block {
+  border-left: 2px solid var(--teal3);
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+.info-block-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--teal2); margin-bottom: 0.6rem;
+}
+.info-block-text {
+  font-size: 0.85rem; line-height: 1.8; color: var(--slate);
+}
+.info-block-text strong { color: var(--white); font-weight: 500; }
+
+/* SCENARIO BOX */
+.scenario-box {
+  background: rgba(0,212,200,0.04);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--teal);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.scenario-box p {
+  font-size: 0.87rem; line-height: 1.85; color: var(--slate);
+}
+.scenario-box p strong { color: var(--white); }
+.scenario-box p + p { margin-top: 0.8rem; }
+
+/* ANALYSIS GRID */
+.analysis-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--line);
+  margin-bottom: 2rem;
+}
+.analysis-cell {
+  background: var(--bg2); padding: 2rem;
+}
+.analysis-cell-title {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+}
+.analysis-cell p {
+  font-size: 0.83rem; line-height: 1.75; color: var(--slate);
+}
+.analysis-cell p strong { color: var(--white); font-weight: 500; }
+.analysis-cell ul {
+  list-style: none; margin-top: 0.8rem;
+  display: flex; flex-direction: column; gap: 0.55rem;
+}
+.analysis-cell ul li {
+  font-size: 0.82rem; line-height: 1.65; color: var(--slate);
+  padding-left: 1rem; position: relative;
+}
+.analysis-cell ul li::before {
+  content: '—'; position: absolute; left: 0; color: var(--teal);
+}
+.analysis-cell ul li strong { color: var(--white); font-weight: 500; }
+
+/* DURATION TABLE */
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem; margin-bottom: 1.5rem;
+}
+.data-table th {
+  padding: 0.7rem 1rem; text-align: left;
+  background: var(--bg3);
+  color: var(--teal2); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+.data-table td {
+  padding: 0.75rem 1rem; border-bottom: 1px solid var(--line2);
+  color: var(--slate); vertical-align: middle;
+}
+.data-table tr:hover td { color: var(--white); background: rgba(0,212,200,0.02); }
+.data-table td.hl { color: var(--white); font-weight: 500; }
+.data-table td.pos { color: var(--green); }
+.data-table td.neg { color: var(--red); }
+.data-table td.amber { color: var(--amber); }
+
+/* STRESS SCENARIOS */
+.scenario-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--line);
+  margin-bottom: 2rem;
+}
+.scenario-card {
+  background: var(--bg2); padding: 1.8rem;
+  transition: background 0.2s;
+}
+.scenario-card:hover { background: var(--bg3); }
+.scenario-card-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.5rem;
+}
+.scenario-card-title {
+  font-family: 'Syne', sans-serif; font-size: 1rem;
+  color: var(--white); margin-bottom: 1rem;
+}
+.scenario-card-metric {
+  font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem;
+  margin-bottom: 0.3rem; line-height: 1;
+}
+.scenario-card-metric.red { color: var(--red); }
+.scenario-card-metric.amber { color: var(--amber); }
+.scenario-card-metric.green { color: var(--green); }
+.scenario-card-sub {
+  font-size: 0.72rem; color: var(--muted); line-height: 1.5;
+}
+
+/* RECOMMENDATION */
+.rec-box {
+  background: rgba(0,212,200,0.05);
+  border: 1px solid rgba(0,212,200,0.2);
+  border-left: 3px solid var(--teal);
+  padding: 2rem 2.5rem;
+}
+.rec-box-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+}
+.rec-box p {
+  font-size: 0.87rem; line-height: 1.85; color: var(--slate);
+  margin-bottom: 0.8rem;
+}
+.rec-box p:last-child { margin-bottom: 0; }
+.rec-box p strong { color: var(--white); }
+
+/* ALLOCATION VISUAL */
+.alloc-row {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+}
+.alloc-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+  color: var(--slate); width: 220px; flex-shrink: 0;
+}
+.alloc-bar-wrap {
+  flex: 1; height: 6px; background: var(--bg4); position: relative;
+}
+.alloc-bar {
+  height: 100%; position: absolute; left: 0; top: 0;
+  transition: width 1.2s ease;
+}
+.alloc-pct {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+  color: var(--teal2); width: 40px; text-align: right; flex-shrink: 0;
+}
+.alloc-change {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  width: 55px; text-align: right; flex-shrink: 0;
+}
+
+/* OUTCOME */
+.outcome-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-bottom: 2rem;
+}
+.outcome-card {
+  background: var(--bg2); border: 1px solid var(--line);
+  padding: 2rem; transition: border-color 0.2s;
+}
+.outcome-card:hover { border-color: var(--teal2); }
+.outcome-card::before {
+  content: ''; display: block; height: 2px;
+  background: linear-gradient(90deg, var(--teal), transparent);
+  margin-bottom: 1.5rem;
+}
+.outcome-icon {
+  font-size: 1.5rem; margin-bottom: 0.8rem;
+}
+.outcome-title {
+  font-family: 'Syne', sans-serif; font-size: 0.95rem;
+  color: var(--white); margin-bottom: 0.5rem;
+}
+.outcome-text {
+  font-size: 0.8rem; line-height: 1.7; color: var(--slate);
+}
+
+/* SKILLS APPLIED */
+.skill-chips {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.skill-chip {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(0,212,200,0.06);
+  border: 1px solid var(--line);
+  color: rgba(240,244,248,0.7);
+  transition: all 0.2s;
+}
+.skill-chip:hover {
+  background: rgba(0,212,200,0.12);
+  border-color: rgba(0,212,200,0.3);
+  color: var(--teal);
+}
+
+/* DELIVERABLES */
+.deliverable-list {
+  display: flex; flex-direction: column; gap: 0.8rem;
+}
+.deliverable-item {
+  display: flex; align-items: flex-start; gap: 0.9rem;
+  padding: 1rem 1.2rem;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  transition: border-color 0.2s;
+}
+.deliverable-item:hover { border-color: var(--teal3); }
+.deliverable-icon {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+  color: var(--teal); padding-top: 0.1rem; flex-shrink: 0;
+}
+.deliverable-text {
+  font-size: 0.82rem; line-height: 1.6; color: var(--slate);
+}
+.deliverable-text strong { color: var(--white); font-weight: 500; }
+
+/* FOOTER */
+.cs-footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  padding: 2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.cs-footer-links {
+  display: flex; gap: 1rem;
+}
+.cs-footer-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none;
+  padding: 0.55rem 1.1rem; border: 1px solid var(--line);
+  transition: all 0.2s;
+}
+.cs-footer-link:hover { border-color: var(--teal); color: var(--teal); }
+.cs-footer-link svg { width: 12px; height: 12px; stroke: currentColor; }
+.cs-footer-copy {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  color: var(--muted);
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px; background: var(--line2); margin: 2rem 0;
+}
+
+/* FADE ANIMATION */
+.fade {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade.visible { opacity: 1; transform: none; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .cs-hero { padding: 7rem 1.5rem 2.5rem; }
+  .section { padding: 3rem 1.5rem; }
+  .two-col { grid-template-columns: 1fr; gap: 2rem; }
+  .three-col { grid-template-columns: 1fr; }
+  .scenario-cards { grid-template-columns: 1fr; }
+  .analysis-grid { grid-template-columns: 1fr; }
+  .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+  .outcome-grid { grid-template-columns: 1fr; }
+  .cs-footer { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://saigopichandran-max.github.io/Portfolio/" class="nav-logo">SCG</a>
+  <ul class="nav-links">
+    <li>
+      <a href="https://saigopichandran-max.github.io/Portfolio/" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Portfolio
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div class="grid-bg"></div>
+  <div class="cs-hero-inner">
+    <div class="cs-breadcrumb">
+      Portfolio <span>/</span> Case Studies <span>/</span> 01
+    </div>
+    <div class="cs-kicker">Client Advisory Case Study</div>
+    <h1 class="cs-title">
+      Client Asset Allocation Review —<br>
+      <em>Rising Rate Environment</em>
+    </h1>
+    <p class="cs-subtitle">
+      A hypothetical UK family office sought guidance as central banks began aggressive rate hiking cycles in 2022–2023.
+      This case study models the duration impact, evaluates reallocation options, and delivers a phased rebalancing recommendation.
+    </p>
+    <div class="cs-meta-row">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Client Type</span>
+        <span class="cs-meta-value">UK Family Office</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">AUM</span>
+        <span class="cs-meta-value">£8,000,000</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Portfolio</span>
+        <span class="cs-meta-value">60 / 40 Equity–Bond</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Period</span>
+        <span class="cs-meta-value">2022 – 2023</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Tools Used</span>
+        <span class="cs-meta-value">Bloomberg · Excel · DCF Modelling</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-cell">
+      <div class="stat-num red">−14%</div>
+      <div class="stat-desc">Projected bond loss at +200bps</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num amber">7.0 yrs</div>
+      <div class="stat-desc">Initial portfolio duration</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num green">3.5 yrs</div>
+      <div class="stat-desc">Target duration post-rebalance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">SOFR +400</div>
+      <div class="stat-desc">bps yield on senior secured loans</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCENARIO -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <div class="eyebrow">01 — Scenario</div>
+    <h2>Client Background &amp; <em>Presenting Question</em></h2>
+    <div class="two-col">
+      <div>
+        <div class="scenario-box">
+          <p>
+            A hypothetical UK-based family office with <strong>£8 million in assets</strong> held a classic 60/40 portfolio — £4.8m in a diversified equity sleeve and £3.2m in investment-grade government and corporate bonds. The bond allocation carried a modified duration of approximately 7 years, leaving the portfolio meaningfully exposed to interest rate movements.
+          </p>
+          <p>
+            As the Bank of England and the Federal Reserve began their most aggressive hiking cycles in four decades — with the BoE raising rates from 0.25% (December 2021) to 5.25% by mid-2023 — the family office's investment adviser was asked: <strong>should we rebalance the fixed income sleeve, and if so, how?</strong>
+          </p>
+          <p>
+            The client had strong familiarity with traditional bond markets but limited exposure to floating-rate instruments and private credit alternatives. They sought a recommendation that balanced income generation, capital preservation, and portfolio liquidity.
+          </p>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Key Constraint</div>
+          <div class="info-block-text">The client required at least <strong>60% of the portfolio to remain liquid</strong> within a 90-day horizon, ruling out full rotation into illiquid private credit. A portion of the bond sleeve was also earmarked as collateral against a facility.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Macro Context</div>
+          <div class="info-block-text">By Q2 2022, UK CPI had reached <strong>9.1%</strong> — a 40-year high. Market consensus pointed to further rate rises. Bloomberg forward curves implied a peak BoE rate of 5.00–5.50% by mid-2023, implying continued duration pain for long-dated fixed income holders.</div>
+        </div>
+      </div>
+      <div>
+        <div class="info-block-label" style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal2);margin-bottom:1rem;">Current Portfolio Composition</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Asset Class</th>
+              <th>Allocation</th>
+              <th>Value (£)</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hl">Global Equities</td>
+              <td>40%</td>
+              <td>£3,200,000</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td class="hl">UK Equities</td>
+              <td>20%</td>
+              <td>£1,600,000</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td class="hl">Gilts (10yr+)</td>
+              <td>20%</td>
+              <td>£1,600,000</td>
+              <td class="neg">9.2 yrs</td>
+            </tr>
+            <tr>
+              <td class="hl">IG Corporate Bonds</td>
+              <td>15%</td>
+              <td>£1,200,000</td>
+              <td class="amber">5.8 yrs</td>
+            </tr>
+            <tr>
+              <td class="hl">Cash &amp; Equivalents</td>
+              <td>5%</td>
+              <td>£400,000</td>
+              <td class="pos">0 yrs</td>
+            </tr>
+            <tr>
+              <td class="hl">Portfolio Weighted</td>
+              <td>100%</td>
+              <td>£8,000,000</td>
+              <td class="neg"><strong>7.0 yrs</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="info-block">
+          <div class="info-block-label">Investment Mandate</div>
+          <div class="info-block-text">Moderate-to-Conservative risk profile. Primary objectives: <strong>capital preservation</strong> and <strong>real return above inflation</strong>. Secondary: steady income generation with limited drawdown risk.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYSIS -->
+<section class="section section-mid">
+  <div class="section-inner">
+    <div class="eyebrow">02 — Analysis</div>
+    <h2>Duration Impact Modelling &amp; <em>Scenario Testing</em></h2>
+
+    <div class="analysis-grid fade">
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Duration Stress Test — Rate Scenarios</div>
+        <p>Using Bloomberg duration analytics and a standard convexity-adjusted price approximation, I modelled the mark-to-market impact on the <strong>£3.2m fixed income sleeve</strong> under three rate-rise scenarios.</p>
+        <p style="margin-top:0.8rem;font-size:0.75rem;color:var(--muted);">Formula applied: ΔP ≈ −D × ΔR × P</p>
+      </div>
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Key Methodology</div>
+        <ul>
+          <li><strong>Modified duration</strong> sourced from Bloomberg Terminal per security</li>
+          <li>Applied <strong>parallel shift</strong> assumption across the yield curve</li>
+          <li>Convexity adjustment applied for the 300bps scenario (non-linear effect)</li>
+          <li>Recovery in income yield modelled over 18-month horizon to assess breakeven</li>
+          <li>Liquidity constraints mapped against 90-day redemption windows per fund</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="scenario-cards fade">
+      <div class="scenario-card">
+        <div class="scenario-card-label">Scenario A</div>
+        <div class="scenario-card-title">+100bps Rate Rise</div>
+        <div class="scenario-card-metric amber">−£224,000</div>
+        <div class="scenario-card-sub">−7% MTM loss on bond sleeve<br>Breakeven via income: ~14 months</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-card-label">Scenario B — Base Case</div>
+        <div class="scenario-card-title">+200bps Rate Rise</div>
+        <div class="scenario-card-metric red">−£448,000</div>
+        <div class="scenario-card-sub">−14% MTM loss on bond sleeve<br>Breakeven via income: ~28 months</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-card-label">Scenario C — Stress</div>
+        <div class="scenario-card-title">+300bps Rate Rise</div>
+        <div class="scenario-card-metric red">−£646,000</div>
+        <div class="scenario-card-sub">−20% MTM loss on bond sleeve<br>Breakeven via income: 40+ months</div>
+      </div>
+    </div>
+
+    <div class="two-col fade">
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">Alternative Instruments Evaluated</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Instrument</th>
+              <th>Duration</th>
+              <th>Est. Yield</th>
+              <th>Liquidity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hl">Senior Secured Loans</td>
+              <td class="pos">&lt;0.25 yrs</td>
+              <td class="pos">SOFR+400bps</td>
+              <td class="amber">30–60 days</td>
+            </tr>
+            <tr>
+              <td class="hl">Short-Duration IG Credit</td>
+              <td class="pos">1.5–2.5 yrs</td>
+              <td class="amber">4.8–5.5%</td>
+              <td class="pos">Daily</td>
+            </tr>
+            <tr>
+              <td class="hl">Floating Rate Notes</td>
+              <td class="pos">&lt;0.5 yrs</td>
+              <td class="pos">SONIA+250bps</td>
+              <td class="pos">Daily</td>
+            </tr>
+            <tr>
+              <td class="hl">Private Credit (Sr.)</td>
+              <td class="pos">Floating</td>
+              <td class="pos">8.0–10.0%</td>
+              <td class="neg">Illiquid</td>
+            </tr>
+            <tr>
+              <td class="hl">IG Inflation-Linked</td>
+              <td class="amber">4.5–6.0 yrs</td>
+              <td class="amber">RPI+0.5%</td>
+              <td class="pos">Daily</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">Liquidity Constraint Mapping</div>
+        <div class="info-block">
+          <div class="info-block-label">Requirement</div>
+          <div class="info-block-text">Client requires <strong>£4.8m (60%)</strong> accessible within 90 days. The Gilt and corporate bond positions are daily liquidity but face MTM risk. Private credit solutions were assessed only for the portion not earmarked as collateral.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Collateral Restriction</div>
+          <div class="info-block-text">Approximately <strong>£800,000</strong> of the Gilt position is pledged as collateral. This portion was excluded from reallocation scenarios and modelled as a legacy hold with hedging overlay considerations.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Conclusion</div>
+          <div class="info-block-text">Senior secured loans and short-duration credit satisfying the liquidity mandate while meaningfully reducing duration risk. Private credit capped at <strong>10% of the overall portfolio</strong> given liquidity constraints.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATION -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <div class="eyebrow">03 — Recommendation</div>
+    <h2>Phased Rebalancing <em>Strategy</em></h2>
+
+    <div class="two-col fade" style="margin-bottom:2.5rem;">
+      <div>
+        <div class="rec-box" style="margin-bottom:1.5rem;">
+          <div class="rec-box-label">Core Recommendation</div>
+          <p>Implement a <strong>phased three-tranche rebalancing</strong> of the fixed income sleeve over 90 days, reducing portfolio-level modified duration from 7.0 to 3.5 years — cutting interest rate sensitivity by 50% — while maintaining full liquidity compliance and improving the income yield of the bond portfolio.</p>
+          <p>The reallocation pivots <strong>30% of the bond sleeve</strong> into senior secured leveraged loans (floating rate, SOFR+400bps), replacing long-duration Gilt exposure at the margin. The remaining allocation shifts toward short-duration IG credit and inflation-linked instruments, retaining daily liquidity.</p>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Rationale — Senior Secured Loans</div>
+          <div class="info-block-text">Senior secured leveraged loans offered the most compelling risk-adjusted trade: <strong>floating-rate coupons (SOFR+400bps ≈ 9%+ by late 2022)</strong>, near-zero duration, and senior secured seniority in the capital structure. Default rates at the time remained below 1.5%, and recovery rates historically average 70% at the senior secured level.</div>
+        </div>
+      </div>
+      <div>
+        <div class="info-block-label" style="font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal2);margin-bottom:1.2rem;">Portfolio Allocation — Before vs After</div>
+
+        <div style="margin-bottom:0.4rem;">
+          <div class="alloc-row">
+            <div class="alloc-label">Global &amp; UK Equities (defensive tilt)</div>
+            <div class="alloc-bar-wrap"><div class="alloc-bar" style="width:60%;background:var(--blue);"></div></div>
+            <div class="alloc-pct">60%</div>
+            <div class="alloc-change" style="color:var(--muted);font-size:0.62rem;">unchanged</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-label">Senior Secured Loans</div>
+            <div class="alloc-bar-wrap"><div class="alloc-bar" style="width:12%;background:var(--teal);"></div></div>
+            <div class="alloc-pct">12%</div>
+            <div class="alloc-change" style="color:var(--green);font-size:0.62rem;">+12% NEW</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-label">Short-Duration IG Credit (1–3yr)</div>
+            <div class="alloc-bar-wrap"><div class="alloc-bar" style="width:10%;background:var(--teal2);"></div></div>
+            <div class="alloc-pct">10%</div>
+            <div class="alloc-change" style="color:var(--green);font-size:0.62rem;">+10% NEW</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-label">Gilts 10yr+ (legacy &amp; collateral)</div>
+            <div class="alloc-bar-wrap"><div class="alloc-bar" style="width:8%;background:var(--muted);"></div></div>
+            <div class="alloc-pct">8%</div>
+            <div class="alloc-change" style="color:var(--red);font-size:0.62rem;">−12%</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-label">Inflation-Linked Bonds</div>
+            <div class="alloc-bar-wrap"><div class="alloc-bar" style="width:5%;background:var(--amber);"></div></div>
+            <div class="alloc-pct">5%</div>
+            <div class="alloc-change" style="color:var(--green);font-size:0.62rem;">+5% NEW</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-label">IG Corporate Bonds (reduced)</div>
+            <div class="alloc-bar-wrap"><div class="alloc-bar" style="width:5%;background:var(--muted);"></div></div>
+            <div class="alloc-pct">5%</div>
+            <div class="alloc-change" style="color:var(--red);font-size:0.62rem;">−10%</div>
+          </div>
+          <div class="alloc-row">
+            <div class="alloc-label">Cash &amp; Equivalents</div>
+            <div class="alloc-bar-wrap"><div class="alloc-bar" style="width:5%;background:var(--slate);"></div></div>
+            <div class="alloc-pct">5%</div>
+            <div class="alloc-change" style="color:var(--muted);font-size:0.62rem;">unchanged</div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;padding:1rem;background:var(--bg3);border:1px solid var(--line);">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--slate);">Portfolio Duration (Before)</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--red);">7.0 years</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--slate);">Portfolio Duration (After)</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--green);">3.5 years</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Implementation Phases -->
+    <div class="eyebrow" style="margin-bottom:1.5rem;">Implementation Timeline</div>
+    <div class="analysis-grid fade">
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Phase 1 — Days 0–30 (Immediate)</div>
+        <p><strong>Reduce longest-duration Gilt exposure</strong> by rotating £960,000 (12% of AUM) from 10yr+ Gilts into a diversified senior secured loan fund. This achieves the fastest duration reduction and immediately positions the portfolio to benefit from rising SOFR/SONIA rates.</p>
+        <ul>
+          <li>Sell £960k in 10yr+ Gilt ETF (IGLTs or similar)</li>
+          <li>Invest into a sterling-denominated senior secured loan fund</li>
+          <li>Duration impact: −1.8 years at portfolio level</li>
+        </ul>
+      </div>
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Phase 2 — Days 30–60</div>
+        <p><strong>Rotate a portion of IG corporate bonds</strong> into short-duration (1–3yr) investment-grade credit and inflation-linked bonds, improving the income profile and adding a hedge against persistent inflation.</p>
+        <ul>
+          <li>Sell £800k of 5–7yr IG corporate bonds</li>
+          <li>Allocate £400k to 1–3yr IG credit; £400k to index-linked Gilts</li>
+          <li>Duration impact: additional −0.9 years at portfolio level</li>
+        </ul>
+      </div>
+    </div>
+    <div class="analysis-grid fade" style="margin-top:1px;">
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Phase 3 — Days 60–90 (Selective)</div>
+        <p><strong>Optional tail allocation</strong> to private senior secured credit for the slice of the portfolio not subject to liquidity constraints (~£240k, 3% of AUM), capturing the significant illiquidity premium available in 2022–2023 private credit markets.</p>
+        <ul>
+          <li>Subject to client confirmation and liquidity review</li>
+          <li>Target: private senior credit fund, 3–5 year lock-up</li>
+          <li>Expected yield: 9–11% with floating-rate structure</li>
+        </ul>
+      </div>
+      <div class="analysis-cell">
+        <div class="analysis-cell-title">Equity Sleeve — Defensive Tilt</div>
+        <p>While the primary rebalancing focuses on the fixed income sleeve, I also recommended a <strong>defensive tilt within the equity allocation</strong> — increasing exposure to value/dividend sectors (utilities, healthcare) that historically outperform in rising rate environments, at the expense of long-duration growth equities.</p>
+        <ul>
+          <li>Shift 10% of equity sleeve from growth/tech to value dividend</li>
+          <li>No change to total equity weight</li>
+          <li>Estimated yield uplift: +0.8% on the equity sleeve</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="section section-mid">
+  <div class="section-inner">
+    <div class="eyebrow">04 — Deliverables</div>
+    <h2>Client-Ready <em>Output Formats</em></h2>
+    <div class="two-col fade">
+      <div>
+        <p style="font-size:0.85rem;line-height:1.8;color:var(--slate);margin-bottom:1.5rem;">The analysis was packaged into two output formats, replicating the kind of pre-meeting and post-meeting documentation expected in a sales support or client advisory role:</p>
+        <div class="deliverable-list">
+          <div class="deliverable-item">
+            <div class="deliverable-icon">[01]</div>
+            <div class="deliverable-text"><strong>1-Page Investment Rationale</strong> — Concise written summary of the scenario, analysis, and recommendation. Designed for a senior investment adviser to share with the client or present without slides. Lead with the recommendation, support with key data points, close with implementation steps.</div>
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-icon">[02]</div>
+            <div class="deliverable-text"><strong>5-Slide Client Deck</strong> — Presentation built in PowerPoint, covering: (1) Macro backdrop &amp; rate outlook, (2) Portfolio duration risk quantified, (3) Scenario stress tests, (4) Proposed new allocation with rationale, (5) Implementation phasing &amp; next steps. Designed at UHNW client presentation standard.</div>
+          </div>
+          <div class="deliverable-item">
+            <div class="deliverable-icon">[03]</div>
+            <div class="deliverable-text"><strong>Excel Scenario Model</strong> — Bloomberg-linked Excel workbook containing the duration stress test across 3 scenarios, alternative instrument comparison table, portfolio-level duration before/after for each phase, and a simplified income yield projection over 24 months.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-block">
+          <div class="info-block-label">Transferability to GS TPW Role</div>
+          <div class="info-block-text">This type of analysis directly mirrors the work expected of a <strong>Sales Support Analyst in a Third-Party Wealth team</strong>: preparing pre-meeting briefings, modelling client-specific scenarios, and translating complex quantitative outputs into client-ready materials that empower senior sales professionals.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Data Sources Used</div>
+          <div class="info-block-text"><strong>Bloomberg Terminal</strong> — Duration analytics, yield data, forward rate curves, and instrument screening. <strong>BoE &amp; ONS</strong> — CPI and base rate historical data. <strong>LCD / Pitchbook</strong> — Senior secured loan market data and default rate benchmarks. <strong>FCA</strong> — Fund redemption liquidity classifications.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Assumptions &amp; Limitations</div>
+          <div class="info-block-text">All portfolios, client profiles, and market scenarios are <strong>hypothetical and illustrative</strong>. Rate rise scenarios were calibrated against Bloomberg forward curves as of Q2 2022. Actual outcomes would depend on execution timing, fund-specific terms, and evolving client circumstances.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <div class="eyebrow">05 — Outcome &amp; Reflection</div>
+    <h2>Results &amp; <em>Learning</em></h2>
+    <div class="outcome-grid fade">
+      <div class="outcome-card">
+        <div class="outcome-icon">📉</div>
+        <div class="outcome-title">Duration Cut by 50%</div>
+        <div class="outcome-text">The phased rebalancing reduces portfolio-level modified duration from 7.0 to 3.5 years, halving the sensitivity to further rate moves. Under the base case +200bps scenario, the MTM bond loss is reduced from £448,000 to an estimated £224,000.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Income Yield Uplift</div>
+        <div class="outcome-text">Rotating into senior secured loans (SOFR+400bps ≈ 9%) and short-duration IG credit (4.8–5.5%) materially improves the running yield of the fixed income sleeve — from approximately 2.8% (long Gilts in a low-rate environment) to an estimated 6.5–7.5% blended yield.</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon">🔒</div>
+        <div class="outcome-title">Liquidity Maintained</div>
+        <div class="outcome-text">Over 90% of the rebalanced portfolio remains accessible within 90 days. The liquidity constraint is satisfied at each phase, and the 3% private credit tail allocation is structured as a clearly separate, discretionary decision for the client.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="two-col fade">
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">What This Case Study Demonstrates</div>
+        <div class="info-block">
+          <div class="info-block-label">Fixed Income Expertise</div>
+          <div class="info-block-text">Applied working knowledge of duration, convexity, floating-rate instruments, and capital structure seniority — the foundational concepts for supporting fixed income product conversations at Goldman Sachs AWM.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Client-First Communication</div>
+          <div class="info-block-text">The recommendation was structured to be explainable to a non-technical UHNW client: the numbers are precise, the rationale is clear, and the phased implementation acknowledges real-world constraints. This is the communication discipline required for sales support.</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Commercial Awareness</div>
+          <div class="info-block-text">The analysis incorporates competitive awareness — evaluating instrument options (loans vs short-duration credit vs inflation-linked) with explicit trade-offs, as a sales support analyst would when preparing for an adviser conversation involving product selection.</div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem;">Skills Applied</div>
+        <div class="skill-chips" style="margin-bottom:2rem;">
+          <span class="skill-chip">Fixed Income Analysis</span>
+          <span class="skill-chip">Duration Modelling</span>
+          <span class="skill-chip">Portfolio Attribution</span>
+          <span class="skill-chip">Bloomberg Terminal</span>
+          <span class="skill-chip">Scenario Stress Testing</span>
+          <span class="skill-chip">Client Communication</span>
+          <span class="skill-chip">Leveraged Loans</span>
+          <span class="skill-chip">Advanced Excel</span>
+          <span class="skill-chip">DCF / Yield Modelling</span>
+          <span class="skill-chip">Liquidity Analysis</span>
+          <span class="skill-chip">Inflation-Linked Bonds</span>
+          <span class="skill-chip">Private Credit</span>
+          <span class="skill-chip">Presentation Design</span>
+          <span class="skill-chip">PowerPoint</span>
+          <span class="skill-chip">Investment Rationale Writing</span>
+        </div>
+        <div class="rec-box">
+          <div class="rec-box-label">Contextual Note</div>
+          <p>This case study was independently produced as part of a self-directed preparation programme for the Goldman Sachs Asset &amp; Wealth Management Sales Support Analyst application — specifically the Third-Party Wealth Switzerland team. The scenario design, analytical framework, and deliverable formats are modelled on the types of client-advisory situations that a Sales Support Analyst would be expected to support.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="cs-footer">
+  <div class="cs-footer-links">
+    <a href="https://saigopichandran-max.github.io/Portfolio/" class="cs-footer-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Portfolio
+    </a>
+    <a href="https://saigopichandran-max.github.io/Portfolio/case-study-2.html" class="cs-footer-link">
+      Case Study 02 — Swiss UHNW Prospect
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+  <div class="cs-footer-copy">Sai Chandran Gopichandran · saigopichandran@gmail.com · London, UK</div>
+</div>
+
+<script>
+  // Intersection observer for fade-in
+  const fades = document.querySelectorAll('.fade');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  fades.forEach(el => obs.observe(el));
+
+  // Animate allocation bars on scroll
+  const bars = document.querySelectorAll('.alloc-bar');
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.style.width;
+        barObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  bars.forEach(b => { b.dataset.w = b.style.width; b.style.width = '0'; barObs.observe(b); });
+
+  // Simple count-up for stat numbers
+  document.querySelectorAll('.stat-num').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'opacity 0.5s, transform 0.5s';
+    setTimeout(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }, 400);
+  });
+</script>
+</body>
+</html>
