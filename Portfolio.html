@@ -6,282 +6,472 @@
 <title>Sai Chandran Gopichandran — Finance & Wealth Management</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy:   #0D1F3C;
-    --navy2:  #162847;
-    --gold:   #C9952A;
-    --gold2:  #E8B84B;
-    --cream:  #F8F4EE;
-    --fog:    #EDE9E1;
-    --ink:    #1A1A2E;
-    --mist:   #8A8FA8;
-    --white:  #FFFFFF;
-    --line:   rgba(201,149,42,0.25);
-  }
+:root {
+  --bg:      #080C10;
+  --bg2:     #0D1420;
+  --bg3:     #111A2A;
+  --bg4:     #162033;
+  --teal:    #00D4C8;
+  --teal2:   #00A8A0;
+  --teal3:   #004A46;
+  --amber:   #F5A623;
+  --amber2:  #C8831A;
+  --red:     #E05555;
+  --green:   #3DBA7A;
+  --blue:    #4A8FE8;
+  --white:   #F0F4F8;
+  --slate:   #8A9BB0;
+  --muted:   #4A5568;
+  --line:    rgba(0,212,200,0.12);
+  --line2:   rgba(0,212,200,0.06);
+  --glow:    rgba(0,212,200,0.08);
+}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+  position: relative;
+}
 
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 999; opacity: 0.35;
-  }
+/* scanline overlay */
+body::after {
+  content:''; position:fixed; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none; z-index: 997;
+}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.2rem 4rem;
-    background: rgba(13,31,60,0.96);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold2); letter-spacing: 0.03em; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--gold2); }
+/* grid background for hero */
+.grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 60% 50%, black 30%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    background: var(--navy);
-    display: grid; grid-template-columns: 1fr 1fr;
-    position: relative; overflow: hidden;
-  }
-  .hero-geo { position: absolute; inset: 0; pointer-events: none; }
-  .hero-geo circle { fill: none; stroke: var(--gold); }
-  .hero-geo line { stroke: var(--gold); opacity: 0.12; }
+/* NAVIGATION — terminal style */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(8,12,16,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+  color: var(--teal); letter-spacing: 0.05em; text-decoration: none;
+}
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+}
+.nav-links a {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slate); text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
 
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 9rem 4rem 4rem 4rem; position: relative; z-index: 2;
-  }
-  .hero-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.8rem;
-  }
-  .hero-tag::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--gold); }
+/* hero layout */
+#hero {
+  min-height: 100vh;
+  background: var(--bg);
+  display: grid; grid-template-columns: 1fr 1fr;
+  position: relative; overflow: hidden;
+  padding-top: 70px;
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 4rem 3rem 4rem 3.5rem; position: relative; z-index: 2;
+}
+.hero-tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.15em; color: var(--teal); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.hero-tag::before {
+  content: '>'; display: inline-block; color: var(--teal);
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5vw, 4.2rem); line-height: 1.1; color: var(--white); margin-bottom: 0.5rem; }
-  h1 em { color: var(--gold2); font-style: italic; }
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  line-height: 1.08; color: var(--white);
+  font-weight: 800; margin-bottom: 0.5rem;
+}
+h1 em { color: var(--teal); font-style: italic; }
+.hero-role {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+  color: var(--teal2); margin-bottom: 2.5rem; letter-spacing: 0.06em;
+  border-left: 2px solid var(--teal3); padding-left: 0.8rem;
+}
+.hero-summary {
+  font-size: 0.88rem; line-height: 1.85;
+  color: var(--slate); max-width: 480px; margin-bottom: 2.5rem;
+}
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1.6rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+  font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none; transition: all 0.22s; border: none;
+  cursor: pointer;
+}
+.btn-gold {
+  background: var(--teal); color: var(--bg);
+}
+.btn-gold:hover {
+  background: var(--teal2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,200,0.3);
+}
+.btn-outline {
+  border: 1px solid var(--line); color: var(--slate);
+}
+.btn-outline:hover {
+  border-color: var(--teal); color: var(--teal); transform: translateY(-2px);
+}
+.btn svg { width: 13px; height: 13px; stroke: currentColor; }
 
-  .hero-role { font-size: 0.95rem; color: rgba(255,255,255,0.45); font-weight: 300; margin-bottom: 2.5rem; letter-spacing: 0.02em; }
-  .hero-summary { font-size: 0.93rem; line-height: 1.8; color: rgba(255,255,255,0.7); max-width: 480px; margin-bottom: 3rem; }
+/* hero right profile + stats */
+.hero-right {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem; position: relative; z-index: 2;
+  padding: 4rem 3rem 4rem 1.5rem;
+}
+.profile-container {
+  display: flex; justify-content: center; align-items: center;
+}
 
-  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
-    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-    text-decoration: none; border-radius: 2px; transition: all 0.25s;
-  }
-  .btn-gold { background: var(--gold); color: var(--navy); }
-  .btn-gold:hover { background: var(--gold2); transform: translateY(-2px); }
-  .btn-outline { border: 1px solid rgba(255,255,255,0.28); color: rgba(255,255,255,0.75); }
-  .btn-outline:hover { border-color: var(--gold2); color: var(--gold2); transform: translateY(-2px); }
+/* ENLARGED SQUARE IMAGE FRAME */
+.profile-pic {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border: 4px solid var(--teal);
+  box-shadow: 0 20px 35px -8px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,200,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.2s;
+  background: var(--bg3);
+  /* square dimensions — no border-radius */
+  border-radius: 0;
+}
+.profile-pic:hover {
+  transform: scale(1.02);
+  box-shadow: 0 28px 40px -12px rgba(0,0,0,0.6), 0 0 0 2px var(--teal2);
+  border-color: var(--teal2);
+}
 
-  /* Hero-right restructured to include profile picture + stats */
-  .hero-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    position: relative;
-    z-index: 2;
-    padding: 9rem 4rem 4rem 0;
-  }
+.stat-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--line);
+  width: 100%; max-width: 440px;
+}
+.stat-card {
+  background: var(--bg2); padding: 1.8rem 1.2rem;
+  text-align: center; transition: background 0.2s;
+}
+.stat-card:hover { background: var(--bg3); }
+.stat-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 2rem; color: var(--teal); line-height: 1; margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.stat-label {
+  font-size: 0.62rem; color: var(--slate); letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
-  /* Profile picture styling */
-  .profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .profile-pic {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--gold);
-    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background: var(--navy2);
-  }
-  .profile-pic:hover {
-    transform: scale(1.02);
-    box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5);
-    border-color: var(--gold2);
-  }
+/* section system */
+.section { padding: 5rem 3rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-dark { background: var(--bg); }
+.section-mid { background: var(--bg2); }
+.section-raised { background: var(--bg3); }
 
-  .stat-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 1px; 
-    background: var(--line);
-    width: 100%;
-    max-width: 440px;
-  }
-  .stat-card {
-    background: var(--navy2); padding: 2rem 1.5rem;
-    position: relative; overflow: hidden; transition: background 0.2s;
-  }
-  .stat-card:hover { background: #1e3356; }
-  .stat-card::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-    height: 2px; background: linear-gradient(90deg, var(--gold), transparent);
-    transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
-  }
-  .stat-card:hover::after { transform: scaleX(1); }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--gold2); line-height: 1; margin-bottom: 0.5rem; }
-  .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.48); letter-spacing: 0.04em; line-height: 1.5; }
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.eyebrow::before { content: '//'; color: var(--teal3); }
 
-  /* SECTION COMMON */
-  section { padding: 6rem 4rem; }
-  .section-inner { max-width: 1100px; margin: 0 auto; }
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 0.75rem;
-    display: flex; align-items: center; gap: 0.8rem;
-  }
-  .section-label::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--gold); }
-  h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 3.5vw, 2.6rem); color: var(--navy); line-height: 1.2; margin-bottom: 3rem; }
-  h2 em { color: var(--gold); font-style: italic; }
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: var(--white); font-weight: 700; line-height: 1.15; margin-bottom: 2.5rem;
+}
+h2 em { color: var(--teal); font-style: italic; }
 
-  /* SKILLS */
-  #skills { background: var(--navy); }
-  #skills h2 { color: var(--white); }
-  #skills h2 em { color: var(--gold2); }
-  #skills .section-label { color: var(--gold2); }
-  #skills .section-label::before { background: var(--gold2); }
-  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: rgba(201,149,42,0.2); }
-  .skill-group { background: var(--navy2); padding: 2rem; transition: background 0.2s; }
-  .skill-group:hover { background: #1e3356; }
-  .skill-group-title { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .skill-tag { font-size: 0.77rem; padding: 0.3rem 0.7rem; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.75); border-radius: 2px; border: 1px solid rgba(255,255,255,0.1); }
-  .skill-tag.hl { background: rgba(201,149,42,0.15); border-color: rgba(201,149,42,0.4); color: var(--gold2); }
+/* skills grid (dashboard style) */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--line);
+}
+.skill-group {
+  background: var(--bg2); padding: 2rem;
+}
+.skill-group-title {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1.2rem;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.67rem; padding: 0.22rem 0.58rem;
+  background: rgba(0,212,200,0.04); color: rgba(240,244,248,0.75);
+  border: 1px solid var(--line);
+}
+.skill-tag.hl {
+  background: rgba(0,212,200,0.1); border-color: rgba(0,212,200,0.3);
+  color: var(--teal);
+}
 
-  /* EXPERIENCE */
-  #experience { background: var(--cream); }
-  .exp-item { display: grid; grid-template-columns: 190px 1fr; gap: 3rem; padding: 3rem 0; border-bottom: 1px solid var(--fog); opacity: 0; transform: translateY(24px); transition: opacity 0.55s, transform 0.55s; }
-  .exp-item.visible { opacity: 1; transform: none; }
-  .exp-meta { padding-top: 0.2rem; }
-  .exp-dates { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--mist); letter-spacing: 0.08em; margin-bottom: 0.4rem; }
-  .exp-location { font-size: 0.77rem; color: var(--mist); }
-  .exp-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--navy); margin-bottom: 0.2rem; }
-  .exp-company { font-size: 0.83rem; color: var(--gold); font-weight: 500; margin-bottom: 1.2rem; }
-  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-  .exp-bullets li { font-size: 0.875rem; line-height: 1.7; color: #3a3a4a; padding-left: 1.2rem; position: relative; }
-  .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-weight: 500; }
-  .metric { color: var(--navy); font-weight: 500; }
+/* experience items */
+.exp-item {
+  display: grid; grid-template-columns: 190px 1fr;
+  gap: 2rem; padding: 2.2rem 0;
+  border-bottom: 1px solid var(--line2);
+  transition: all 0.25s;
+}
+.exp-meta .exp-dates {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+  color: var(--teal2); letter-spacing: 0.08em; margin-bottom: 0.4rem;
+}
+.exp-location {
+  font-size: 0.78rem; color: var(--muted);
+}
+.exp-title {
+  font-family: 'Syne', sans-serif; font-size: 1.2rem;
+  color: var(--white); margin-bottom: 0.2rem;
+}
+.exp-company {
+  font-size: 0.8rem; color: var(--teal); margin-bottom: 1rem;
+}
+.exp-bullets {
+  list-style: none; display: flex; flex-direction: column; gap: 0.7rem;
+}
+.exp-bullets li {
+  font-size: 0.83rem; line-height: 1.7; color: var(--slate);
+  padding-left: 1rem; position: relative;
+}
+.exp-bullets li::before {
+  content: '—'; position: absolute; left: 0; color: var(--teal);
+}
+.metric { color: var(--white); font-weight: 500; }
 
-  /* PROJECTS */
-  #projects { background: var(--fog); }
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }
-  .project-card { background: var(--white); padding: 2.5rem; border-top: 3px solid var(--gold); transition: transform 0.3s, box-shadow 0.3s; opacity: 0; transform: translateY(28px); }
-  .project-card.visible { opacity: 1; transform: none; }
-  .project-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(13,31,60,0.1); }
-  .project-num { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.15em; color: var(--mist); margin-bottom: 1.2rem; }
-  .project-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--navy); margin-bottom: 0.75rem; line-height: 1.35; }
-  .project-desc { font-size: 0.83rem; line-height: 1.75; color: #4a4a60; margin-bottom: 1.4rem; }
-  .project-outcome { font-size: 0.77rem; padding: 0.6rem 0.9rem; background: rgba(201,149,42,0.08); border-left: 2px solid var(--gold); color: var(--navy); line-height: 1.55; margin-bottom: 1.2rem; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .project-tag { font-size: 0.69rem; padding: 0.2rem 0.6rem; border: 1px solid rgba(13,31,60,0.15); color: var(--mist); border-radius: 2px; }
+/* projects grid (cards) */
+.projects-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.project-card {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  padding: 2rem; position: relative; overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  text-decoration: none; color: inherit; display: block;
+}
+.project-card:hover {
+  border-color: var(--teal2); box-shadow: 0 0 30px rgba(0,212,200,0.07);
+}
+.project-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: linear-gradient(90deg, var(--teal), transparent);
+}
+.project-num {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.12em; color: var(--teal2); margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.project-title {
+  font-family: 'Syne', sans-serif; font-size: 1.05rem;
+  color: var(--white); margin-bottom: 0.75rem;
+}
+.project-desc {
+  font-size: 0.8rem; line-height: 1.72; color: var(--slate);
+  margin-bottom: 1rem;
+}
+.project-outcome {
+  font-size: 0.75rem; padding: 0.6rem 0.9rem;
+  background: rgba(0,212,200,0.05); border-left: 2px solid var(--teal);
+  color: var(--white); margin-bottom: 1rem;
+}
+.project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.project-tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  padding: 0.2rem 0.6rem; border: 1px solid var(--line);
+  color: var(--muted);
+}
 
-  /* CASE STUDIES */
-  #casestudies { background: var(--navy); }
-  #casestudies h2 { color: var(--white); }
-  #casestudies h2 em { color: var(--gold2); }
-  #casestudies .section-label { color: var(--gold2); }
-  #casestudies .section-label::before { background: var(--gold2); }
-  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--line); }
-  .case-card { background: var(--navy2); padding: 3rem; transition: background 0.2s; opacity: 0; transform: translateY(24px); transition: opacity 0.55s, transform 0.55s, background 0.2s; }
-  .case-card.visible { opacity: 1; transform: none; }
-  .case-card:hover { background: #1e3356; }
-  .case-num { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.18em; color: var(--gold); margin-bottom: 1.5rem; }
-  .case-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--white); margin-bottom: 1.5rem; line-height: 1.35; }
-  .case-row { margin-bottom: 1.2rem; }
-  .case-row-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
-  .case-row-text { font-size: 0.83rem; line-height: 1.72; color: rgba(255,255,255,0.62); }
-  .case-outcome { padding: 1rem; background: rgba(201,149,42,0.1); border-left: 2px solid var(--gold); }
-  .case-outcome .case-row-label { color: var(--gold2); }
-  .case-outcome .case-row-text { color: rgba(255,255,255,0.8); }
+/* case studies grid */
+.case-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--line);
+}
+.case-card {
+  background: var(--bg2); padding: 2.5rem;
+  transition: background 0.2s;
+}
+.case-card:hover { background: var(--bg3); }
+.case-num {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.12em; color: var(--teal); margin-bottom: 1rem;
+}
+.case-title {
+  font-family: 'Syne', sans-serif; font-size: 1.15rem;
+  color: var(--white); margin-bottom: 1.5rem;
+}
+.case-row { margin-bottom: 1rem; }
+.case-row-label {
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--teal2); margin-bottom: 0.3rem;
+}
+.case-row-text {
+  font-size: 0.8rem; line-height: 1.7; color: var(--slate);
+}
+.case-outcome {
+  background: rgba(0,212,200,0.05); padding: 1rem;
+  border-left: 2px solid var(--teal);
+}
+.case-outcome .case-row-text { color: var(--white); }
 
-  /* EDUCATION */
-  #education { background: var(--cream); }
-  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-  .edu-block-title { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mist); margin-bottom: 1.5rem; }
-  .edu-item { padding: 1.5rem 0; border-bottom: 1px solid var(--fog); display: flex; gap: 1rem; align-items: flex-start; }
-  .edu-icon { width: 36px; height: 36px; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; }
-  .edu-degree { font-weight: 500; font-size: 0.88rem; color: var(--navy); margin-bottom: 0.2rem; }
-  .edu-school { font-size: 0.78rem; color: var(--mist); margin-bottom: 0.2rem; }
-  .edu-detail { font-size: 0.76rem; color: var(--gold); }
-  .cert-grid { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.5rem; }
-  .cert-pill { font-size: 0.74rem; padding: 0.38rem 0.85rem; border: 1px solid rgba(13,31,60,0.2); border-radius: 20px; color: var(--navy); background: var(--white); transition: all 0.2s; cursor: default; }
-  .cert-pill:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+/* education */
+.edu-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.edu-block-title {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal);
+  margin-bottom: 1.5rem;
+}
+.edu-item {
+  display: flex; gap: 1rem; padding: 1rem 0;
+  border-bottom: 1px solid var(--line2);
+}
+.edu-icon {
+  width: 36px; height: 36px; background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-size: 1rem;
+}
+.edu-degree {
+  font-weight: 500; font-size: 0.85rem; color: var(--white);
+  margin-bottom: 0.2rem;
+}
+.edu-school {
+  font-size: 0.75rem; color: var(--muted);
+}
+.edu-detail {
+  font-size: 0.7rem; color: var(--teal2);
+}
+.cert-grid {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.cert-pill {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+  padding: 0.25rem 0.8rem; border: 1px solid var(--line);
+  color: var(--slate); background: var(--bg2);
+  transition: all 0.2s;
+}
+.cert-pill:hover { border-color: var(--teal); color: var(--teal); }
 
-  /* ACHIEVEMENTS */
-  #achievements { background: var(--fog); }
-  .achieve-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  .achieve-card { padding: 2.2rem; background: var(--white); border-bottom: 3px solid transparent; transition: border-color 0.3s, transform 0.3s; opacity: 0; transform: translateY(24px); }
-  .achieve-card.visible { opacity: 1; transform: none; }
-  .achieve-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-  .achieve-card .big-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--gold2); line-height: 1; margin-bottom: 0.6rem; }
-  .achieve-card p { font-size: 0.83rem; line-height: 1.65; color: #4a4a60; }
+/* achievements */
+.achieve-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.achieve-card {
+  background: var(--bg2); border: 1px solid var(--line);
+  padding: 2rem; transition: border-color 0.2s;
+}
+.achieve-card:hover { border-color: var(--teal2); }
+.big-num {
+  font-family: 'IBM Plex Mono', monospace; font-size: 2.2rem;
+  color: var(--teal); margin-bottom: 1rem; line-height: 1;
+}
+.achieve-card p {
+  font-size: 0.8rem; line-height: 1.65; color: var(--slate);
+}
 
-  /* CONTACT */
-  #contact { background: var(--navy); text-align: center; padding: 6rem 4rem; }
-  #contact h2 { color: var(--white); margin-bottom: 1rem; }
-  #contact h2 em { color: var(--gold2); }
-  #contact .section-label { justify-content: center; color: var(--gold2); }
-  #contact .section-label::before { background: var(--gold2); }
-  #contact .section-label::after { content: ''; display: block; width: 2rem; height: 1px; background: var(--gold2); }
-  .contact-sub { font-size: 0.93rem; color: rgba(255,255,255,0.48); margin-bottom: 3rem; }
-  .contact-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
-  .contact-link { display: flex; align-items: center; gap: 0.55rem; font-size: 0.83rem; color: rgba(255,255,255,0.68); text-decoration: none; padding: 0.75rem 1.5rem; border: 1px solid rgba(255,255,255,0.15); transition: all 0.2s; }
-  .contact-link:hover { border-color: var(--gold); color: var(--gold2); }
-  .contact-link svg { width: 15px; height: 15px; }
+/* contact */
+#contact {
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.contact-sub {
+  font-size: 0.88rem; color: var(--slate); margin-bottom: 2rem;
+}
+.contact-links {
+  display: flex; justify-content: center; gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.contact-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+  color: var(--slate); text-decoration: none;
+  padding: 0.6rem 1.2rem; border: 1px solid var(--line);
+  transition: all 0.2s;
+}
+.contact-link:hover { border-color: var(--teal); color: var(--teal); }
+.contact-link svg { width: 14px; height: 14px; stroke: currentColor; }
 
-  footer { background: #0a1525; padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.73rem; color: rgba(255,255,255,0.28); }
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  color: var(--muted);
+}
 
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.2rem; }
-    .nav-links a { font-size: 0.68rem; }
-    #hero { grid-template-columns: 1fr; }
-    .hero-right { padding: 2rem 1.5rem 3rem; gap: 2rem; }
-    .hero-left { padding: 7rem 1.5rem 3rem; }
-    section { padding: 4rem 1.5rem; }
-    .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
-    .case-grid, .edu-grid { grid-template-columns: 1fr; }
-    .achieve-grid { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
-    .stat-grid { grid-template-columns: 1fr 1fr; width: 100%; }
-    .profile-pic { width: 120px; height: 120px; }
-  }
-  @media (max-width: 480px) {
-    .stat-card { padding: 1.2rem 0.8rem; }
-    .stat-num { font-size: 1.8rem; }
-  }
+/* fade/in animation */
+.fade {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade.visible, .exp-item.visible, .project-card.visible, .case-card.visible, .achieve-card.visible {
+  opacity: 1; transform: none;
+}
+
+/* responsive adjustments for larger square image */
+@media (max-width: 960px) {
+  nav { padding: 0.8rem 1.5rem; }
+  .nav-links { gap: 1rem; }
+  #hero { grid-template-columns: 1fr; }
+  .hero-right { padding: 2rem 1.5rem 3rem; }
+  .hero-left { padding: 3rem 1.5rem 2rem; }
+  .section { padding: 4rem 1.5rem; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .case-grid { grid-template-columns: 1fr; }
+  .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .achieve-grid { grid-template-columns: 1fr; }
+  .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.2rem; }
+  /* maintain square size on tablet */
+  .profile-pic { width: 200px; height: 200px; }
+}
+
+@media (max-width: 640px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr; max-width: 100%; }
+  .profile-pic { width: 170px; height: 170px; }
+}
 </style>
 </head>
 <body>
@@ -298,16 +488,9 @@
   </ul>
 </nav>
 
-<!-- HERO with Profile Picture -->
+<!-- HERO with Profile Picture (Enlarged Square) -->
 <section id="hero">
-  <svg class="hero-geo" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
-    <circle cx="720" cy="80" r="320" stroke-opacity="0.05" stroke-width="1"/>
-    <circle cx="720" cy="80" r="210" stroke-opacity="0.07" stroke-width="1"/>
-    <circle cx="720" cy="80" r="110" stroke-opacity="0.11" stroke-width="1"/>
-    <line x1="0" y1="400" x2="800" y2="400" stroke-width="0.4"/>
-    <line x1="400" y1="0" x2="400" y2="800" stroke-width="0.4"/>
-  </svg>
-
+  <div class="grid-bg"></div>
   <div class="hero-left">
     <div class="hero-tag">Available &nbsp;·&nbsp; London, UK</div>
     <h1>Sai Chandran<br><em>Gopichandran</em></h1>
@@ -326,13 +509,12 @@
   </div>
 
   <div class="hero-right">
-    <!-- Profile Picture: professional avatar with initials matching brand -->
     <div class="profile-container">
+      <!-- Square image: 220x220, no border-radius, larger frame -->
       <img class="profile-pic" 
            src="https://saigopichandran-max.github.io/Portfolio/0263084d-8f92-4249-aa6b-1c31a663abf5.png" 
            alt="Sai Chandran Gopichandran profile picture | Finance professional">
     </div>
-    <!-- Stats block -->
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-num">£3m+</div><div class="stat-label">AUM analysed across UK &amp; US mandates</div></div>
       <div class="stat-card"><div class="stat-num">99.8%</div><div class="stat-label">Data accuracy across reporting cycles</div></div>
@@ -343,9 +525,9 @@
 </section>
 
 <!-- SKILLS -->
-<section id="skills">
+<section id="skills" class="section section-mid">
   <div class="section-inner">
-    <div class="section-label">Capabilities</div>
+    <div class="eyebrow">Capabilities</div>
     <h2>What I <em>Bring</em> to the Table</h2>
     <div class="skills-grid">
       <div class="skill-group">
@@ -400,13 +582,13 @@
   </div>
 </section>
 
-<!-- EXPERIENCE (unchanged) -->
-<section id="experience">
+<!-- EXPERIENCE -->
+<section id="experience" class="section section-dark">
   <div class="section-inner">
-    <div class="section-label">Career</div>
+    <div class="eyebrow">Career</div>
     <h2>Professional <em>Experience</em></h2>
 
-    <div class="exp-item">
+    <div class="exp-item fade">
       <div class="exp-meta">
         <div class="exp-dates">Jan 2022 – Dec 2022</div>
         <div class="exp-location">Chennai, India</div>
@@ -424,7 +606,7 @@
       </div>
     </div>
 
-    <div class="exp-item">
+    <div class="exp-item fade">
       <div class="exp-meta">
         <div class="exp-dates">Jun 2023 – Present</div>
         <div class="exp-location">London, UK</div>
@@ -435,7 +617,7 @@
         <ul class="exp-bullets">
           <li>Oversee end-to-end financial control for <span class="metric">50+ weekly transactions</span> with <span class="metric">100% P&L accuracy</span> while simultaneously completing an MBA.</li>
           <li>Identified and resolved <span class="metric">15+ complex financial discrepancies</span>, designing corrective workflows that reduced break frequency by <span class="metric">40%</span>.</li>
-          <li>Delivered automated Power BI dashboards cutting manual reporting by <span class="metric">10 hours/week</span> — equivalent to a part-time analyst resource — providing senior management real-time operational visibility.</li>
+          <li>Delivered automated Power BI dashboards cutting manual reporting by <span class="metric">10 hours/week</span> — equivalent to a part-time analyst resource, providing senior management real-time operational visibility.</li>
           <li>Coordinated cross-functionally with suppliers, accountants, and venue managers to align financial data and build stakeholder management skills directly applicable to client-facing roles.</li>
         </ul>
       </div>
@@ -443,21 +625,19 @@
   </div>
 </section>
 
-<!-- PROJECTS, CASE STUDIES, EDUCATION, ACHIEVEMENTS, CONTACT (unchanged except IDs, preserved) -->
-<section id="projects">
+<!-- PROJECTS -->
+<section id="projects" class="section section-mid">
   <div class="section-inner">
-    <div class="section-label">Independent Work</div>
+    <div class="eyebrow">Independent Work</div>
     <h2>Self-Directed <em>Projects</em></h2>
     <div class="projects-grid">
-          <a href="project-gsam-coverage.html" style="text-decoration: none; color: inherit; transition: color 0.2s;" target="_blank">
-      <div class="project-card">
+      <a href="project-gsam-coverage.html" style="text-decoration: none; color: inherit;" target="_blank" class="project-card">
         <div class="project-num">01 / Product Research</div>
         <div class="project-title">GSAM Multi-Asset Coverage Report</div>
         <div class="project-desc">Produced a 15-page independent coverage report on Goldman Sachs Asset Management's product range — spanning Public Markets (equity, fixed income, multi-asset) and Private Assets (PE, infrastructure, credit) — targeted at the Swiss wealth client segment.</div>
         <div class="project-outcome">Deep product knowledge across GSAM's full investment spectrum, directly replicable in pre-meeting preparation and client query support for TPW sales teams.</div>
         <div class="project-tags"><span class="project-tag">Bloomberg</span><span class="project-tag">Market Research</span><span class="project-tag">Client Segmentation</span><span class="project-tag">Financial Analysis</span></div>
-      </div>
-          </a>
+      </a>
       <div class="project-card">
         <div class="project-num">02 / Structured Finance</div>
         <div class="project-title">CLO Cash-Flow Waterfall Model</div>
@@ -483,19 +663,20 @@
   </div>
 </section>
 
-<section id="casestudies">
+<!-- CASE STUDIES -->
+<section id="casestudies" class="section section-dark">
   <div class="section-inner">
-    <div class="section-label">Applied Analysis</div>
+    <div class="eyebrow">Applied Analysis</div>
     <h2>Case <em>Studies</em></h2>
     <div class="case-grid">
-      <div class="case-card">
+      <div class="case-card fade">
         <div class="case-num">Case Study 01 &nbsp;·&nbsp; Client Advisory</div>
         <div class="case-title">Asset Allocation Review — Rising Rate Environment</div>
         <div class="case-row"><div class="case-row-label">Scenario</div><div class="case-row-text">A hypothetical UK-based family office with £8m in a 60/40 portfolio sought guidance as central banks began aggressive rate-hiking cycles. Significant duration exposure in government bonds raised mark-to-market risk.</div></div>
         <div class="case-row"><div class="case-row-label">Analysis</div><div class="case-row-text">Modelled the duration impact of a 200bps rate rise via Bloomberg — projecting a −14% MTM loss on the bond allocation. Compared reallocation scenarios into floating-rate instruments, short-duration credit, and private credit for yield pickup vs. liquidity trade-offs.</div></div>
         <div class="case-row case-outcome"><div class="case-row-label">Recommendation</div><div class="case-row-text">Phased rotation: reduce duration from 7 to 3.5 years by moving 30% of bonds into senior secured leveraged loans (SOFR + 400bps). Delivered as a 1-page investment rationale and 5-slide client summary.</div></div>
       </div>
-      <div class="case-card">
+      <div class="case-card fade">
         <div class="case-num">Case Study 02 &nbsp;·&nbsp; Sales Support</div>
         <div class="case-title">Pre-Sales Meeting Prep — Swiss UHNW Prospect</div>
         <div class="case-row"><div class="case-row-label">Scenario</div><div class="case-row-text">Simulated preparation for a senior sales director ahead of a meeting with a Swiss UHNW prospect (CHF 80m investable assets) — primarily in domestic equities and cash, seeking international diversification with alternatives exposure.</div></div>
@@ -506,9 +687,10 @@
   </div>
 </section>
 
-<section id="education">
+<!-- EDUCATION -->
+<section id="education" class="section section-mid">
   <div class="section-inner">
-    <div class="section-label">Academic Foundation</div>
+    <div class="eyebrow">Academic Foundation</div>
     <h2>Education &amp; <em>Certifications</em></h2>
     <div class="edu-grid">
       <div><div class="edu-block-title">Degrees</div>
@@ -520,22 +702,24 @@
   </div>
 </section>
 
-<section id="achievements">
+<!-- ACHIEVEMENTS -->
+<section id="achievements" class="section section-dark">
   <div class="section-inner">
-    <div class="section-label">Impact</div>
+    <div class="eyebrow">Impact</div>
     <h2>Key <em>Achievements</em></h2>
     <div class="achieve-grid">
-      <div class="achieve-card"><div class="big-num">99.8%</div><p>Data accuracy across £20m+ portfolio reporting at FinGlobe over 12 months — zero client-facing errors during the full reporting period.</p></div>
-      <div class="achieve-card"><div class="big-num">40 hrs</div><p>Monthly reporting time saved at Trafalgar Tavern via Power BI automation — equivalent to adding a part-time analyst resource.</p></div>
-      <div class="achieve-card"><div class="big-num">Top 5%</div><p>BCom cohort ranking at University of Madras — First Class with Distinction, maintained alongside full professional commitments.</p></div>
+      <div class="achieve-card fade"><div class="big-num">99.8%</div><p>Data accuracy across £20m+ portfolio reporting at FinGlobe over 12 months — zero client-facing errors during the full reporting period.</p></div>
+      <div class="achieve-card fade"><div class="big-num">40 hrs</div><p>Monthly reporting time saved at Trafalgar Tavern via Power BI automation — equivalent to adding a part-time analyst resource.</p></div>
+      <div class="achieve-card fade"><div class="big-num">Top 5%</div><p>BCom cohort ranking at University of Madras — First Class with Distinction, maintained alongside full professional commitments.</p></div>
     </div>
   </div>
 </section>
 
-<section id="contact">
+<!-- CONTACT -->
+<section id="contact" class="section">
   <div class="section-inner">
-    <div class="section-label">Get In Touch</div>
-    <h2>Open to <em>Opportunities</em></h2>
+    <div class="eyebrow" style="justify-content:center;">Get In Touch</div>
+    <h2 style="text-align:center;">Open to <em>Opportunities</em></h2>
     <p class="contact-sub">Based in London &nbsp;·&nbsp; Available immediately &nbsp;·&nbsp; Targeting Analyst roles in Asset &amp; Wealth Management</p>
     <div class="contact-links">
       <a href="mailto:saigopichandran@gmail.com" class="contact-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>saigopichandran@gmail.com</a>
@@ -548,14 +732,11 @@
 <footer><span>© 2025 Sai Chandran Gopichandran</span><span>London, UK &nbsp;·&nbsp; Investment Analyst</span></footer>
 
 <script>
+  const faders = document.querySelectorAll('.fade, .exp-item, .project-card, .case-card, .achieve-card');
   const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.08 });
-
-  document.querySelectorAll('.exp-item, .project-card, .case-card, .achieve-card').forEach((el, i) => {
-    el.style.transitionDelay = (i % 4) * 0.1 + 's';
-    obs.observe(el);
-  });
+  faders.forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
