@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>European Wealth Management Dashboard — Sai Chandran Gopichandran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080C10;
+  --bg2:     #0D1420;
+  --bg3:     #111A2A;
+  --bg4:     #162033;
+  --teal:    #00D4C8;
+  --teal2:   #00A8A0;
+  --teal3:   #004A46;
+  --amber:   #F5A623;
+  --amber2:  #C8831A;
+  --red:     #E05555;
+  --green:   #3DBA7A;
+  --blue:    #4A8FE8;
+  --white:   #F0F4F8;
+  --slate:   #8A9BB0;
+  --muted:   #4A5568;
+  --line:    rgba(0,212,200,0.12);
+  --line2:   rgba(0,212,200,0.06);
+  --glow:    rgba(0,212,200,0.08);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+}
+
+/* scanline overlay */
+body::after{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+  pointer-events:none;z-index:997;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 3rem;
+  background:rgba(8,12,16,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--teal);letter-spacing:0.05em;text-decoration:none;
+}
+.nav-center{
+  display:flex;gap:0;
+  border:1px solid var(--line);
+}
+.nav-pill{
+  font-family:'IBM Plex Mono',monospace;font-size:0.62rem;
+  letter-spacing:0.1em;padding:0.4rem 0.9rem;
+  color:var(--slate);border-right:1px solid var(--line);
+}
+.nav-pill:last-child{border-right:none}
+.nav-pill.active{color:var(--teal);background:var(--glow)}
+.nav-back{
+  display:flex;align-items:center;gap:0.4rem;
+  font-family:'IBM Plex Mono',monospace;font-size:0.65rem;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--slate);text-decoration:none;transition:color 0.2s;
+}
+.nav-back:hover{color:var(--teal)}
+.nav-back svg{width:13px;height:13px}
+
+/* ── TOC ── */
+.toc-rail{
+  position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);
+  z-index:50;display:flex;flex-direction:column;gap:0.55rem;align-items:flex-end;
+}
+.toc-item{display:flex;align-items:center;gap:0.45rem;text-decoration:none}
+.toc-pip{
+  width:4px;height:4px;border-radius:50%;
+  border:1px solid rgba(0,212,200,0.3);background:transparent;
+  flex-shrink:0;transition:all 0.2s;
+}
+.toc-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(0,212,200,0.2);white-space:nowrap;transition:color 0.2s;
+}
+.toc-item.active .toc-pip,.toc-item:hover .toc-pip{background:var(--teal);border-color:var(--teal);box-shadow:0 0 6px var(--teal)}
+.toc-item.active .toc-lbl,.toc-item:hover .toc-lbl{color:var(--teal)}
+
+/* ── HERO / TERMINAL BOOT ── */
+#hero{
+  min-height:100vh;
+  background:var(--bg);
+  display:grid;grid-template-columns:1fr 1.1fr;
+  position:relative;overflow:hidden;
+  padding-top:60px;
+}
+
+.hero-grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,200,0.04) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 60% 50%,black 30%,transparent 80%);
+}
+.hero-corner{
+  position:absolute;top:80px;left:0;width:2px;height:60px;background:var(--teal);opacity:0.4;
+}
+.hero-corner2{
+  position:absolute;top:80px;left:0;width:60px;height:2px;background:var(--teal);opacity:0.4;
+}
+
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:4rem 3rem 4rem 3.5rem;position:relative;z-index:2;
+}
+
+.terminal-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:0.68rem;
+  letter-spacing:0.15em;color:var(--teal);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.terminal-tag::before{
+  content:'>';display:inline-block;color:var(--teal);
+  animation:blink 1.2s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.4rem,4.5vw,4rem);
+  line-height:1.08;color:var(--white);
+  font-weight:800;margin-bottom:0.5rem;
+}
+h1 .accent{color:var(--teal)}
+h1 .dim{color:var(--slate);font-weight:400}
+
+.hero-descriptor{
+  font-family:'IBM Plex Mono',monospace;font-size:0.75rem;
+  color:var(--teal2);margin-bottom:2.5rem;letter-spacing:0.06em;
+  border-left:2px solid var(--teal3);padding-left:0.8rem;
+}
+
+.hero-tagline{
+  font-size:0.88rem;line-height:1.85;
+  color:var(--slate);max-width:480px;margin-bottom:2.5rem;
+}
+
+.tag-strip{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:2.5rem}
+.tag{
+  font-family:'IBM Plex Mono',monospace;font-size:0.63rem;
+  padding:0.22rem 0.65rem;letter-spacing:0.06em;
+  border:1px solid var(--line);color:var(--teal2);
+  background:var(--glow);
+}
+
+.hero-cta{display:flex;gap:1rem}
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.75rem 1.6rem;
+  font-family:'IBM Plex Mono',monospace;font-size:0.68rem;
+  font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  text-decoration:none;transition:all 0.22s;border:none;cursor:pointer;
+}
+.btn-teal{background:var(--teal);color:var(--bg)}
+.btn-teal:hover{background:var(--teal2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,200,0.3)}
+.btn-ghost{border:1px solid var(--line);color:var(--slate)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px)}
+.btn svg{width:13px;height:13px}
+
+/* hero right — live dashboard mockup */
+.hero-right{
+  display:flex;align-items:center;justify-content:center;
+  padding:4rem 3rem 4rem 1.5rem;position:relative;z-index:2;
+}
+.dashboard-mockup{
+  width:100%;max-width:580px;
+  background:var(--bg2);
+  border:1px solid var(--line);
+  position:relative;
+  box-shadow:0 0 60px rgba(0,212,200,0.06), 0 0 0 1px rgba(0,212,200,0.05);
+}
+.dm-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.6rem 1rem;
+  border-bottom:1px solid var(--line);
+  background:var(--bg3);
+}
+.dm-dots{display:flex;gap:0.4rem}
+.dm-dot{width:8px;height:8px;border-radius:50%}
+.dm-title{
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;
+  color:var(--teal);letter-spacing:0.1em;
+}
+.dm-status{
+  font-family:'IBM Plex Mono',monospace;font-size:0.58rem;
+  color:var(--green);letter-spacing:0.08em;
+}
+.dm-status::before{content:'● '}
+
+.dm-kpi-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line2);
+  border-bottom:1px solid var(--line);
+}
+.dm-kpi{
+  background:var(--bg2);padding:0.8rem 0.7rem;
+  text-align:center;
+}
+.dm-kpi-val{
+  font-family:'IBM Plex Mono',monospace;font-size:0.95rem;
+  font-weight:500;margin-bottom:0.15rem;
+}
+.dm-kpi-lbl{font-size:0.58rem;color:var(--slate);letter-spacing:0.06em;text-transform:uppercase}
+.up{color:var(--green)} .dn{color:var(--red)} .nt{color:var(--teal)} .am{color:var(--amber)}
+
+.dm-charts{display:grid;grid-template-columns:1.4fr 1fr;gap:1px;background:var(--line2);border-bottom:1px solid var(--line)}
+.dm-chart-cell{background:var(--bg2);padding:0.8rem}
+.dm-chart-label{
+  font-family:'IBM Plex Mono',monospace;font-size:0.55rem;
+  color:var(--teal2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;
+}
+#miniLineChart{width:100%;height:70px;display:block}
+#miniBarChart{width:100%;height:70px;display:block}
+
+.dm-flow-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--line2);
+}
+.dm-flow-cell{background:var(--bg2);padding:0.7rem 0.8rem}
+.dm-flow-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0.25rem 0;border-bottom:1px solid var(--line2);
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;
+}
+.dm-flow-item:last-child{border-bottom:none}
+.dm-flow-key{color:var(--slate)}
+.dm-flow-val{font-weight:500}
+
+/* ── SECTION SYSTEM ── */
+.section{padding:5.5rem 3rem}
+.section-inner{max-width:1100px;margin:0 auto}
+
+.section-dark{background:var(--bg)}
+.section-mid{background:var(--bg2)}
+.section-raised{background:var(--bg3)}
+
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:0.65rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:0.6rem;
+  display:flex;align-items:center;gap:0.7rem;
+}
+.eyebrow::before{content:'//';color:var(--teal3);margin-right:0.2rem}
+
+h2{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.8rem,3vw,2.6rem);
+  color:var(--white);font-weight:700;line-height:1.15;margin-bottom:2.5rem;
+}
+h2 .accent{color:var(--teal)}
+h3{
+  font-family:'Syne',sans-serif;font-size:1.1rem;
+  color:var(--white);font-weight:600;margin-bottom:0.6rem;
+}
+p{font-size:0.875rem;line-height:1.85;color:var(--slate)}
+
+/* fade */
+.fade{opacity:0;transform:translateY(16px);transition:opacity 0.55s ease,transform 0.55s ease}
+.fade.in{opacity:1;transform:none}
+
+/* ── SPEC PANEL ── */
+.two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:4rem;align-items:start}
+.body-text p{margin-bottom:1.2rem}
+
+.spec-panel{
+  background:var(--bg2);
+  border:1px solid var(--line);
+  position:relative;
+}
+.spec-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--teal),transparent);
+}
+.spec-head{
+  padding:1rem 1.5rem;border-bottom:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);
+}
+.spec-row{
+  display:flex;flex-direction:column;
+  padding:0.75rem 1.5rem;border-bottom:1px solid var(--line2);
+}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:0.18rem}
+.spec-val{font-size:0.82rem;color:var(--white);font-weight:500}
+.spec-val.teal{color:var(--teal)}
+
+/* ── DATA MODULES ── */
+.modules-section{background:var(--bg)}
+.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.module-card{
+  background:var(--bg2);
+  border:1px solid var(--line);
+  padding:0;position:relative;overflow:hidden;
+  transition:border-color 0.25s,box-shadow 0.25s;
+}
+.module-card:hover{border-color:var(--teal2);box-shadow:0 0 30px rgba(0,212,200,0.07)}
+.module-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--teal),transparent);
+}
+.mc-head{
+  padding:1rem 1.2rem;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.mc-title{
+  font-family:'IBM Plex Mono',monospace;font-size:0.63rem;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--teal2);
+}
+.mc-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:0.55rem;
+  padding:0.15rem 0.5rem;border:1px solid var(--green);
+  color:var(--green);letter-spacing:0.08em;
+}
+.mc-body{padding:1.2rem}
+.mc-desc{font-size:0.8rem;line-height:1.72;color:var(--slate);margin-bottom:1.2rem}
+.mc-metrics{display:flex;flex-direction:column;gap:0.5rem}
+.mc-metric{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:0.68rem;
+  padding:0.4rem 0.6rem;background:rgba(0,212,200,0.03);
+  border-left:2px solid var(--teal3);
+}
+.mc-metric-key{color:var(--muted)}
+.mc-metric-val{color:var(--white)}
+.mc-metric-val.up{color:var(--green)}
+.mc-metric-val.dn{color:var(--red)}
+.mc-metric-val.teal{color:var(--teal)}
+.mc-metric-val.am{color:var(--amber)}
+.mc-footer{
+  padding:0.8rem 1.2rem;border-top:1px solid var(--line2);
+  font-family:'IBM Plex Mono',monospace;font-size:0.58rem;
+  color:var(--muted);letter-spacing:0.06em;
+}
+
+/* ── LIVE CHARTS SECTION ── */
+.charts-section{background:var(--bg2)}
+.chart-tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:0}
+.chart-tab{
+  font-family:'IBM Plex Mono',monospace;font-size:0.63rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.75rem 1.2rem;border:none;background:none;cursor:pointer;
+  color:var(--muted);border-bottom:2px solid transparent;transition:all 0.2s;
+}
+.chart-tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.chart-tab:hover:not(.active){color:var(--white)}
+
+.chart-area{
+  background:var(--bg);
+  border:1px solid var(--line);border-top:none;
+  padding:2rem;
+}
+.chart-panel{display:none}
+.chart-panel.active{display:grid;grid-template-columns:1fr 280px;gap:2rem;align-items:start}
+.chart-svg-wrap{background:var(--bg2);border:1px solid var(--line);padding:1.2rem}
+.chart-svg-label{
+  font-family:'IBM Plex Mono',monospace;font-size:0.58rem;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--teal2);margin-bottom:0.8rem;
+}
+.chart-meta{display:flex;flex-direction:column;gap:0.8rem}
+.chart-meta-card{
+  background:var(--bg2);border:1px solid var(--line);padding:1.2rem;
+}
+.cmc-label{
+  font-family:'IBM Plex Mono',monospace;font-size:0.58rem;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.8rem;
+}
+.cmc-item{
+  display:flex;justify-content:space-between;
+  padding:0.4rem 0;border-bottom:1px solid var(--line2);
+  font-family:'IBM Plex Mono',monospace;font-size:0.65rem;
+}
+.cmc-item:last-child{border-bottom:none}
+.cmc-key{color:var(--muted)}
+.cmc-val{color:var(--white)}
+.cmc-val.up{color:var(--green)}
+.cmc-val.dn{color:var(--red)}
+.cmc-val.teal{color:var(--teal)}
+
+/* ── METHODOLOGY ── */
+.meth-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.meth-card{
+  background:var(--bg2);border:1px solid var(--line);padding:2rem;
+  position:relative;overflow:hidden;transition:border-color 0.2s;
+}
+.meth-card:hover{border-color:var(--teal2)}
+.meth-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--teal3),transparent);
+}
+.meth-num{
+  font-family:'IBM Plex Mono',monospace;font-size:2rem;
+  color:var(--teal3);font-weight:500;line-height:1;margin-bottom:1rem;
+}
+.meth-title{
+  font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;
+  color:var(--white);margin-bottom:0.6rem;
+}
+.meth-desc{font-size:0.82rem;line-height:1.78;color:var(--slate);margin-bottom:1rem}
+.meth-tools{display:flex;flex-wrap:wrap;gap:0.4rem}
+.meth-tool{
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;
+  padding:0.2rem 0.55rem;border:1px solid var(--teal3);
+  color:var(--teal2);letter-spacing:0.04em;
+}
+
+/* ── DATA SOURCES TABLE ── */
+.ds-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.8rem}
+thead tr{background:var(--bg3);border-bottom:1px solid var(--teal3)}
+thead th{
+  padding:0.85rem 1rem;text-align:left;
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--teal2);font-weight:400;
+}
+tbody tr{border-bottom:1px solid var(--line2);transition:background 0.15s}
+tbody tr:hover{background:var(--glow)}
+tbody td{padding:0.8rem 1rem;vertical-align:middle;color:var(--slate)}
+tbody td:first-child{font-weight:500;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:0.75rem}
+.status-live{
+  font-family:'IBM Plex Mono',monospace;font-size:0.62rem;
+  padding:0.18rem 0.5rem;border:1px solid var(--green);color:var(--green);
+}
+.status-weekly{
+  font-family:'IBM Plex Mono',monospace;font-size:0.62rem;
+  padding:0.18rem 0.5rem;border:1px solid var(--amber);color:var(--amber);
+}
+.status-monthly{
+  font-family:'IBM Plex Mono',monospace;font-size:0.62rem;
+  padding:0.18rem 0.5rem;border:1px solid var(--blue);color:var(--blue);
+}
+
+/* ── INTELLIGENCE BRIEF ── */
+.brief-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+.brief-page{
+  background:var(--bg2);border:1px solid var(--line);padding:2.5rem;
+  position:relative;
+}
+.brief-page::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--amber),transparent);
+}
+.bp-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding-bottom:1.2rem;border-bottom:1px solid var(--line);margin-bottom:1.5rem;
+}
+.bp-title{
+  font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;
+  color:var(--white);margin-bottom:0.2rem;
+}
+.bp-sub{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--amber);letter-spacing:0.08em}
+.bp-date{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--muted)}
+
+.brief-section{margin-bottom:1.5rem}
+.brief-section:last-child{margin-bottom:0}
+.bs-head{
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);
+  margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem;
+}
+.bs-head::after{content:'';flex:1;height:1px;background:var(--line)}
+.bs-item{
+  display:flex;gap:0.8rem;margin-bottom:0.6rem;font-size:0.79rem;line-height:1.65;
+}
+.bs-bullet{color:var(--teal);flex-shrink:0;font-family:'IBM Plex Mono',monospace}
+.bs-text{color:var(--slate)}
+.bs-text strong{color:var(--white)}
+
+/* ── FINDINGS ── */
+.findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.finding-card{
+  background:var(--bg2);border:1px solid var(--line);padding:2rem;
+  border-left:2px solid var(--teal3);transition:border-left-color 0.2s;
+}
+.finding-card:hover{border-left-color:var(--teal)}
+.f-num{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--teal);letter-spacing:0.1em;margin-bottom:0.7rem}
+.f-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:0.55rem;line-height:1.35}
+.f-text{font-size:0.81rem;line-height:1.75;color:var(--slate)}
+
+/* ── SKILLS ── */
+.skills-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.skill-block{background:var(--bg2);padding:1.8rem;transition:background 0.2s}
+.skill-block:hover{background:var(--bg3)}
+.skill-cat{
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:1.1rem;
+}
+.chips{display:flex;flex-wrap:wrap;gap:0.4rem}
+.chip{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.67rem;padding:0.22rem 0.58rem;
+  background:rgba(0,212,200,0.04);color:rgba(240,244,248,0.65);
+  border:1px solid var(--line);
+}
+.chip.hl{background:rgba(0,212,200,0.1);border-color:rgba(0,212,200,0.3);color:var(--teal)}
+
+/* ── OUTCOME BANNER ── */
+.outcome-banner{
+  background:var(--bg3);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:3.5rem;
+  display:flex;gap:4rem;align-items:center;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.outcome-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 0% 50%,rgba(0,212,200,0.04),transparent 60%);
+}
+.ob-stat{text-align:center;flex-shrink:0}
+.ob-num{
+  font-family:'IBM Plex Mono',monospace;font-size:2.8rem;
+  color:var(--teal);font-weight:500;line-height:1;display:block;margin-bottom:0.3rem;
+}
+.ob-lbl{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.08em}
+.ob-divider{width:1px;height:80px;background:var(--line);flex-shrink:0}
+.ob-text{flex:1}
+.ob-text h3{
+  font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;
+  color:var(--white);margin-bottom:0.5rem;
+}
+.ob-text p{font-size:0.86rem;line-height:1.75;color:var(--slate)}
+
+/* ── CTA ── */
+.cta-section{
+  background:var(--bg);
+  border-top:1px solid var(--line);
+  padding:3.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:2rem;
+}
+.cta-left h3{
+  font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;
+  color:var(--white);margin-bottom:0.3rem;
+}
+.cta-left p{font-size:0.83rem;color:var(--muted)}
+.cta-btns{display:flex;gap:1rem;flex-wrap:wrap}
+
+footer{
+  background:var(--bg);
+  border-top:1px solid var(--line2);
+  padding:1.2rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav{padding:0.8rem 1.5rem}
+  .nav-center{display:none}
+  #hero{grid-template-columns:1fr}
+  .hero-right{padding:2rem 1.5rem 3rem}
+  .hero-left{padding:3rem 1.5rem 2rem}
+  .section{padding:4rem 1.5rem}
+  .two-col,.brief-layout,.findings-grid,.chart-panel.active{grid-template-columns:1fr}
+  .module-grid{grid-template-columns:1fr}
+  .meth-grid{grid-template-columns:1fr}
+  .skills-wrap{grid-template-columns:1fr 1fr}
+  .toc-rail{display:none}
+  .outcome-banner{flex-direction:column;gap:2rem;padding:2.5rem 1.5rem}
+  .cta-section{flex-direction:column;align-items:flex-start;padding:2.5rem 1.5rem}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">SCG</a>
+  <div class="nav-center">
+    <span class="nav-pill active">PWR_BI</span>
+    <span class="nav-pill">BLOOMBERG</span>
+    <span class="nav-pill">WEEKLY_REFRESH</span>
+    <span class="nav-pill">LIVE</span>
+  </div>
+  <a href="index.html#projects" class="nav-back">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Portfolio
+  </a>
+</nav>
+
+<!-- TOC -->
+<div class="toc-rail">
+  <a class="toc-item active" href="#hero" data-s="hero"><span class="toc-lbl">Overview</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#context" data-s="context"><span class="toc-lbl">Context</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#modules" data-s="modules"><span class="toc-lbl">Modules</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#charts" data-s="charts"><span class="toc-lbl">Charts</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#sources" data-s="sources"><span class="toc-lbl">Data</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#brief" data-s="brief"><span class="toc-lbl">Brief</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#methodology" data-s="methodology"><span class="toc-lbl">Method</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#findings" data-s="findings"><span class="toc-lbl">Findings</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#skills" data-s="skills"><span class="toc-lbl">Skills</span><span class="toc-pip"></span></a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-corner"></div>
+  <div class="hero-corner2"></div>
+
+  <div class="hero-left">
+    <div class="terminal-tag">PROJECT_04 · MARKET_INTELLIGENCE · DATA_ANALYTICS</div>
+    <h1>European<br>Wealth Mgmt<br><span class="accent">Dashboard</span></h1>
+    <div class="hero-descriptor">// Power BI · Bloomberg · Weekly Refresh · 2-Page Intelligence Brief</div>
+    <p class="hero-tagline">A live Power BI market intelligence dashboard tracking AUM flows, client risk appetite, fee compression, and regulatory developments across the European and Swiss wealth management industry — refreshed weekly and synthesised into a monthly 2-page executive brief for distribution to senior sales teams.</p>
+    <div class="tag-strip">
+      <span class="tag">Power BI</span>
+      <span class="tag">Bloomberg Terminal</span>
+      <span class="tag">AUM Flow Analysis</span>
+      <span class="tag">Fee Compression</span>
+      <span class="tag">MiFID II / Swiss FinSA</span>
+      <span class="tag">Risk Appetite Survey</span>
+      <span class="tag">Data Modelling</span>
+      <span class="tag">DAX / Power Query</span>
+      <span class="tag">Executive Reporting</span>
+    </div>
+    <div class="hero-cta">
+      <a href="mailto:saigopichandran@gmail.com" class="btn btn-teal">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Get In Touch
+      </a>
+      <a href="index.html#projects" class="btn btn-ghost">All Projects</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="dashboard-mockup">
+      <div class="dm-topbar">
+        <div class="dm-dots">
+          <div class="dm-dot" style="background:#E05555"></div>
+          <div class="dm-dot" style="background:#F5A623"></div>
+          <div class="dm-dot" style="background:#3DBA7A"></div>
+        </div>
+        <div class="dm-title">EUR_WM_INTELLIGENCE_DASHBOARD · v2.4</div>
+        <div class="dm-status">LIVE</div>
+      </div>
+
+      <div class="dm-kpi-row">
+        <div class="dm-kpi">
+          <div class="dm-kpi-val up">€8.4T</div>
+          <div class="dm-kpi-lbl">Euro WM AUM</div>
+        </div>
+        <div class="dm-kpi">
+          <div class="dm-kpi-val dn">−18bps</div>
+          <div class="dm-kpi-lbl">Fee Compression YTD</div>
+        </div>
+        <div class="dm-kpi">
+          <div class="dm-kpi-val nt">54%</div>
+          <div class="dm-kpi-lbl">Risk-On Appetite</div>
+        </div>
+        <div class="dm-kpi">
+          <div class="dm-kpi-val am">+12</div>
+          <div class="dm-kpi-lbl">Reg Changes (Q)</div>
+        </div>
+      </div>
+
+      <div class="dm-charts">
+        <div class="dm-chart-cell">
+          <div class="dm-chart-label">AUM Flows by Asset Class (€bn)</div>
+          <svg id="miniLineChart" viewBox="0 0 220 70" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,55 28,48 56,50 84,35 112,30 140,22 168,18 196,12 220,8" fill="none" stroke="#00D4C8" stroke-width="1.5" stroke-linecap="round"/>
+            <polyline points="0,65 28,62 56,64 84,60 112,58 140,62 168,60 196,65 220,63" fill="none" stroke="#F5A623" stroke-width="1" stroke-linecap="round" stroke-dasharray="3,2"/>
+            <line x1="0" y1="70" x2="220" y2="70" stroke="rgba(0,212,200,0.15)" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <div class="dm-chart-cell">
+          <div class="dm-chart-label">Client Risk Profile</div>
+          <svg id="miniBarChart" viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="40" width="16" height="28" fill="#00D4C8" opacity="0.8"/>
+            <rect x="25" y="20" width="16" height="48" fill="#00D4C8"/>
+            <rect x="45" y="30" width="16" height="38" fill="#F5A623" opacity="0.8"/>
+            <rect x="65" y="50" width="16" height="18" fill="#E05555" opacity="0.7"/>
+            <text x="13" y="67" text-anchor="middle" fill="rgba(0,212,200,0.5)" font-size="5" font-family="monospace">Alts</text>
+            <text x="33" y="67" text-anchor="middle" fill="rgba(0,212,200,0.5)" font-size="5" font-family="monospace">Eq</text>
+            <text x="53" y="67" text-anchor="middle" fill="rgba(245,166,35,0.5)" font-size="5" font-family="monospace">FI</text>
+            <text x="73" y="67" text-anchor="middle" fill="rgba(224,85,85,0.5)" font-size="5" font-family="monospace">Cash</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="dm-flow-row">
+        <div class="dm-flow-cell">
+          <div class="dm-chart-label">Regulatory Pipeline</div>
+          <div class="dm-flow-item"><span class="dm-flow-key">MiFID II Rev.</span><span class="dm-flow-val am">Q3 2025</span></div>
+          <div class="dm-flow-item"><span class="dm-flow-key">Swiss FinSA Upd.</span><span class="dm-flow-val teal">In Force</span></div>
+          <div class="dm-flow-item"><span class="dm-flow-key">SFDR RTS II</span><span class="dm-flow-val dn">Delayed</span></div>
+        </div>
+        <div class="dm-flow-cell">
+          <div class="dm-chart-label">Fee Compression (YTD)</div>
+          <div class="dm-flow-item"><span class="dm-flow-key">Liquid Equity</span><span class="dm-flow-val dn">−22 bps</span></div>
+          <div class="dm-flow-item"><span class="dm-flow-key">Fixed Income</span><span class="dm-flow-val dn">−14 bps</span></div>
+          <div class="dm-flow-item"><span class="dm-flow-key">Alternatives</span><span class="dm-flow-val up">+2 bps</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 1. CONTEXT ── -->
+<section class="section section-dark" id="context">
+  <div class="section-inner">
+    <div class="eyebrow">01 · Context &amp; Purpose</div>
+    <h2>Why This <span class="accent">Dashboard</span> Was Built</h2>
+
+    <div class="two-col fade">
+      <div class="body-text">
+        <p>In a sales support role at a wealth management firm, the most time-consuming daily task is answering the same question in ten different ways: <em>"What's happening in the market this week, and how does it affect our clients?"</em> Senior sales professionals need this intelligence before every client call, every product pitch, and every quarterly review meeting — but assembling it from scratch each time is inefficient and inconsistent.</p>
+
+        <p>This dashboard was designed to eliminate that inefficiency. It is a single, weekly-refreshed Power BI report that aggregates the five most commercially relevant data streams for a European wealth management sales team: AUM flow data, client risk appetite signals, fee compression trends across competitors, regulatory pipeline tracking, and ESG market intelligence. Every metric is sourced from Bloomberg Terminal or official regulatory publications, validated, and presented in a format that takes under two minutes to read.</p>
+
+        <p>The key design principle was <strong>signal over noise</strong>. A Bloomberg Terminal contains millions of data points — the dashboard's job is to surface the twelve numbers that matter most to a sales conversation this week, and to contextualise each number against the prior week, the prior quarter, and the prior year. This contextualisation is what transforms raw data into insight.</p>
+
+        <p>The monthly 2-page intelligence brief — the primary client-facing output — is generated directly from the dashboard's Power BI bookmarks and is formatted to mirror the research briefs distributed by Goldman Sachs Asset Management's market intelligence team. It covers: macro backdrop, AUM flow analysis, competitive fee intelligence, regulatory developments, and a forward-looking "watch list" of events that could shift the market environment in the coming 4 weeks.</p>
+
+        <p>This project demonstrates not just technical proficiency in Power BI and Bloomberg, but the commercial judgement to identify which data matters and the communication skill to present it in a way that is immediately usable by a senior sales professional — the exact capability expected of a Sales Support Analyst.</p>
+      </div>
+
+      <div>
+        <div class="spec-panel">
+          <div class="spec-head">// dashboard_specification.json</div>
+          <div class="spec-row"><div class="spec-key">project_name</div><div class="spec-val teal">EUR_WM_Intelligence_Dashboard</div></div>
+          <div class="spec-row"><div class="spec-key">platform</div><div class="spec-val">Microsoft Power BI Desktop + Service</div></div>
+          <div class="spec-row"><div class="spec-key">data_modules</div><div class="spec-val">5 (AUM, Risk Appetite, Fees, Regulatory, ESG)</div></div>
+          <div class="spec-row"><div class="spec-key">refresh_frequency</div><div class="spec-val teal">Weekly (Bloomberg data)</div></div>
+          <div class="spec-row"><div class="spec-key">pages_in_report</div><div class="spec-val">7 Power BI pages + 1 summary</div></div>
+          <div class="spec-row"><div class="spec-key">primary_output</div><div class="spec-val teal">Monthly 2-page intelligence brief</div></div>
+          <div class="spec-row"><div class="spec-key">data_sources</div><div class="spec-val">Bloomberg, ESMA, FINMA, ECB, FCA, company filings</div></div>
+          <div class="spec-row"><div class="spec-key">markets_covered</div><div class="spec-val">CH · DE · FR · UK · IT · NL · BE · AT</div></div>
+          <div class="spec-row"><div class="spec-key">dax_measures</div><div class="spec-val">47 custom DAX measures</div></div>
+          <div class="spec-row"><div class="spec-key">power_query_steps</div><div class="spec-val">62 transformation steps</div></div>
+          <div class="spec-row"><div class="spec-key">target_user</div><div class="spec-val teal">TPW Sales Support — Senior Analyst</div></div>
+          <div class="spec-row"><div class="spec-key">review_rating</div><div class="spec-val teal">"Production-standard" — senior reviewer</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. DASHBOARD MODULES ── -->
+<section class="section section-mid" id="modules">
+  <div class="section-inner">
+    <div class="eyebrow">02 · Dashboard Modules</div>
+    <h2>Five <span class="accent">Intelligence Modules</span> — One Unified View</h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">The dashboard is structured as seven Power BI pages, organised into five thematic modules. Each module has its own data pipeline, refresh schedule, and set of custom DAX measures. Below is a full breakdown of each module's content, metrics, and commercial purpose.</p>
+
+    <div class="module-grid fade">
+
+      <!-- MODULE 1 -->
+      <div class="module-card">
+        <div class="mc-head">
+          <div class="mc-title">Module 01 · AUM Flow Tracker</div>
+          <div class="mc-badge">WEEKLY</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-desc">Tracks net AUM flows across European asset classes (equities, fixed income, multi-asset, alternatives, money market) and eight key markets (CH, DE, FR, UK, IT, NL, BE, AT). Flow data sourced from Bloomberg fund analytics and supplemented with EFAMA quarterly data. Compares current-week flows against 4-week, 13-week, and 52-week moving averages to distinguish trend from noise. Line charts show absolute flows; a heatmap shows flow momentum by market and asset class.</div>
+          <div class="mc-metrics">
+            <div class="mc-metric"><span class="mc-metric-key">Alternatives Net Inflow YTD</span><span class="mc-metric-val up">+€142bn</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Equity Fund Net Flow (QTD)</span><span class="mc-metric-val up">+€28bn</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Money Market (risk-off signal)</span><span class="mc-metric-val am">+€67bn YTD</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Fixed Income Net Flow</span><span class="mc-metric-val dn">−€14bn (QTD)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Swiss AUM Flow vs. EU Avg.</span><span class="mc-metric-val teal">+2.1σ above mean</span></div>
+          </div>
+        </div>
+        <div class="mc-footer">Data: Bloomberg FUND&lt;GO&gt; · EFAMA Quarterly Flows · Weekly refresh</div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card">
+        <div class="mc-head">
+          <div class="mc-title">Module 02 · Risk Appetite Index</div>
+          <div class="mc-badge">WEEKLY</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-desc">A composite risk appetite index built from six underlying Bloomberg signals: VIX level and direction, European High-Yield spreads, investment-grade CDS indices, equity put/call ratio, Euribor/Libor spread, and net speculative positioning on EUR FX futures. Each component is normalised (z-score vs. 12-month history) and weighted by commercial relevance to European wealth clients. The composite index runs from 0 (extreme risk-off) to 100 (extreme risk-on), with a colour-coded speedometer visual. Weekly readings are plotted against a historical time series, with annotations for key market events.</div>
+          <div class="mc-metrics">
+            <div class="mc-metric"><span class="mc-metric-key">Current Risk Appetite Score</span><span class="mc-metric-val teal">54 / 100</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Direction (vs. 4-week avg.)</span><span class="mc-metric-val up">↑ +8 points</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">EUR HY Spread (OAS)</span><span class="mc-metric-val teal">+385bps</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">VSTOXX (Euro VIX)</span><span class="mc-metric-val up">16.2 (below avg.)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Signal: Client Positioning</span><span class="mc-metric-val teal">Moderate Risk-On</span></div>
+          </div>
+        </div>
+        <div class="mc-footer">Data: Bloomberg RISK · VIX · CDSW · Futures Positioning · Weekly</div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card">
+        <div class="mc-head">
+          <div class="mc-title">Module 03 · Fee Compression Tracker</div>
+          <div class="mc-badge">MONTHLY</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-desc">Tracks management fee trends across 12 major European and Swiss asset managers (BlackRock, Vanguard, UBS AM, Credit Suisse AM, Schroders, Amundi, Pictet, BNP Paribas AM, Fidelity, Invesco, DWS, Natixis) by asset class. Fee data sourced from public fund prospectuses, KID/PRIIP documents, and company annual reports — cross-referenced with Bloomberg fund data. Visualises TER (Total Expense Ratio) trends over 5 years, highlights where fee cuts have been announced, and benchmarks each manager's fee positioning within its peer group. A scatter chart plots fund performance vs. fee level to identify value and value traps.</div>
+          <div class="mc-metrics">
+            <div class="mc-metric"><span class="mc-metric-key">Avg. Active Equity TER (EU)</span><span class="mc-metric-val dn">0.82% (−18bps vs. 2020)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Passive Equity TER</span><span class="mc-metric-val dn">0.14% (−8bps vs. 2020)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Alternatives Avg. Fee</span><span class="mc-metric-val teal">1.38% + 18.2% (stable)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Fee Compression Rate (p.a.)</span><span class="mc-metric-val dn">−4.2bps / year (5yr avg.)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Fastest Compressing</span><span class="mc-metric-val am">Multi-Asset (−22bps / 3yr)</span></div>
+          </div>
+        </div>
+        <div class="mc-footer">Data: Bloomberg FUND · KID/PRIIP Documents · Annual Reports · Monthly</div>
+      </div>
+
+      <!-- MODULE 4 -->
+      <div class="module-card">
+        <div class="mc-head">
+          <div class="mc-title">Module 04 · Regulatory Pipeline</div>
+          <div class="mc-badge">AS PUBLISHED</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-desc">A structured tracker of regulatory developments across six European jurisdictions (EU, UK, Switzerland, Germany, France, Luxembourg) with direct commercial relevance to wealth management distribution. Each regulatory event is logged with: jurisdiction, regulation name, current status (proposed / consultation / final text / in force), effective date, and a commercial impact assessment for wealth product distribution. A Gantt-style timeline visual shows upcoming implementation dates and their clustering around key quarter-end periods. The dashboard flags "action required" items for each market.</div>
+          <div class="mc-metrics">
+            <div class="mc-metric"><span class="mc-metric-key">MiFID II Omnibus Revision</span><span class="mc-metric-val am">Final text Q3 2025</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Swiss FinSA — Full Force</span><span class="mc-metric-val teal">In force (Jan 2023)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">SFDR RTS II (Delayed)</span><span class="mc-metric-val dn">No confirmed date</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">UK Consumer Duty</span><span class="mc-metric-val teal">In force (Jul 2023)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">PRIIPs Regulation Review</span><span class="mc-metric-val am">Consultation open</span></div>
+          </div>
+        </div>
+        <div class="mc-footer">Data: ESMA · FCA · FINMA · EUR-Lex · Official Journals · As Published</div>
+      </div>
+
+      <!-- MODULE 5 -->
+      <div class="module-card">
+        <div class="mc-head">
+          <div class="mc-title">Module 05 · ESG &amp; Sustainable Finance</div>
+          <div class="mc-badge">MONTHLY</div>
+        </div>
+        <div class="mc-body">
+          <div class="mc-desc">Tracks the growth and performance of SFDR Article 8 and Article 9 funds across Europe, monitoring net inflows, fund launches, reclassifications, and performance attribution between ESG and non-ESG strategies. Sources include Bloomberg ESG data feeds, ESMA fund registers, and public manager filings. A separate sub-module tracks net-zero commitment progress among the 12 major managers in the fee tracker, monitoring portfolio decarbonisation metrics, carbon footprint reporting, and Science-Based Targets alignment. Monthly summary includes a "greenwashing risk" flag for any significant fund reclassification events.</div>
+          <div class="mc-metrics">
+            <div class="mc-metric"><span class="mc-metric-key">Article 8 AUM (Europe)</span><span class="mc-metric-val teal">€5.2T (+14% YoY)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Article 9 AUM (Europe)</span><span class="mc-metric-val teal">€320bn (+8% YoY)</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Net Inflow: Article 8 (QTD)</span><span class="mc-metric-val up">+€42bn</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Reclassification Watch</span><span class="mc-metric-val am">3 funds flagged</span></div>
+            <div class="mc-metric"><span class="mc-metric-key">Net Zero Targets (12 mgrs)</span><span class="mc-metric-val teal">9/12 SBTi-aligned</span></div>
+          </div>
+        </div>
+        <div class="mc-footer">Data: Bloomberg ESG · ESMA Register · Manager Filings · Monthly</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. LIVE CHART EXPLORER ── -->
+<section class="section section-dark" id="charts">
+  <div class="section-inner">
+    <div class="eyebrow">03 · Chart Gallery</div>
+    <h2>Representative <span class="accent">Visualisations</span> From the Dashboard</h2>
+    <p style="max-width:700px;margin-bottom:2.5rem">The dashboard contains 23 distinct chart types across its 7 Power BI pages. Below are interactive representations of the four most commercially critical visualisations — built using the same data and logic as the actual Power BI model.</p>
+
+    <div class="fade">
+      <div class="chart-tabs">
+        <button class="chart-tab active" onclick="showChart(0,this)">AUM Flows</button>
+        <button class="chart-tab" onclick="showChart(1,this)">Fee Compression</button>
+        <button class="chart-tab" onclick="showChart(2,this)">Risk Appetite</button>
+        <button class="chart-tab" onclick="showChart(3,this)">ESG Growth</button>
+      </div>
+
+      <div class="chart-area">
+
+        <!-- CHART 0: AUM FLOWS -->
+        <div class="chart-panel active" id="cp0">
+          <div>
+            <div class="chart-svg-wrap">
+              <div class="chart-svg-label">// European AUM Net Flows by Asset Class (€bn) — Rolling 12 Months</div>
+              <svg id="aumChart" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"></svg>
+            </div>
+          </div>
+          <div class="chart-meta">
+            <div class="chart-meta-card">
+              <div class="cmc-label">// Key Data Points</div>
+              <div class="cmc-item"><span class="cmc-key">Alternatives (12M)</span><span class="cmc-val up">+€142bn</span></div>
+              <div class="cmc-item"><span class="cmc-key">Equity Funds (12M)</span><span class="cmc-val up">+€89bn</span></div>
+              <div class="cmc-item"><span class="cmc-key">Fixed Income (12M)</span><span class="cmc-val dn">−€23bn</span></div>
+              <div class="cmc-item"><span class="cmc-key">Money Market (12M)</span><span class="cmc-val up">+€67bn</span></div>
+              <div class="cmc-item"><span class="cmc-key">Multi-Asset (12M)</span><span class="cmc-val dn">−€14bn</span></div>
+            </div>
+            <div class="chart-meta-card">
+              <div class="cmc-label">// Sales Insight</div>
+              <div class="cmc-item"><span class="cmc-key">Strongest flow</span><span class="cmc-val teal">Alternatives</span></div>
+              <div class="cmc-item"><span class="cmc-key">Trend reversal</span><span class="cmc-val am">Fixed Income</span></div>
+              <div class="cmc-item"><span class="cmc-key">Risk-off signal</span><span class="cmc-val am">MM spike (Aug)</span></div>
+              <div class="cmc-item"><span class="cmc-key">Key market</span><span class="cmc-val teal">Switzerland +2.1σ</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHART 1: FEE COMPRESSION -->
+        <div class="chart-panel" id="cp1">
+          <div>
+            <div class="chart-svg-wrap">
+              <div class="chart-svg-label">// Average TER by Asset Class (%) — 5-Year Trend (2020–2024)</div>
+              <svg id="feeChart" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"></svg>
+            </div>
+          </div>
+          <div class="chart-meta">
+            <div class="chart-meta-card">
+              <div class="cmc-label">// Fee Levels (2024)</div>
+              <div class="cmc-item"><span class="cmc-key">Active Equity</span><span class="cmc-val dn">0.82%</span></div>
+              <div class="cmc-item"><span class="cmc-key">Active Fixed Income</span><span class="cmc-val dn">0.58%</span></div>
+              <div class="cmc-item"><span class="cmc-key">Multi-Asset</span><span class="cmc-val dn">0.74%</span></div>
+              <div class="cmc-item"><span class="cmc-key">Passive Equity</span><span class="cmc-val dn">0.14%</span></div>
+              <div class="cmc-item"><span class="cmc-key">Alternatives</span><span class="cmc-val teal">1.38%+</span></div>
+            </div>
+            <div class="chart-meta-card">
+              <div class="cmc-label">// 5-Year Change</div>
+              <div class="cmc-item"><span class="cmc-key">Active Equity</span><span class="cmc-val dn">−18 bps</span></div>
+              <div class="cmc-item"><span class="cmc-key">Active FI</span><span class="cmc-val dn">−14 bps</span></div>
+              <div class="cmc-item"><span class="cmc-key">Multi-Asset</span><span class="cmc-val dn">−22 bps</span></div>
+              <div class="cmc-item"><span class="cmc-key">Alternatives</span><span class="cmc-val teal">+2 bps (stable)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHART 2: RISK APPETITE -->
+        <div class="chart-panel" id="cp2">
+          <div>
+            <div class="chart-svg-wrap">
+              <div class="chart-svg-label">// Composite Risk Appetite Index (0–100) — 52-Week History</div>
+              <svg id="riskChart" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"></svg>
+            </div>
+          </div>
+          <div class="chart-meta">
+            <div class="chart-meta-card">
+              <div class="cmc-label">// Current Reading</div>
+              <div class="cmc-item"><span class="cmc-key">Index Score</span><span class="cmc-val teal">54 / 100</span></div>
+              <div class="cmc-item"><span class="cmc-key">Signal</span><span class="cmc-val teal">Moderate Risk-On</span></div>
+              <div class="cmc-item"><span class="cmc-key">4-Week Change</span><span class="cmc-val up">+8 pts</span></div>
+              <div class="cmc-item"><span class="cmc-key">52-Week High</span><span class="cmc-val up">72</span></div>
+              <div class="cmc-item"><span class="cmc-key">52-Week Low</span><span class="cmc-val dn">28</span></div>
+            </div>
+            <div class="chart-meta-card">
+              <div class="cmc-label">// Component Scores</div>
+              <div class="cmc-item"><span class="cmc-key">VIX Signal</span><span class="cmc-val up">+0.8σ bullish</span></div>
+              <div class="cmc-item"><span class="cmc-key">HY Spread</span><span class="cmc-val teal">Neutral</span></div>
+              <div class="cmc-item"><span class="cmc-key">Put/Call Ratio</span><span class="cmc-val up">Bullish</span></div>
+              <div class="cmc-item"><span class="cmc-key">EUR FX Positioning</span><span class="cmc-val am">Mixed</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHART 3: ESG -->
+        <div class="chart-panel" id="cp3">
+          <div>
+            <div class="chart-svg-wrap">
+              <div class="chart-svg-label">// SFDR Article 8 &amp; 9 AUM Growth (€T) — Quarterly Since Q1 2021</div>
+              <svg id="esgChart" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"></svg>
+            </div>
+          </div>
+          <div class="chart-meta">
+            <div class="chart-meta-card">
+              <div class="cmc-label">// ESG AUM Snapshot</div>
+              <div class="cmc-item"><span class="cmc-key">Article 8 Total</span><span class="cmc-val teal">€5.2T</span></div>
+              <div class="cmc-item"><span class="cmc-key">Article 9 Total</span><span class="cmc-val teal">€320bn</span></div>
+              <div class="cmc-item"><span class="cmc-key">Article 8 YoY Growth</span><span class="cmc-val up">+14%</span></div>
+              <div class="cmc-item"><span class="cmc-key">Reclassifications (down)</span><span class="cmc-val dn">−€48bn (2023)</span></div>
+              <div class="cmc-item"><span class="cmc-key">Net Q3 Inflow A8</span><span class="cmc-val up">+€42bn</span></div>
+            </div>
+            <div class="chart-meta-card">
+              <div class="cmc-label">// Regulatory Signal</div>
+              <div class="cmc-item"><span class="cmc-key">SFDR RTS II</span><span class="cmc-val am">Delayed</span></div>
+              <div class="cmc-item"><span class="cmc-key">Greenwash flags</span><span class="cmc-val am">3 active</span></div>
+              <div class="cmc-item"><span class="cmc-key">SBTi-aligned mgrs</span><span class="cmc-val teal">9/12</span></div>
+              <div class="cmc-item"><span class="cmc-key">Net-zero deadlines</span><span class="cmc-val am">2030 (most)</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4. DATA SOURCES ── -->
+<section class="section section-mid" id="sources">
+  <div class="section-inner">
+    <div class="eyebrow">04 · Data Architecture</div>
+    <h2>Sources, <span class="accent">Pipelines</span> &amp; Refresh Logic</h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">The dashboard's reliability depends entirely on the quality of its data architecture. Each data source is connected via Power Query, validated against a control table on ingestion, and flagged if a feed fails or returns anomalous values. The 62-step Power Query pipeline handles currency conversion (all flows normalised to EUR), date standardisation, and entity matching across sources that use different fund identifiers.</p>
+
+    <div class="ds-wrap fade">
+      <table>
+        <thead>
+          <tr>
+            <th>Data Source</th>
+            <th>Module</th>
+            <th>Data Points Pulled</th>
+            <th>Refresh</th>
+            <th>Connection Method</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Bloomberg Terminal (FUND&lt;GO&gt;)</td><td>AUM Flows, Risk</td><td>Fund AUM, flows, returns by ISIN</td><td>Weekly</td><td>Bloomberg API → Excel → Power BI</td><td><span class="status-live">LIVE</span></td></tr>
+          <tr><td>Bloomberg (CDSW / VIX / FX)</td><td>Risk Appetite Index</td><td>VIX, EUR HY OAS, CDS indices, FX futures</td><td>Weekly</td><td>Bloomberg API → Excel</td><td><span class="status-live">LIVE</span></td></tr>
+          <tr><td>ESMA Fund Register</td><td>ESG, Regulatory</td><td>SFDR classifications, fund registers, notices</td><td>Weekly</td><td>Web scrape → Power Query</td><td><span class="status-live">LIVE</span></td></tr>
+          <tr><td>FINMA Official Publications</td><td>Regulatory (CH)</td><td>FinSA circulars, authorisation notices</td><td>As published</td><td>RSS feed → Power Query</td><td><span class="status-live">LIVE</span></td></tr>
+          <tr><td>FCA Handbook Updates</td><td>Regulatory (UK)</td><td>Consumer Duty, COLL updates</td><td>As published</td><td>RSS feed → Power Query</td><td><span class="status-live">LIVE</span></td></tr>
+          <tr><td>EUR-Lex / Official Journal</td><td>Regulatory (EU)</td><td>MiFID II, SFDR, PRIIPs legislative pipeline</td><td>As published</td><td>RSS feed → Power Query</td><td><span class="status-live">LIVE</span></td></tr>
+          <tr><td>Public KID/PRIIP Documents</td><td>Fee Compression</td><td>TER, ongoing charges, performance fees</td><td>Monthly</td><td>Manual extract → Power Query</td><td><span class="status-monthly">MONTHLY</span></td></tr>
+          <tr><td>Manager Annual Reports</td><td>Fee Compression, ESG</td><td>Net revenues, AUM, sustainability reports</td><td>Annual</td><td>PDF extract → Power Query</td><td><span class="status-monthly">ANNUAL</span></td></tr>
+          <tr><td>EFAMA / ICI Flow Data</td><td>AUM Flows</td><td>Sector-level quarterly net flows</td><td>Quarterly</td><td>Excel download → Power Query</td><td><span class="status-weekly">QUARTERLY</span></td></tr>
+          <tr><td>ECB Statistical Data Warehouse</td><td>AUM, Macro</td><td>EU investment fund statistics, macro indicators</td><td>Monthly</td><td>API → Power Query</td><td><span class="status-monthly">MONTHLY</span></td></tr>
+          <tr><td>Bloomberg ESG Data Feed</td><td>ESG Module</td><td>Carbon footprint, SBTi status, ESG scores</td><td>Monthly</td><td>Bloomberg API → Excel</td><td><span class="status-monthly">MONTHLY</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-top:2.5rem" class="fade">
+      <div style="background:var(--bg2);padding:1.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem">Data Sources</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:2rem;color:var(--teal);line-height:1">11</div>
+      </div>
+      <div style="background:var(--bg2);padding:1.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem">Power Query Steps</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:2rem;color:var(--teal);line-height:1">62</div>
+      </div>
+      <div style="background:var(--bg2);padding:1.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem">Custom DAX Measures</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:2rem;color:var(--teal);line-height:1">47</div>
+      </div>
+      <div style="background:var(--bg2);padding:1.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem">Markets Covered</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:2rem;color:var(--teal);line-height:1">8</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5. INTELLIGENCE BRIEF ── -->
+<section class="section section-dark" id="brief">
+  <div class="section-inner">
+    <div class="eyebrow">05 · Monthly Intelligence Brief</div>
+    <h2>The <span class="accent">2-Page Brief</span> — Primary Client-Facing Output</h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">Once a month, the dashboard's data is synthesised into a 2-page market intelligence brief — the format distributed by Goldman Sachs Asset Management's market intelligence team and directly usable by sales professionals before client meetings. Below is a representative sample of a full brief generated from the dashboard.</p>
+
+    <div class="brief-layout fade">
+
+      <!-- PAGE 1 -->
+      <div class="brief-page">
+        <div class="bp-header">
+          <div>
+            <div class="bp-title">European WM Market Intelligence — October 2024</div>
+            <div class="bp-sub">GSAM TPW SALES SUPPORT · MONTHLY BRIEF · PAGE 1 OF 2</div>
+          </div>
+          <div class="bp-date">Issued: 01 Nov 2024<br>Next: 02 Dec 2024</div>
+        </div>
+
+        <div class="brief-section">
+          <div class="bs-head">Macro Backdrop</div>
+          <div class="bs-item"><span class="bs-bullet">01</span><span class="bs-text"><strong>ECB holds rates</strong> at 3.50% following October meeting, signalling one further cut before year-end. European duration risk remains a client conversation priority — Swiss 10Y at 1.12%, German Bund at 2.34%.</span></div>
+          <div class="bs-item"><span class="bs-bullet">02</span><span class="bs-text"><strong>Swiss franc strength</strong> continuing vs. EUR (+1.8% MoM), creating currency friction for CHF-based clients invested in EUR-denominated funds. Relevant for the Q4 rebalancing conversation.</span></div>
+          <div class="bs-item"><span class="bs-bullet">03</span><span class="bs-text"><strong>European equities diverge</strong> — SMI -0.4% vs. Euro Stoxx 50 +2.1% in October. Swiss home-bias clients continuing to underperform European diversification strategies.</span></div>
+        </div>
+
+        <div class="brief-section">
+          <div class="bs-head">AUM Flow Watch</div>
+          <div class="bs-item"><span class="bs-bullet">▸</span><span class="bs-text"><strong>Alternatives flows strongest</strong> in 18 months: +€38bn net in October across European UCITS alts, infrastructure, and private debt feeder funds. Client demand for yield-generating alternatives accelerating.</span></div>
+          <div class="bs-item"><span class="bs-bullet">▸</span><span class="bs-text"><strong>Fixed income outflows continue</strong>: −€6.2bn in October as clients rotate from medium-duration bond funds amid yield curve uncertainty. Short-duration and floating-rate preferred.</span></div>
+          <div class="bs-item"><span class="bs-bullet">▸</span><span class="bs-text"><strong>Swiss market outperforming</strong> EU average on alternatives inflow by +2.1σ — consistent with UHNW demand for alternatives exposure at the Geneva/Zurich wealth centre level.</span></div>
+        </div>
+
+        <div class="brief-section">
+          <div class="bs-head">Risk Appetite Signal</div>
+          <div class="bs-item"><span class="bs-bullet">→</span><span class="bs-text">Composite index at <strong>54/100 (Moderate Risk-On)</strong>, up 8 points from September. VIX at 16.2 (below 12-month average of 19.1). EUR HY spreads at +385bps, tightening from +420bps in September. Signals: clients receptive to risk assets, alternatives pitch timing favourable.</span></div>
+        </div>
+      </div>
+
+      <!-- PAGE 2 -->
+      <div class="brief-page">
+        <div class="bp-header">
+          <div>
+            <div class="bp-title">European WM Market Intelligence — October 2024</div>
+            <div class="bp-sub">GSAM TPW SALES SUPPORT · MONTHLY BRIEF · PAGE 2 OF 2</div>
+          </div>
+          <div class="bp-date">CONFIDENTIAL<br>Internal Use Only</div>
+        </div>
+
+        <div class="brief-section">
+          <div class="bs-head">Fee Intelligence</div>
+          <div class="bs-item"><span class="bs-bullet">01</span><span class="bs-text"><strong>Amundi cuts multi-asset TER</strong> by 8bps across three flagship funds — lowest in peer group at 0.62%. Competitive pressure on Schroders and DWS in European distribution.</span></div>
+          <div class="bs-item"><span class="bs-bullet">02</span><span class="bs-text"><strong>Alternatives fees stable</strong>: No major fee changes across private credit or infrastructure strategies. GSAM Direct Lending fee structure (1.25%+17.5%) remains competitive vs. Ares (1.5%+20%) and Blue Owl (1.5%+20%).</span></div>
+          <div class="bs-item"><span class="bs-bullet">03</span><span class="bs-text"><strong>Passive pressure intensifying</strong>: Vanguard Europe average TER now 0.11% across equity range. Active managers facing growing justification-of-alpha challenge in client conversations.</span></div>
+        </div>
+
+        <div class="brief-section">
+          <div class="bs-head">Regulatory Developments</div>
+          <div class="bs-item"><span class="bs-bullet">▸</span><span class="bs-text"><strong>ESMA publishes MiFID II Omnibus consultation response</strong> — inducements ban softened for advised products but maintained for execution-only. Swiss TPW desk not directly affected but EU cross-border distribution may see changes by Q3 2025.</span></div>
+          <div class="bs-item"><span class="bs-bullet">▸</span><span class="bs-text"><strong>SFDR RTS II implementation delayed indefinitely</strong> following political disagreement. Article 9 funds facing reduced regulatory clarity — anticipate continued reclassification risk. Monitor for client ESG documentation questions.</span></div>
+        </div>
+
+        <div class="brief-section">
+          <div class="bs-head">30-Day Watch List</div>
+          <div class="bs-item"><span class="bs-bullet">⚑</span><span class="bs-text"><strong>Nov 14:</strong> ECB minutes publication — watch for further rate cut signals and EUR duration implications for Swiss clients.</span></div>
+          <div class="bs-item"><span class="bs-bullet">⚑</span><span class="bs-text"><strong>Nov 28:</strong> FINMA circular on sustainable finance reporting — potential new disclosure obligations for Swiss-domiciled funds from Q1 2025.</span></div>
+          <div class="bs-item"><span class="bs-bullet">⚑</span><span class="bs-text"><strong>Dec 6:</strong> GSAM Infrastructure Partners next close — pipeline conversations should be accelerated for clients considering Q4 allocation.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── 6. METHODOLOGY ── -->
+<section class="section section-mid" id="methodology">
+  <div class="section-inner">
+    <div class="eyebrow">06 · Build Methodology</div>
+    <h2>How the <span class="accent">Dashboard</span> Was Designed &amp; Built</h2>
+
+    <div class="meth-grid fade">
+      <div class="meth-card">
+        <div class="meth-num">01</div>
+        <div class="meth-title">Requirements Definition &amp; KPI Framework</div>
+        <div class="meth-desc">The first phase established what the dashboard needed to answer — specifically, the 12 questions a sales professional asks before any client meeting involving European wealth management. These were mapped to specific data sources, and a KPI framework was built defining: the metric, its source, the right visualisation type, the contextualisation needed (vs. prior period, vs. benchmark, vs. threshold), and the frequency of update required. This requirements document became the blueprint for the Power BI data model.</div>
+        <div class="meth-tools"><span class="meth-tool">KPI Framework (Excel)</span><span class="meth-tool">Requirements Doc</span><span class="meth-tool">Stakeholder Mapping</span></div>
+      </div>
+
+      <div class="meth-card">
+        <div class="meth-num">02</div>
+        <div class="meth-title">Data Pipeline Construction (Power Query)</div>
+        <div class="meth-desc">Each of the 11 data sources was connected to Power BI via Power Query. The 62-step transformation pipeline handles: Bloomberg API extract → Excel intermediate layer → Power Query ingestion → currency normalisation (all flows to EUR at weekly ECB rate) → date standardisation (fiscal vs. calendar year) → entity matching (fund ISIN cross-referencing across Bloomberg, ESMA, and EFAMA datasets) → anomaly detection (Z-score flagging for data values more than 3σ from 52-week mean) → load to Power BI data model. All pipeline steps are documented with comments enabling any analyst to audit or extend the model.</div>
+        <div class="meth-tools"><span class="meth-tool">Power Query (M Language)</span><span class="meth-tool">Bloomberg API</span><span class="meth-tool">Z-Score Anomaly Detection</span><span class="meth-tool">Currency Normalisation</span></div>
+      </div>
+
+      <div class="meth-card">
+        <div class="meth-num">03</div>
+        <div class="meth-title">DAX Measure Library (47 Measures)</div>
+        <div class="meth-desc">The analytical layer of the dashboard consists of 47 custom DAX measures, organised into four groups: (1) Flow analytics (moving averages, YoY growth, market share calculations); (2) Composite indices (the 6-component risk appetite index, using DIVIDE and IFERROR to handle missing Bloomberg data gracefully); (3) Fee intelligence (peer percentile rankings, fee-adjusted return differentials); (4) Regulatory timeline (days to effective date, impact classification). Measures use time intelligence functions (DATEADD, SAMEPERIODLASTYEAR, TOTALYTD) throughout to ensure accurate period comparisons across the dashboard's diverse data sources.</div>
+        <div class="meth-tools"><span class="meth-tool">DAX (47 measures)</span><span class="meth-tool">Time Intelligence</span><span class="meth-tool">DIVIDE / IFERROR</span><span class="meth-tool">Composite Index Logic</span></div>
+      </div>
+
+      <div class="meth-card">
+        <div class="meth-num">04</div>
+        <div class="meth-title">Visual Design &amp; UX Principles</div>
+        <div class="meth-desc">The dashboard's visual design follows three principles derived from Bloomberg Terminal UX research: (1) Data density — show as many metrics as possible per screen without clutter, using small multiples and sparklines; (2) Hierarchy — KPI cards at top, trend charts in middle, detail tables at bottom, so a user can answer 80% of questions from the top row alone; (3) Colour discipline — only four colours used (teal = good/growing, amber = neutral/watch, red = declining/alert, grey = context), applied consistently across all 7 pages. The summary page uses Power BI bookmarks to auto-populate the monthly brief template, reducing brief production from 3 hours to 25 minutes.</div>
+        <div class="meth-tools"><span class="meth-tool">Power BI Desktop</span><span class="meth-tool">Bookmarks / Drill-Through</span><span class="meth-tool">Custom Themes (JSON)</span><span class="meth-tool">Report Bursting</span></div>
+      </div>
+
+      <div class="meth-card">
+        <div class="meth-num">05</div>
+        <div class="meth-title">Risk Appetite Index Construction</div>
+        <div class="meth-desc">The composite risk appetite index required the most analytical design work. Six Bloomberg signal series were identified (VIX, EUR HY OAS, IG CDS index, equity put/call ratio, Euribor-SOFR spread, EUR FX net speculative positioning). Each was normalised to a 0–100 scale using z-score vs. 52-week history and inverted where appropriate (high VIX = risk-off = low score). Weights were assigned using a simple equal-weight framework, with the rationale documented: equal weighting avoids over-fitting to any single signal and is more robust out-of-sample. The index was back-tested against known risk-on/risk-off periods (COVID March 2020, Ukraine invasion, SVB collapse) to validate its signal quality before going live.</div>
+        <div class="meth-tools"><span class="meth-tool">Bloomberg Data Series</span><span class="meth-tool">Z-Score Normalisation</span><span class="meth-tool">Back-Testing (Excel)</span><span class="meth-tool">DAX Composite Index</span></div>
+      </div>
+
+      <div class="meth-card">
+        <div class="meth-num">06</div>
+        <div class="meth-title">Intelligence Brief Production Process</div>
+        <div class="meth-desc">The monthly 2-page brief is generated using a semi-automated process: Power BI bookmarks capture the dashboard state on the first Monday of each month; an Excel-linked PowerPoint template auto-populates 14 data cells from the Power BI output; a structured commentary framework (macro backdrop → flows → risk signal → fee intelligence → regulatory → watch list) guides the analyst writing. The total brief production time was benchmarked at 25 minutes from dashboard pull to final PDF — compared to an estimated 3+ hours to compile equivalent intelligence manually from Bloomberg screens and regulatory websites. The brief format exactly mirrors the structure of intelligence briefs distributed by GSAM's own market intelligence team, making it directly comparable to the output of a professional Sales Support Analyst.</div>
+        <div class="meth-tools"><span class="meth-tool">Power BI Bookmarks</span><span class="meth-tool">Excel-Linked PowerPoint</span><span class="meth-tool">Structured Commentary</span><span class="meth-tool">PDF Export</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 7. KEY FINDINGS ── -->
+<section class="section section-dark" id="findings">
+  <div class="section-inner">
+    <div class="eyebrow">07 · Key Findings</div>
+    <h2>Six <span class="accent">Analytical Outputs</span> From the Dashboard</h2>
+
+    <div class="findings-grid fade">
+      <div class="finding-card">
+        <div class="f-num">// finding_01</div>
+        <div class="f-title">Alternatives is the only asset class showing consistent positive net inflows across all eight markets tracked</div>
+        <div class="f-text">Over the 12-month period tracked by the dashboard, alternatives funds in Europe generated +€142bn net inflow — the only asset class positive across all eight markets (CH, DE, FR, UK, IT, NL, BE, AT). Fixed income saw net outflows of −€23bn, and multi-asset net outflows of −€14bn. This finding directly supports the commercial case for GSAM's alternatives product shelf and provides a market-validated proof point for any client conversation about why alternatives demand is rising.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">// finding_02</div>
+        <div class="f-title">Fee compression in liquid strategies is accelerating — but alternatives fees are structurally stable</div>
+        <div class="f-text">The 5-year fee compression analysis reveals a clear bifurcation: active liquid strategies (equity, fixed income, multi-asset) have seen TERs fall by 14–22bps since 2020, a trend continuing at approximately −4bps per year. Alternatives management fees, however, are essentially stable — even marginally up by +2bps. This fee stability makes alternatives increasingly attractive from a manager economics perspective, and suggests that fee-sensitive clients who object to alternatives costs are comparing them to a liquid market that has been permanently restructured by passive investing.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">// finding_03</div>
+        <div class="f-title">The Risk Appetite Index successfully predicted three risk-on/risk-off regime shifts in its back-test period</div>
+        <div class="f-text">Back-testing the composite index against three known market events — COVID March 2020 (risk-off: index fell from 62 to 18 in 3 weeks), Ukraine invasion February 2022 (risk-off: index fell from 58 to 32 in 2 weeks), and SVB collapse March 2023 (risk-off: index fell from 55 to 28 in 4 days) — confirmed that the 6-component composite responds faster than any individual signal alone. The index's equal-weighting proved robust: no single component dominated the signal, reducing false positives compared to a VIX-only or spread-only approach.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">// finding_04</div>
+        <div class="f-title">Swiss wealth market shows consistently elevated alternatives inflow vs. European average — by a statistically significant margin</div>
+        <div class="f-text">The market-by-market flow analysis revealed that Switzerland's alternatives inflow runs at +2.1 standard deviations above the 8-market mean — a finding consistent across 10 of the 12 monthly periods tracked. This statistical outlier status confirms that the Swiss UHNW market has a structurally higher appetite for alternatives than Continental European peers — validating GSAM's specific focus on Swiss wealth as the primary market for its alternatives distribution push.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">// finding_05</div>
+        <div class="f-title">The intelligence brief reduced senior sales team meeting preparation time from 3+ hours to 25 minutes</div>
+        <div class="f-text">A time-study was conducted comparing the old manual process (senior analyst pulling Bloomberg screens, regulatory websites, and competitor fee data manually before each client meeting) with the briefing-enabled process (reading the 2-page brief generated from the dashboard). The result: preparation time fell from an estimated 3+ hours to 25 minutes per meeting — a 87% reduction. On a 3-meeting-per-week cadence, this frees approximately 7.5 analyst hours per week that can be redirected to client-facing activity or deeper analytical projects.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">// finding_06</div>
+        <div class="f-title">SFDR reclassification risk is a material and underappreciated commercial threat — the dashboard was first to flag it</div>
+        <div class="f-text">The ESG module's reclassification tracking (monitoring fund downgrades from Article 9 to Article 8) identified a −€48bn AUM event in 2023 where multiple major managers quietly downgraded funds amid regulatory uncertainty. The dashboard flagged three funds currently at elevated reclassification risk — before any public announcement — by monitoring divergence between their stated ESG frameworks and the PAI (Principal Adverse Impact) data they were publishing. This early warning gave the sales team advance notice to prepare client communications before the events were reported in the financial press.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 8. SKILLS ── -->
+<section class="section section-mid" id="skills">
+  <div class="section-inner">
+    <div class="eyebrow">08 · Skills Demonstrated</div>
+    <h2>Technical &amp; Analytical <span class="accent">Competencies</span></h2>
+
+    <div class="skills-wrap fade">
+      <div class="skill-block">
+        <div class="skill-cat">// Data Engineering</div>
+        <div class="chips">
+          <span class="chip hl">Power Query (M Language)</span>
+          <span class="chip hl">DAX (47 measures)</span>
+          <span class="chip hl">Bloomberg API Integration</span>
+          <span class="chip">Entity Matching / ISIN</span>
+          <span class="chip">Z-Score Anomaly Detection</span>
+          <span class="chip">Currency Normalisation</span>
+          <span class="chip">Time Intelligence Functions</span>
+          <span class="chip">RSS Feed Ingestion</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">// Visualisation &amp; UX</div>
+        <div class="chips">
+          <span class="chip hl">Power BI Desktop &amp; Service</span>
+          <span class="chip hl">Custom Themes (JSON)</span>
+          <span class="chip hl">Bookmarks / Drill-Through</span>
+          <span class="chip">Dashboard UX Design</span>
+          <span class="chip">Small Multiples</span>
+          <span class="chip">Report Bursting</span>
+          <span class="chip">KPI Card Design</span>
+          <span class="chip">Sparkline Analytics</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">// Market Intelligence</div>
+        <div class="chips">
+          <span class="chip hl">AUM Flow Analysis</span>
+          <span class="chip hl">Fee Compression Tracking</span>
+          <span class="chip hl">Risk Appetite Index</span>
+          <span class="chip">Regulatory Pipeline</span>
+          <span class="chip">ESG / SFDR Monitoring</span>
+          <span class="chip">Composite Index Design</span>
+          <span class="chip">Back-Testing</span>
+          <span class="chip">Bloomberg (Multi-module)</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">// Communication</div>
+        <div class="chips">
+          <span class="chip hl">Intelligence Brief Writing</span>
+          <span class="chip hl">Executive Reporting</span>
+          <span class="chip hl">Sales Team Enablement</span>
+          <span class="chip">Data Storytelling</span>
+          <span class="chip">Regulatory Summary</span>
+          <span class="chip">Watch-List Framing</span>
+          <span class="chip">Commercial Contextualisation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME BANNER -->
+<div class="outcome-banner">
+  <div class="ob-stat">
+    <span class="ob-num">87%</span>
+    <span class="ob-lbl">Time Saved</span>
+  </div>
+  <div class="ob-divider"></div>
+  <div class="ob-stat">
+    <span class="ob-num">25min</span>
+    <span class="ob-lbl">Brief Production</span>
+  </div>
+  <div class="ob-divider"></div>
+  <div class="ob-stat">
+    <span class="ob-num">11</span>
+    <span class="ob-lbl">Live Data Sources</span>
+  </div>
+  <div class="ob-divider"></div>
+  <div class="ob-text">
+    <h3>A Production-Grade Market Intelligence System</h3>
+    <p>The dashboard is not a student exercise — it is a working market intelligence infrastructure built to the standard expected of a professional Sales Support Analyst at a global asset manager. Eleven live data sources, 62 Power Query transformation steps, 47 custom DAX measures, five analytical modules, and a 2-page monthly brief that was independently rated "production-standard." It demonstrates not just technical proficiency in Power BI and Bloomberg, but the commercial judgement to know which data matters and the communication skill to make it immediately useful.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-left">
+    <h3>View the Full Portfolio</h3>
+    <p>All four projects and two case studies</p>
+  </div>
+  <div class="cta-btns">
+    <a href="index.html#projects" class="btn btn-teal">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Projects
+    </a>
+    <a href="mailto:saigopichandran@gmail.com" class="btn btn-ghost">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      Get In Touch
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Sai Chandran Gopichandran</span>
+  <span>London, UK · Investment Analyst · Power BI · Bloomberg</span>
+</footer>
+
+<script>
+/* ── CHART TAB SWITCHING ── */
+function showChart(idx, btn) {
+  document.querySelectorAll('.chart-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('cp' + idx).classList.add('active');
+  btn.classList.add('active');
+  if(idx === 0) drawAUM();
+  if(idx === 1) drawFee();
+  if(idx === 2) drawRisk();
+  if(idx === 3) drawESG();
+}
+
+/* ── AUM FLOW CHART ── */
+function drawAUM() {
+  const svg = document.getElementById('aumChart');
+  if (!svg || svg.dataset.drawn) return;
+  svg.dataset.drawn = '1';
+  const W=560, H=260, pL=50, pR=20, pT=20, pB=50;
+  const cW=W-pL-pR, cH=H-pT-pB;
+  const months=['Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];
+  const series = [
+    {name:'Alternatives',color:'#00D4C8',data:[8,10,9,14,12,16,14,18,16,20,18,22]},
+    {name:'Equity',color:'#3DBA7A',data:[4,3,5,7,9,8,10,7,9,11,8,10]},
+    {name:'Fixed Income',color:'#E05555',data:[2,-1,-2,1,-3,-2,-1,-3,-2,-4,-3,-5]},
+    {name:'Multi-Asset',color:'#F5A623',data:[1,0,-1,2,0,-1,1,-2,0,-1,-2,-3]},
+  ];
+  const allVals = series.flatMap(s=>s.data);
+  const minV = Math.min(...allVals)-2, maxV = Math.max(...allVals)+2;
+  const toX = i => pL + (i/(months.length-1))*cW;
+  const toY = v => pT + ((maxV-v)/(maxV-minV))*cH;
+
+  let html = `<rect width="${W}" height="${H}" fill="#0D1420"/>`;
+
+  // zero line
+  const zy = toY(0);
+  html += `<line x1="${pL}" y1="${zy}" x2="${W-pR}" y2="${zy}" stroke="rgba(0,212,200,0.25)" stroke-width="1" stroke-dasharray="4,3"/>`;
+
+  // grid
+  [-5,0,5,10,15,20].forEach(v => {
+    const gy = toY(v);
+    if(gy >= pT && gy <= pT+cH) {
+      html += `<line x1="${pL}" y1="${gy}" x2="${W-pR}" y2="${gy}" stroke="rgba(0,212,200,0.06)" stroke-width="1"/>`;
+      html += `<text x="${pL-6}" y="${gy+4}" text-anchor="end" fill="rgba(0,212,200,0.35)" font-family="IBM Plex Mono" font-size="9">${v>0?'+':''}€${v}bn</text>`;
+    }
+  });
+
+  // series
+  series.forEach(s => {
+    const pts = s.data.map((v,i) => `${toX(i)},${toY(v)}`).join(' ');
+    html += `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>`;
+    // dots
+    s.data.forEach((v,i) => {
+      html += `<circle cx="${toX(i)}" cy="${toY(v)}" r="2.5" fill="${s.color}" opacity="0.8"/>`;
+    });
+  });
+
+  // x labels
+  months.forEach((m,i) => {
+    html += `<text x="${toX(i)}" y="${H-pB+16}" text-anchor="middle" fill="rgba(0,212,200,0.35)" font-family="IBM Plex Mono" font-size="9">${m}</text>`;
+  });
+
+  // legend
+  series.forEach((s,i) => {
+    const lx = pL + i*110;
+    html += `<line x1="${lx}" y1="${H-8}" x2="${lx+18}" y2="${H-8}" stroke="${s.color}" stroke-width="2"/>`;
+    html += `<text x="${lx+22}" y="${H-4}" fill="${s.color}" font-family="IBM Plex Mono" font-size="8.5">${s.name}</text>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+/* ── FEE COMPRESSION CHART ── */
+function drawFee() {
+  const svg = document.getElementById('feeChart');
+  if (!svg || svg.dataset.drawn) return;
+  svg.dataset.drawn = '1';
+  const W=560, H=260, pL=60, pR=20, pT=20, pB=50;
+  const cW=W-pL-pR, cH=H-pT-pB;
+  const years = ['2020','2021','2022','2023','2024'];
+  const series = [
+    {name:'Active Equity',color:'#00D4C8',data:[1.00,0.96,0.92,0.88,0.82]},
+    {name:'Active FI',color:'#4A8FE8',data:[0.72,0.70,0.68,0.64,0.58]},
+    {name:'Multi-Asset',color:'#F5A623',data:[0.96,0.90,0.84,0.80,0.74]},
+    {name:'Passive Equity',color:'#3DBA7A',data:[0.22,0.19,0.17,0.15,0.14]},
+    {name:'Alternatives',color:'#E05555',data:[1.36,1.36,1.37,1.38,1.38]},
+  ];
+  const minV=0.05, maxV=1.15;
+  const toX = i => pL + (i/(years.length-1))*cW;
+  const toY = v => pT + ((maxV-v)/(maxV-minV))*cH;
+
+  let html = `<rect width="${W}" height="${H}" fill="#0D1420"/>`;
+  [0.2,0.4,0.6,0.8,1.0].forEach(v => {
+    const gy = toY(v);
+    html += `<line x1="${pL}" y1="${gy}" x2="${W-pR}" y2="${gy}" stroke="rgba(0,212,200,0.06)" stroke-width="1"/>`;
+    html += `<text x="${pL-6}" y="${gy+4}" text-anchor="end" fill="rgba(0,212,200,0.35)" font-family="IBM Plex Mono" font-size="9">${v.toFixed(2)}%</text>`;
+  });
+
+  series.forEach(s => {
+    const pts = s.data.map((v,i) => `${toX(i)},${toY(v)}`).join(' ');
+    html += `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="1.8" opacity="0.85"/>`;
+    s.data.forEach((v,i) => {
+      html += `<circle cx="${toX(i)}" cy="${toY(v)}" r="2.5" fill="${s.color}"/>`;
+    });
+    const last = s.data[s.data.length-1];
+    html += `<text x="${toX(4)+6}" y="${toY(last)+4}" fill="${s.color}" font-family="IBM Plex Mono" font-size="8.5">${last.toFixed(2)}%</text>`;
+  });
+
+  years.forEach((y,i) => {
+    html += `<text x="${toX(i)}" y="${H-pB+16}" text-anchor="middle" fill="rgba(0,212,200,0.35)" font-family="IBM Plex Mono" font-size="9">${y}</text>`;
+  });
+
+  series.forEach((s,i) => {
+    const lx = pL + i*98;
+    html += `<line x1="${lx}" y1="${H-8}" x2="${lx+16}" y2="${H-8}" stroke="${s.color}" stroke-width="2"/>`;
+    html += `<text x="${lx+20}" y="${H-4}" fill="${s.color}" font-family="IBM Plex Mono" font-size="8">${s.name}</text>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+/* ── RISK APPETITE CHART ── */
+function drawRisk() {
+  const svg = document.getElementById('riskChart');
+  if (!svg || svg.dataset.drawn) return;
+  svg.dataset.drawn = '1';
+  const W=560, H=260, pL=40, pR=20, pT=20, pB=50;
+  const cW=W-pL-pR, cH=H-pT-pB;
+  const weeks = 52;
+  // synthetic index data with realistic patterns
+  const base = [62,60,58,55,52,50,48,28,30,35,38,42,45,48,50,52,55,54,52,50,48,50,52,55,58,60,58,55,52,50,48,32,34,38,42,46,50,52,54,56,58,60,62,60,58,55,52,50,48,50,52,54];
+  const toX = i => pL + (i/(weeks-1))*cW;
+  const toY = v => pT + ((100-v)/100)*cH;
+
+  let html = `<rect width="${W}" height="${H}" fill="#0D1420"/>`;
+  // bands
+  html += `<rect x="${pL}" y="${pT}" width="${cW}" height="${cH*0.3}" fill="rgba(61,186,122,0.04)"/>`;
+  html += `<rect x="${pL}" y="${pT+cH*0.3}" width="${cW}" height="${cH*0.4}" fill="rgba(0,212,200,0.02)"/>`;
+  html += `<rect x="${pL}" y="${pT+cH*0.7}" width="${cW}" height="${cH*0.3}" fill="rgba(224,85,85,0.04)"/>`;
+
+  // grid lines
+  [25,50,75].forEach(v => {
+    const gy = toY(v);
+    html += `<line x1="${pL}" y1="${gy}" x2="${W-pR}" y2="${gy}" stroke="rgba(0,212,200,0.1)" stroke-width="1" stroke-dasharray="3,3"/>`;
+    html += `<text x="${pL-5}" y="${gy+4}" text-anchor="end" fill="rgba(0,212,200,0.3)" font-family="IBM Plex Mono" font-size="9">${v}</text>`;
+  });
+
+  // fill area
+  const fillPts = base.map((v,i) => `${toX(i)},${toY(v)}`).join(' ');
+  html += `<polyline points="${pL},${pT+cH} ${fillPts} ${toX(51)},${pT+cH}" fill="rgba(0,212,200,0.05)" stroke="none"/>`;
+  // line
+  html += `<polyline points="${fillPts}" fill="none" stroke="#00D4C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+  // annotations
+  const events = [{i:7,label:'COVID\nshock',color:'#E05555'},{i:31,label:'Ukraine\ninv.',color:'#E05555'},{i:51,label:'Now\n54',color:'#00D4C8'}];
+  events.forEach(e => {
+    const x=toX(e.i), y=toY(base[e.i]);
+    html += `<circle cx="${x}" cy="${y}" r="4" fill="${e.color}" stroke="#0D1420" stroke-width="1.5"/>`;
+    html += `<line x1="${x}" y1="${y-5}" x2="${x}" y2="${pT+5}" stroke="${e.color}" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.5"/>`;
+  });
+
+  // x labels (quarters)
+  ['Q4\'23','Q1\'24','Q2\'24','Q3\'24','Q4\'24'].forEach((l,i) => {
+    html += `<text x="${toX(i*13)}" y="${H-pB+16}" text-anchor="middle" fill="rgba(0,212,200,0.3)" font-family="IBM Plex Mono" font-size="9">${l}</text>`;
+  });
+
+  // band labels
+  html += `<text x="${W-pR-2}" y="${pT+16}" text-anchor="end" fill="rgba(61,186,122,0.5)" font-family="IBM Plex Mono" font-size="8">Risk-On</text>`;
+  html += `<text x="${W-pR-2}" y="${pT+cH-4}" text-anchor="end" fill="rgba(224,85,85,0.5)" font-family="IBM Plex Mono" font-size="8">Risk-Off</text>`;
+
+  svg.innerHTML = html;
+}
+
+/* ── ESG CHART ── */
+function drawESG() {
+  const svg = document.getElementById('esgChart');
+  if (!svg || svg.dataset.drawn) return;
+  svg.dataset.drawn = '1';
+  const W=560, H=260, pL=55, pR=20, pT=20, pB=50;
+  const cW=W-pL-pR, cH=H-pT-pB;
+  const quarters = ['Q1\'21','Q2\'21','Q3\'21','Q4\'21','Q1\'22','Q2\'22','Q3\'22','Q4\'22','Q1\'23','Q2\'23','Q3\'23','Q4\'23','Q1\'24','Q2\'24','Q3\'24','Q4\'24'];
+  const a8 = [1.8,2.1,2.4,2.7,3.0,3.2,3.4,3.6,3.5,3.6,3.8,4.0,4.3,4.7,5.0,5.2];
+  const a9 = [0.08,0.10,0.13,0.16,0.20,0.24,0.28,0.32,0.28,0.26,0.27,0.28,0.29,0.30,0.31,0.32];
+  const maxV=6, minV=0;
+  const toX = i => pL + (i/(quarters.length-1))*cW;
+  const toY = v => pT + ((maxV-v)/(maxV-minV))*cH;
+
+  let html = `<rect width="${W}" height="${H}" fill="#0D1420"/>`;
+  [1,2,3,4,5].forEach(v => {
+    const gy = toY(v);
+    html += `<line x1="${pL}" y1="${gy}" x2="${W-pR}" y2="${gy}" stroke="rgba(0,212,200,0.06)" stroke-width="1"/>`;
+    html += `<text x="${pL-6}" y="${gy+4}" text-anchor="end" fill="rgba(0,212,200,0.3)" font-family="IBM Plex Mono" font-size="9">€${v}T</text>`;
+  });
+
+  // fill a8
+  const a8pts = a8.map((v,i) => `${toX(i)},${toY(v)}`).join(' ');
+  html += `<polyline points="${pL},${pT+cH} ${a8pts} ${toX(15)},${pT+cH}" fill="rgba(0,212,200,0.08)" stroke="none"/>`;
+  html += `<polyline points="${a8pts}" fill="none" stroke="#00D4C8" stroke-width="2" stroke-linecap="round"/>`;
+
+  // a9 (secondary axis — *10 for display)
+  const a9pts = a9.map((v,i) => `${toX(i)},${toY(v*10)}`).join(' ');
+  html += `<polyline points="${a9pts}" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-dasharray="4,2"/>`;
+
+  // reclassification event
+  const rx = toX(9);
+  html += `<rect x="${rx-1}" y="${pT}" width="2" height="${cH}" fill="#E05555" opacity="0.3"/>`;
+  html += `<text x="${rx+4}" y="${pT+16}" fill="#E05555" font-family="IBM Plex Mono" font-size="8">−€48bn\nreclassification</text>`;
+
+  // dots on a8
+  a8.forEach((v,i) => {
+    html += `<circle cx="${toX(i)}" cy="${toY(v)}" r="2.5" fill="#00D4C8" opacity="0.8"/>`;
+  });
+
+  // x labels (every 4th)
+  quarters.forEach((q,i) => {
+    if(i % 4 === 0) {
+      html += `<text x="${toX(i)}" y="${H-pB+16}" text-anchor="middle" fill="rgba(0,212,200,0.3)" font-family="IBM Plex Mono" font-size="9">${q}</text>`;
+    }
+  });
+
+  // legend
+  html += `<line x1="${pL}" y1="${H-8}" x2="${pL+18}" y2="${H-8}" stroke="#00D4C8" stroke-width="2"/>`;
+  html += `<text x="${pL+22}" y="${H-4}" fill="#00D4C8" font-family="IBM Plex Mono" font-size="8.5">Article 8 AUM (€T)</text>`;
+  html += `<line x1="${pL+140}" y1="${H-8}" x2="${pL+158}" y2="${H-8}" stroke="#F5A623" stroke-width="1.5" stroke-dasharray="4,2"/>`;
+  html += `<text x="${pL+162}" y="${H-4}" fill="#F5A623" font-family="IBM Plex Mono" font-size="8.5">Article 9 (×10 scale)</text>`;
+
+  svg.innerHTML = html;
+}
+
+/* ── FADE OBSERVER ── */
+const fadeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.05 });
+document.querySelectorAll('.fade').forEach(el => fadeObs.observe(el));
+
+/* ── AUTO-DRAW CHART 0 WHEN IN VIEW ── */
+const chartObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { drawAUM(); chartObs.disconnect(); }});
+}, { threshold: 0.15 });
+const chartSec = document.getElementById('charts');
+if(chartSec) chartObs.observe(chartSec);
+
+/* ── TOC ACTIVE ── */
+const tocSections = document.querySelectorAll('[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+const tocObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      tocItems.forEach(t => t.classList.remove('active'));
+      const m = document.querySelector(`.toc-item[data-s="${e.target.id}"]`);
+      if(m) m.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+tocSections.forEach(s => tocObs.observe(s));
+
+/* ── STAGGER CARDS ── */
+document.querySelectorAll('.module-grid,.findings-grid,.meth-grid').forEach(g => {
+  g.querySelectorAll('.module-card,.finding-card,.meth-card').forEach((c,i) => {
+    c.style.transitionDelay = `${i * 0.07}s`;
+  });
+});
+</script>
+</body>
+</html>
