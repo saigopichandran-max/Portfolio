@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiss UHNW Alternatives Pitch Deck — Sai Chandran Gopichandran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --burg:    #4A0E1E;
+  --burg2:   #6B1428;
+  --burg3:   #8C1F38;
+  --champ:   #C8A96E;
+  --champ2:  #DFC08A;
+  --champ3:  #EDD5A3;
+  --ivory:   #FAF7F2;
+  --silk:    #F0EBE1;
+  --linen:   #E5DDD0;
+  --taupe:   #9A9080;
+  --ink:     #1C1410;
+  --slate:   #4A4540;
+  --white:   #FFFFFF;
+  --line:    rgba(200,169,110,0.2);
+  --line2:   rgba(74,14,30,0.12);
+  --emerald: #1A5C3A;
+  --sapphire:#1A3A6B;
+  --ruby:    #7A1528;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Jost',sans-serif;
+  background:var(--ivory);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* custom cursor */
+.cursor{
+  position:fixed;width:8px;height:8px;background:var(--champ);
+  border-radius:50%;pointer-events:none;z-index:10000;
+  transform:translate(-50%,-50%);transition:transform 0.1s;
+}
+.cursor-ring{
+  position:fixed;width:32px;height:32px;border:1px solid rgba(200,169,110,0.5);
+  border-radius:50%;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:all 0.15s ease;
+}
+
+/* noise overlay */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:998;opacity:0.5;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 4rem;
+  background:rgba(26,20,16,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(200,169,110,0.15);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-weight:600;color:var(--champ2);
+  letter-spacing:0.06em;text-decoration:none;
+}
+.nav-back{
+  display:flex;align-items:center;gap:0.5rem;
+  font-size:0.7rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;
+  font-family:'DM Mono',monospace;
+}
+.nav-back:hover{color:var(--champ2)}
+.nav-back svg{width:13px;height:13px}
+
+/* ── TOC RAIL ── */
+.toc-rail{
+  position:fixed;right:2rem;top:50%;transform:translateY(-50%);
+  z-index:50;display:flex;flex-direction:column;gap:0.7rem;align-items:flex-end;
+}
+.toc-item{display:flex;align-items:center;gap:0.5rem;text-decoration:none}
+.toc-pip{
+  width:5px;height:5px;border-radius:50%;
+  border:1px solid rgba(200,169,110,0.35);background:transparent;
+  flex-shrink:0;transition:all 0.25s;
+}
+.toc-lbl{
+  font-family:'DM Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;
+  text-transform:uppercase;color:rgba(74,14,30,0.3);white-space:nowrap;
+  transition:color 0.2s;
+}
+.toc-item.active .toc-pip,.toc-item:hover .toc-pip{background:var(--champ);border-color:var(--champ)}
+.toc-item.active .toc-lbl,.toc-item:hover .toc-lbl{color:var(--burg)}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;
+  background:var(--burg);
+  display:grid;grid-template-columns:1fr 1fr;
+  position:relative;overflow:hidden;
+}
+
+.hero-pattern{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(200,169,110,0.06) 80px),
+    repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(200,169,110,0.06) 80px);
+}
+.hero-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%, transparent 40%, rgba(26,8,14,0.6) 100%);
+  pointer-events:none;
+}
+.hero-ornament{
+  position:absolute;right:0;top:0;bottom:0;width:50%;
+  background:linear-gradient(135deg,rgba(200,169,110,0.04) 0%,rgba(200,169,110,0.02) 100%);
+  border-left:1px solid rgba(200,169,110,0.12);
+  pointer-events:none;
+}
+
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:9rem 4rem 4rem;position:relative;z-index:2;
+}
+.hero-right{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:9rem 4rem 4rem;position:relative;z-index:2;
+}
+
+.eyebrow{
+  font-family:'DM Mono',monospace;font-size:0.65rem;
+  letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--champ);margin-bottom:1.8rem;
+  display:flex;align-items:center;gap:0.9rem;
+}
+.eyebrow::before{content:'';display:block;width:3rem;height:1px;background:var(--champ)}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.8rem,5.5vw,5rem);
+  line-height:1.05;color:var(--white);
+  font-weight:300;margin-bottom:0.4rem;
+}
+h1 strong{font-weight:600;color:var(--champ2)}
+h1 em{font-style:italic;color:var(--champ3)}
+
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-style:italic;
+  color:rgba(200,169,110,0.6);margin-bottom:3rem;letter-spacing:0.02em;
+}
+
+.hero-tagline{
+  font-size:0.88rem;line-height:1.85;
+  color:rgba(255,255,255,0.55);max-width:440px;margin-bottom:3rem;
+}
+
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.8rem 1.8rem;
+  font-size:0.7rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  text-decoration:none;border-radius:0;transition:all 0.28s;
+  font-family:'DM Mono',monospace;
+}
+.btn-champ{background:var(--champ);color:var(--ink)}
+.btn-champ:hover{background:var(--champ2);transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(200,169,110,0.35);color:rgba(255,255,255,0.6)}
+.btn-ghost:hover{border-color:var(--champ2);color:var(--champ2);transform:translateY(-2px)}
+.btn svg{width:13px;height:13px}
+
+/* hero right — prospect card */
+.prospect-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(200,169,110,0.2);
+  padding:2.5rem;
+  position:relative;
+}
+.prospect-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--champ),transparent);
+}
+.pc-label{
+  font-family:'DM Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--champ);margin-bottom:1.5rem;
+}
+.pc-name{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;
+  color:var(--white);font-weight:300;margin-bottom:0.2rem;
+}
+.pc-sub{font-size:0.78rem;color:rgba(200,169,110,0.55);margin-bottom:2rem;font-style:italic}
+.pc-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.pc-row:last-child{border-bottom:none}
+.pc-key{font-size:0.72rem;color:rgba(255,255,255,0.4);font-family:'DM Mono',monospace;letter-spacing:0.06em}
+.pc-val{font-size:0.84rem;font-weight:500;color:rgba(255,255,255,0.84)}
+.pc-val.champ{color:var(--champ2)}
+
+/* hero stats */
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(200,169,110,0.12);margin-top:2rem}
+.hs-cell{background:rgba(255,255,255,0.03);padding:1.5rem 1.2rem}
+.hs-num{
+  font-family:'Cormorant Garamond',serif;font-size:2rem;
+  color:var(--champ2);line-height:1;margin-bottom:0.3rem;
+}
+.hs-lbl{font-size:0.7rem;color:rgba(255,255,255,0.38);font-family:'DM Mono',monospace;letter-spacing:0.05em;line-height:1.4}
+
+/* ── SECTION SYSTEM ── */
+.section{padding:6rem 4rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-silk{background:var(--silk)}
+.section-linen{background:var(--linen)}
+.section-burg{background:var(--burg)}
+.section-ink{background:var(--ink)}
+
+.eyebrow-s{
+  font-family:'DM Mono',monospace;font-size:0.63rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--champ);margin-bottom:0.7rem;
+  display:flex;align-items:center;gap:0.7rem;
+}
+.eyebrow-s::before{content:'';display:block;width:2rem;height:1px;background:var(--champ)}
+.section-burg .eyebrow-s,.section-ink .eyebrow-s{color:var(--champ2)}
+.section-burg .eyebrow-s::before,.section-ink .eyebrow-s::before{background:var(--champ2)}
+
+h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.5vw,3rem);
+  color:var(--burg);font-weight:400;line-height:1.15;margin-bottom:2.5rem;
+}
+h2 em{font-style:italic;color:var(--champ)}
+.section-burg h2,.section-ink h2{color:var(--white)}
+.section-burg h2 em,.section-ink h2 em{color:var(--champ2)}
+
+h3{
+  font-family:'Cormorant Garamond',serif;font-size:1.4rem;
+  color:var(--burg);font-weight:400;margin-bottom:0.7rem;line-height:1.3;
+}
+.section-burg h3,.section-ink h3{color:var(--white)}
+p{font-size:0.875rem;line-height:1.85;color:var(--slate)}
+.section-burg p,.section-ink p{color:rgba(255,255,255,0.58)}
+
+/* fade */
+.fade{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade.in{opacity:1;transform:none}
+
+/* ── OVERVIEW TWO-COL ── */
+.two-col{display:grid;grid-template-columns:1.35fr 1fr;gap:4rem;align-items:start}
+.body-text p{margin-bottom:1.2rem}
+.body-text p:last-child{margin-bottom:0}
+
+.spec-card{
+  background:var(--burg);padding:2.5rem;
+  border-left:3px solid var(--champ);
+}
+.spec-title{
+  font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--champ);margin-bottom:1.5rem;
+}
+.spec-row{padding:0.8rem 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-size:0.67rem;color:rgba(255,255,255,0.38);font-family:'DM Mono',monospace;letter-spacing:0.06em;margin-bottom:0.15rem}
+.spec-val{font-size:0.83rem;color:rgba(255,255,255,0.85);font-weight:500}
+.spec-val.champ{color:var(--champ2)}
+
+/* ── SLIDE SHOWCASE ── */
+.slides-nav{display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--line2);margin-bottom:0;scrollbar-width:none}
+.slides-nav::-webkit-scrollbar{display:none}
+.slide-tab{
+  font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.8rem 1.4rem;border:none;background:none;cursor:pointer;
+  color:var(--taupe);border-bottom:2px solid transparent;
+  white-space:nowrap;transition:all 0.2s;
+}
+.slide-tab.active{color:var(--burg);border-bottom-color:var(--champ);font-weight:500}
+.slide-tab:hover:not(.active){color:var(--burg)}
+
+.slides-frame{background:var(--white);border:1px solid var(--linen);border-top:none;min-height:480px}
+.slide-panel{display:none;padding:3rem}
+.slide-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+
+.slide-visual{
+  background:var(--burg);
+  min-height:300px;display:flex;flex-direction:column;justify-content:space-between;
+  padding:2.5rem;position:relative;overflow:hidden;
+}
+.slide-visual::before{
+  content:'';position:absolute;bottom:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  border:1px solid rgba(200,169,110,0.15);
+}
+.slide-visual::after{
+  content:'';position:absolute;bottom:-80px;right:-80px;
+  width:280px;height:280px;border-radius:50%;
+  border:1px solid rgba(200,169,110,0.08);
+}
+.sv-tag{
+  font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--champ);margin-bottom:1.5rem;
+}
+.sv-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.6rem;
+  color:var(--white);font-weight:300;line-height:1.2;margin-bottom:1rem;
+}
+.sv-data{display:flex;flex-direction:column;gap:0.5rem}
+.sv-data-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0.5rem 0.8rem;background:rgba(255,255,255,0.06);
+  font-size:0.78rem;
+}
+.sv-data-key{color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:0.7rem}
+.sv-data-val{color:var(--champ2);font-weight:500}
+
+.slide-content h3{
+  font-size:1.2rem;margin-bottom:0.8rem;
+  font-family:'Cormorant Garamond',serif;color:var(--burg);
+}
+.slide-content p{font-size:0.83rem;line-height:1.8;color:var(--slate);margin-bottom:1rem}
+.slide-content p:last-child{margin-bottom:0}
+.slide-bullets{list-style:none;display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1rem}
+.slide-bullets li{
+  font-size:0.83rem;line-height:1.7;color:var(--slate);
+  padding-left:1.2rem;position:relative;
+}
+.slide-bullets li::before{content:'—';position:absolute;left:0;color:var(--champ)}
+
+/* ── ALLOCATION VISUAL ── */
+.alloc-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.alloc-chart-wrap{background:var(--white);border:1px solid var(--linen);padding:2rem}
+.alloc-chart-label{
+  font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--taupe);margin-bottom:1.5rem;
+}
+#allocSVG{width:100%;height:260px;display:block}
+
+.alloc-breakdown{display:flex;flex-direction:column;gap:0.6rem}
+.alloc-row{
+  display:flex;align-items:center;gap:1rem;
+  padding:0.9rem 1.1rem;background:var(--white);border-left:3px solid transparent;
+  transition:all 0.2s;
+}
+.alloc-row:hover{background:var(--silk)}
+.alloc-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.alloc-name{flex:1;font-size:0.83rem;font-weight:500;color:var(--ink)}
+.alloc-pct{font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--taupe)}
+.alloc-return{font-family:'DM Mono',monospace;font-size:0.76rem;color:var(--emerald);font-weight:500}
+
+/* ── COMPARISON TABLE ── */
+.comp-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.8rem}
+thead tr{background:var(--burg)}
+thead th{
+  padding:0.9rem 1.1rem;text-align:left;
+  font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--champ2);font-weight:400;white-space:nowrap;
+}
+tbody tr{border-bottom:1px solid var(--linen);transition:background 0.15s}
+tbody tr:hover{background:var(--silk)}
+tbody td{padding:0.85rem 1.1rem;vertical-align:middle;color:var(--slate)}
+tbody td:first-child{font-weight:500;color:var(--ink);font-family:'Cormorant Garamond',serif;font-size:0.95rem}
+.chip-good{
+  display:inline-flex;align-items:center;font-size:0.67rem;
+  padding:0.18rem 0.55rem;font-family:'DM Mono',monospace;letter-spacing:0.04em;
+  background:rgba(26,92,58,0.1);color:var(--emerald);border:1px solid rgba(26,92,58,0.25);
+}
+.chip-mid{
+  display:inline-flex;align-items:center;font-size:0.67rem;
+  padding:0.18rem 0.55rem;font-family:'DM Mono',monospace;letter-spacing:0.04em;
+  background:rgba(200,169,110,0.12);color:#8B6914;border:1px solid rgba(200,169,110,0.35);
+}
+.chip-bad{
+  display:inline-flex;align-items:center;font-size:0.67rem;
+  padding:0.18rem 0.55rem;font-family:'DM Mono',monospace;letter-spacing:0.04em;
+  background:rgba(122,21,40,0.1);color:var(--ruby);border:1px solid rgba(122,21,40,0.28);
+}
+
+/* ── RISK RETURN CHART ── */
+.rr-wrap{background:var(--white);border:1px solid var(--linen);padding:2rem}
+.rr-label{
+  font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--taupe);margin-bottom:1.2rem;
+}
+#rrSVG{width:100%;height:320px;display:block}
+
+/* ── METHODOLOGY ── */
+.meth-steps{display:flex;flex-direction:column}
+.meth-step{
+  display:grid;grid-template-columns:72px 1fr;gap:2rem;
+  padding:2.2rem 0;border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.meth-step:last-child{border-bottom:none}
+.ms-num-wrap{display:flex;flex-direction:column;align-items:center;gap:0.5rem}
+.ms-num{
+  font-family:'Cormorant Garamond',serif;font-size:2.2rem;
+  color:var(--champ2);line-height:1;
+}
+.ms-line{flex:1;width:1px;background:rgba(200,169,110,0.18);min-height:16px}
+.ms-body h3{font-size:1rem;margin-bottom:0.45rem;color:var(--white)}
+.ms-body p{font-size:0.83rem;line-height:1.78;color:rgba(255,255,255,0.57)}
+.ms-tools{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.9rem}
+.ms-tool{
+  font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.22rem 0.6rem;
+  border:1px solid rgba(200,169,110,0.28);color:var(--champ2);letter-spacing:0.04em;
+}
+
+/* ── OBJECTION HANDLER ── */
+.obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.obj-card{
+  background:var(--white);padding:2rem;
+  border-top:2px solid var(--champ);
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.obj-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(74,14,30,0.08)}
+.obj-q{
+  font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;
+  color:var(--burg2);margin-bottom:0.6rem;line-height:1.4;
+}
+.obj-label{
+  font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--taupe);margin-bottom:1rem;
+}
+.obj-a{font-size:0.82rem;line-height:1.75;color:var(--slate)}
+
+/* ── FINDINGS ── */
+.findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.finding-card{
+  padding:2rem;border-left:2px solid var(--champ);background:rgba(255,255,255,0.04);
+}
+.f-num{
+  font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;
+  color:var(--champ);margin-bottom:0.8rem;
+}
+.f-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;
+  color:var(--white);margin-bottom:0.55rem;line-height:1.3;font-weight:400;
+}
+.f-text{font-size:0.81rem;line-height:1.75;color:rgba(255,255,255,0.55)}
+
+/* ── SKILLS ── */
+.skills-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,169,110,0.15)}
+.skill-block{background:rgba(255,255,255,0.03);padding:1.8rem;transition:background 0.2s}
+.skill-block:hover{background:rgba(255,255,255,0.06)}
+.skill-cat{
+  font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--champ);margin-bottom:1.1rem;
+}
+.chips{display:flex;flex-wrap:wrap;gap:0.4rem}
+.chip{
+  font-size:0.72rem;padding:0.25rem 0.6rem;
+  background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.68);
+  border:1px solid rgba(255,255,255,0.09);
+}
+.chip.hl{background:rgba(200,169,110,0.12);border-color:rgba(200,169,110,0.32);color:var(--champ2)}
+
+/* ── OUTCOME BANNER ── */
+.outcome-banner{
+  background:var(--champ);padding:4rem;
+  display:flex;gap:4rem;align-items:center;flex-wrap:wrap;
+}
+.ob-num{
+  font-family:'Cormorant Garamond',serif;font-size:4rem;
+  color:var(--burg);line-height:1;flex-shrink:0;font-weight:300;
+}
+.ob-text h3{
+  font-family:'Cormorant Garamond',serif;font-size:1.4rem;
+  color:var(--burg);margin-bottom:0.5rem;font-weight:400;
+}
+.ob-text p{font-size:0.86rem;line-height:1.72;color:rgba(74,14,30,0.72)}
+
+/* ── CTA ── */
+.cta-section{
+  background:var(--ink);padding:4rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem;
+}
+.cta-left h3{
+  font-family:'Cormorant Garamond',serif;font-size:1.6rem;
+  color:var(--white);font-weight:300;margin-bottom:0.3rem;
+}
+.cta-left p{font-size:0.83rem;color:rgba(255,255,255,0.4)}
+.cta-btns{display:flex;gap:1rem;flex-wrap:wrap}
+
+footer{
+  background:#0e0a08;padding:1.5rem 4rem;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:0.7rem;color:rgba(255,255,255,0.2);
+  font-family:'DM Mono',monospace;letter-spacing:0.05em;
+}
+
+/* ── ALLOCATION BAR VISUAL ── */
+.portfolio-bars{display:flex;flex-direction:column;gap:0.7rem}
+.pb-row{display:flex;align-items:center;gap:0.9rem}
+.pb-lbl{font-size:0.78rem;color:var(--ink);font-weight:500;width:140px;flex-shrink:0}
+.pb-track{flex:1;height:20px;background:var(--linen);position:relative;overflow:hidden}
+.pb-fill{height:100%;transition:width 1.3s cubic-bezier(0.25,1,0.5,1);width:0}
+.pb-pct-lbl{
+  position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);
+  font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(255,255,255,0.9);
+}
+.pb-num{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--taupe);width:60px;text-align:right;flex-shrink:0}
+
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem}
+  #hero{grid-template-columns:1fr}
+  .hero-right{padding:2rem 1.5rem 3rem}
+  .hero-left{padding:7rem 1.5rem 2rem}
+  .section{padding:4rem 1.5rem}
+  .two-col,.alloc-grid,.obj-grid,.findings-grid,.slide-panel.active{grid-template-columns:1fr}
+  .skills-wrap{grid-template-columns:1fr 1fr}
+  .toc-rail{display:none}
+  .meth-step{grid-template-columns:48px 1fr;gap:1rem}
+  .outcome-banner{flex-direction:column;gap:1.5rem;padding:2.5rem 1.5rem}
+  .cta-section{flex-direction:column;align-items:flex-start;padding:3rem 1.5rem}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">SCG</a>
+  <a href="index.html#projects" class="nav-back">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<!-- TOC -->
+<div class="toc-rail">
+  <a class="toc-item active" href="#hero" data-s="hero"><span class="toc-lbl">Overview</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#overview" data-s="overview"><span class="toc-lbl">Context</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#slides" data-s="slides"><span class="toc-lbl">Deck</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#allocation" data-s="allocation"><span class="toc-lbl">Allocation</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#comparison" data-s="comparison"><span class="toc-lbl">Comparison</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#methodology" data-s="methodology"><span class="toc-lbl">Methodology</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#objections" data-s="objections"><span class="toc-lbl">Objections</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#findings" data-s="findings"><span class="toc-lbl">Findings</span><span class="toc-pip"></span></a>
+  <a class="toc-item" href="#skills" data-s="skills"><span class="toc-lbl">Skills</span><span class="toc-pip"></span></a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-ornament"></div>
+
+  <div class="hero-left">
+    <div class="eyebrow">Project 03 &nbsp;·&nbsp; Client Pitch &nbsp;·&nbsp; Alternatives &nbsp;·&nbsp; Wealth Management</div>
+
+    <h1>Swiss UHNW<br><strong>Alternatives</strong><br><em>Pitch Deck</em></h1>
+    <p class="hero-sub">A 10-slide client-ready investment proposal for a CHF 50m portfolio</p>
+
+    <p class="hero-tagline">A fully developed, senior-finance-reviewed pitch deck built for a hypothetical Swiss Ultra-High-Net-Worth client seeking a 20% alternatives allocation — incorporating GSAM private credit and infrastructure products, benchmarked in detail against public market equivalents, and structured to institutional presentation standards.</p>
+
+    <div class="hero-cta">
+      <a href="mailto:saigopichandran@gmail.com" class="btn btn-champ">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Get In Touch
+      </a>
+      <a href="index.html#projects" class="btn btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        All Projects
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="prospect-card">
+      <div class="pc-label">Prospect Profile — Hypothetical Client</div>
+      <div class="pc-name">Herr & Frau Keller</div>
+      <div class="pc-sub">Multi-Generational Family, Geneva</div>
+      <div class="pc-row"><span class="pc-key">Investable Assets</span><span class="pc-val champ">CHF 50,000,000</span></div>
+      <div class="pc-row"><span class="pc-key">Current Allocation</span><span class="pc-val">Swiss equities + cash</span></div>
+      <div class="pc-row"><span class="pc-key">Alternatives Exposure</span><span class="pc-val">0% (target: 20%)</span></div>
+      <div class="pc-row"><span class="pc-key">Investment Horizon</span><span class="pc-val">10–15 years (intergenerational)</span></div>
+      <div class="pc-row"><span class="pc-key">Risk Profile</span><span class="pc-val">Balanced / Capital Preservation</span></div>
+      <div class="pc-row"><span class="pc-key">ESG Priority</span><span class="pc-val champ">High — Article 8 required</span></div>
+      <div class="pc-row"><span class="pc-key">Jurisdiction</span><span class="pc-val">Swiss FinSA — eligible investor</span></div>
+      <div class="pc-row"><span class="pc-key">Primary Goal</span><span class="pc-val champ">CPI + 3% net after costs</span></div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hs-cell"><div class="hs-num">10</div><div class="hs-lbl">Slides produced to institutional standard</div></div>
+      <div class="hs-cell"><div class="hs-num">CHF 10m</div><div class="hs-lbl">Alternatives allocation modelled in detail</div></div>
+      <div class="hs-cell"><div class="hs-num">3</div><div class="hs-lbl">GSAM products analysed &amp; recommended</div></div>
+      <div class="hs-cell"><div class="hs-num">Reviewed</div><div class="hs-lbl">"Presentation-ready" — senior finance professional</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  1. OVERVIEW / CONTEXT
+───────────────────────────── -->
+<section class="section" id="overview">
+  <div class="section-inner">
+    <div class="eyebrow-s">01 · Context &amp; Objective</div>
+    <h2>Why This Pitch Deck Was <em>Built</em></h2>
+
+    <div class="two-col fade">
+      <div class="body-text">
+        <p>In wealth management, the ability to prepare a compelling, structured pitch for a client meeting is one of the most commercially valuable skills an analyst can demonstrate. Senior sales professionals rely on their support teams to synthesise market data, product analysis, and client-specific considerations into a coherent narrative — one that is both technically rigorous and emotionally persuasive.</p>
+
+        <p>This project simulates that exact process. The brief: construct a 10-slide investment pitch for a hypothetical Swiss UHNW family — the Kellers of Geneva, with CHF 50m in investable assets — who have expressed interest in diversifying beyond their current domestic equity and cash holdings. Their specific instruction: they would like to allocate 20% (CHF 10m) into alternatives, but they have never done so before and want a clear, evidence-based rationale before committing.</p>
+
+        <p>The pitch was built using Bloomberg Terminal data, GSAM published fund materials, and publicly available Swiss market data — and was structured to meet the presentation standards expected by a TPW (Third-Party Wealth) sales team at a global asset manager. It focuses on three GSAM alternative strategies: Private Credit (Direct Lending), Infrastructure Partners, and Vintage Private Equity.</p>
+
+        <p>The finished deck was reviewed by a senior finance professional, who assessed the investment rationale, visual design, risk framing, and client communication quality as "presentation-ready" — meaning it could be used in an actual client meeting with minimal modification.</p>
+
+        <p>Every data point, chart, and recommendation in the deck is grounded in real market data. The risk comparisons use Bloomberg-sourced volatility and return figures. The fee structures reflect actual GSAM fund terms. The regulatory references are accurate to Swiss FinSA requirements as at 2024.</p>
+      </div>
+
+      <div>
+        <div class="spec-card">
+          <div class="spec-title">Deck Specification</div>
+          <div class="spec-row"><div class="spec-key">Deck Title</div><div class="spec-val champ">GSAM Alternatives — A Tailored Solution for the Keller Family</div></div>
+          <div class="spec-row"><div class="spec-key">Slides</div><div class="spec-val">10 (incl. exec summary &amp; appendices)</div></div>
+          <div class="spec-row"><div class="spec-key">Portfolio Size</div><div class="spec-val">CHF 50,000,000</div></div>
+          <div class="spec-row"><div class="spec-key">Alternatives Allocation</div><div class="spec-val champ">CHF 10,000,000 (20%)</div></div>
+          <div class="spec-row"><div class="spec-key">Products Featured</div><div class="spec-val">Direct Lending, Infrastructure, Private Equity</div></div>
+          <div class="spec-row"><div class="spec-key">Benchmarks Used</div><div class="spec-val">SPI, Bloomberg Swiss Agg, MSCI World, HFRX Alternatives</div></div>
+          <div class="spec-row"><div class="spec-key">Tools Used</div><div class="spec-val">Bloomberg Terminal, Excel, PowerPoint</div></div>
+          <div class="spec-row"><div class="spec-key">Regulatory Framework</div><div class="spec-val">Swiss FinSA / FIDLEG, Article 8 SFDR</div></div>
+          <div class="spec-row"><div class="spec-key">Language</div><div class="spec-val">English (bilingual annex: German)</div></div>
+          <div class="spec-row"><div class="spec-key">Review Outcome</div><div class="spec-val champ">"Presentation-ready" — senior reviewer</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  2. SLIDE-BY-SLIDE BREAKDOWN
+───────────────────────────── -->
+<section class="section section-silk" id="slides">
+  <div class="section-inner">
+    <div class="eyebrow-s">02 · Deck Structure</div>
+    <h2>Ten Slides, <em>One Coherent Narrative</em></h2>
+    <p style="max-width:700px;margin-bottom:2.5rem">Each slide in the deck serves a distinct function in the client persuasion arc — from establishing rapport and understanding (slides 1–3), through the analytical case (slides 4–7), to the specific product recommendation and next steps (slides 8–10). This structure mirrors the flow of a professional Goldman Sachs client presentation.</p>
+
+    <div class="fade">
+      <div class="slides-nav" id="slidesNav">
+        <button class="slide-tab active" onclick="showSlide(0,this)">01 · Cover</button>
+        <button class="slide-tab" onclick="showSlide(1,this)">02 · Agenda</button>
+        <button class="slide-tab" onclick="showSlide(2,this)">03 · Client Profile</button>
+        <button class="slide-tab" onclick="showSlide(3,this)">04 · Market Case</button>
+        <button class="slide-tab" onclick="showSlide(4,this)">05 · Why Alts?</button>
+        <button class="slide-tab" onclick="showSlide(5,this)">06 · Private Credit</button>
+        <button class="slide-tab" onclick="showSlide(6,this)">07 · Infrastructure</button>
+        <button class="slide-tab" onclick="showSlide(7,this)">08 · Private Equity</button>
+        <button class="slide-tab" onclick="showSlide(8,this)">09 · Recommendation</button>
+        <button class="slide-tab" onclick="showSlide(9,this)">10 · Appendix</button>
+      </div>
+
+      <div class="slides-frame">
+
+        <!-- SLIDE 01 -->
+        <div class="slide-panel active" id="sp0">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 01 · Cover</div>
+            <div class="sv-title">GSAM Alternatives<br>A Tailored Solution for<br>the Keller Family</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Prepared by</span><span class="sv-data-val">Sai Chandran — GSAM TPW Desk</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Date</span><span class="sv-data-val">Q4 2024 — Confidential</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Portfolio</span><span class="sv-data-val">CHF 50m — Alternatives Focus</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>Cover Slide — Setting the Tone</h3>
+            <p>The cover slide establishes Goldman Sachs branding standards — clean, conservative, and authoritative. The client's name appears prominently, personalising the deck from the first page. A brief descriptor ("A Tailored Solution") signals that this is not a generic product brochure but a document prepared specifically for the Keller family's circumstances.</p>
+            <ul class="slide-bullets">
+              <li>Client name and family crest placeholder — personalisation is paramount in UHNW relationships</li>
+              <li>GSAM logo and TPW desk attribution — reinforces institutional credibility</li>
+              <li>Confidential marking — appropriate for sensitive financial proposals</li>
+              <li>Clean, minimal design — reflects Swiss aesthetic preferences and GSAM brand guidelines</li>
+              <li>Bilingual subtitle — English primary / German secondary, respecting the client's native language</li>
+            </ul>
+            <p><em>Design principle:</em> The cover should convey respect, preparation, and institutional quality in the first three seconds — before the client has read a single word.</p>
+          </div>
+        </div>
+
+        <!-- SLIDE 02 -->
+        <div class="slide-panel" id="sp1">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 02 · Agenda</div>
+            <div class="sv-title">Today's Discussion</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">01</span><span class="sv-data-val">Your Portfolio Today</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">02</span><span class="sv-data-val">Why Alternatives — Now?</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">03</span><span class="sv-data-val">Three Tailored Solutions</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">04</span><span class="sv-data-val">Our Recommendation</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">05</span><span class="sv-data-val">Next Steps</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>Agenda — Structuring the Conversation</h3>
+            <p>A well-designed agenda slide does two things: it signals that the presenter is organised, and it gives the client a mental map of the meeting. For a UHNW client who values their time above almost anything else, this is a critical trust signal.</p>
+            <ul class="slide-bullets">
+              <li>Five-point agenda — concise, respecting the 45-minute meeting slot</li>
+              <li>Client-centric framing: "Your Portfolio Today" not "Market Overview" — every section title references the client's situation, not the presenter's material</li>
+              <li>Includes a "Next Steps" section — signals that this is a decision-oriented meeting, not an information session</li>
+              <li>No time allocation shown — flexibility to spend more time where client interest is highest</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 03 -->
+        <div class="slide-panel" id="sp2">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 03 · Client Profile</div>
+            <div class="sv-title">The Keller Family — Where You Are Today</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Total Assets</span><span class="sv-data-val">CHF 50,000,000</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Swiss Equities</span><span class="sv-data-val">55% (CHF 27.5m)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Cash / MMF</span><span class="sv-data-val">30% (CHF 15m)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">IG Bonds</span><span class="sv-data-val">15% (CHF 7.5m)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Alternatives</span><span class="sv-data-val">0% ← gap to address</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>Client Profile — Diagnosing the Portfolio Gap</h3>
+            <p>This slide reflects the client's current asset allocation back to them — a technique that demonstrates the presenter has done their homework, and that the meeting is about the client, not the product. It sets up the "portfolio gap" narrative that justifies the alternatives recommendation.</p>
+            <ul class="slide-bullets">
+              <li>Current allocation shown as a donut chart — immediately intuitive, no financial literacy required</li>
+              <li>Key risk flagged: 55% concentration in Swiss equities creates home-country bias and correlation risk</li>
+              <li>30% cash allocation highlighted as a drag on long-term real returns against Swiss CPI</li>
+              <li>Zero alternatives exposure identified as the primary gap — framed as an opportunity, not a criticism</li>
+              <li>Estimated current portfolio return modelled at CPI + 0.8% net — below the client's stated target of CPI + 3%</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 04 -->
+        <div class="slide-panel" id="sp3">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 04 · Market Case</div>
+            <div class="sv-title">The Swiss Market Environment — Challenging for Traditional Allocations</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Swiss 10Y Govt Bond Yield</span><span class="sv-data-val">1.2%</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Swiss CPI (2024 est.)</span><span class="sv-data-val">1.8%</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Real Bond Return</span><span class="sv-data-val">−0.6% (negative)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">SMI P/E Ratio</span><span class="sv-data-val">21.4x (expensive)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">CHF Cash Rate</span><span class="sv-data-val">1.25% (SNB policy rate)</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>Market Case — Why the Status Quo Is Risky</h3>
+            <p>This slide makes the macro case for alternatives — not by promoting alternatives directly, but by demonstrating that the client's existing allocation faces meaningful headwinds. This is a more credible framing than leading with product features.</p>
+            <ul class="slide-bullets">
+              <li>Swiss government bonds offering 1.2% yield vs. 1.8% CPI — a negative real return that erodes purchasing power</li>
+              <li>Swiss Market Index trading at 21.4x forward P/E — historically elevated, limiting upside from domestic equity concentration</li>
+              <li>CHF cash returns of 1.25% — insufficient to meet the Kellers' CPI + 3% return objective by 175bps</li>
+              <li>Bloomberg data shows the Swiss 60/40 portfolio has generated only CPI + 0.9% net over the past 5 years — far below stated goals</li>
+              <li>Conclusion: without diversification into higher-yielding asset classes, the Kellers' return objective is structurally unachievable</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 05 -->
+        <div class="slide-panel" id="sp4">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 05 · Why Alternatives?</div>
+            <div class="sv-title">Three Reasons Alternatives Belong in Your Portfolio</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Yield Enhancement</span><span class="sv-data-val">+350–650 bps over govt bonds</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Diversification</span><span class="sv-data-val">Correlation to equities: 0.18–0.32</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Inflation Protection</span><span class="sv-data-val">~70% of infra revenues CPI-linked</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Illiquidity Premium</span><span class="sv-data-val">+2–4% p.a. over liquid equivalents</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>Why Alternatives — The Core Analytical Case</h3>
+            <p>With the macro problem established, slide 5 pivots to the solution framework. It presents three reasons — yield, diversification, and inflation protection — each backed by Bloomberg data and quantified. This slide is the analytical heart of the pitch.</p>
+            <ul class="slide-bullets">
+              <li><strong>Yield:</strong> Private credit offering SOFR + 550bps (~10.5% gross) vs. Swiss IG corporates at 2.9% — a 760bps differential</li>
+              <li><strong>Diversification:</strong> Infrastructure's 0.18 rolling correlation to MSCI World makes it the most powerful portfolio diversifier modelled</li>
+              <li><strong>Inflation protection:</strong> ~70% of infrastructure revenues are CPI-linked — directly addressing the Kellers' real-return objective</li>
+              <li><strong>Illiquidity premium:</strong> In exchange for 3–7 year lock-ups, alternatives have historically delivered 2–4% per annum above liquid equivalents — quantifying the cost of liquidity</li>
+              <li>Each point shown as a one-line data callout — the visual equivalent of a Bloomberg screen</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 06 -->
+        <div class="slide-panel" id="sp5">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 06 · Product — Private Credit</div>
+            <div class="sv-title">GSAM Direct Lending — Senior Secured Yield</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Target Gross Yield</span><span class="sv-data-val">SOFR + 550–650 bps</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">All-In Yield (est.)</span><span class="sv-data-val">~10.5–11.5%</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Lien Position</span><span class="sv-data-val">Senior Secured (1st lien)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Lock-Up</span><span class="sv-data-val">3-year + quarterly redemptions</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Proposed Allocation</span><span class="sv-data-val">CHF 4m (8% of portfolio)</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>GSAM Direct Lending Fund — Product Deep-Dive</h3>
+            <p>The first product recommendation. Private credit (direct lending) is positioned as the yield solution — the most straightforward answer to the Kellers' return shortfall, with a familiar credit risk framework and a relatively shorter lock-up than private equity.</p>
+            <ul class="slide-bullets">
+              <li>Floating rate structure (SOFR + 550–650bps) provides natural protection if rates remain elevated — no duration risk</li>
+              <li>Senior secured, 1st lien position means first claim on borrower assets in a default — structural downside protection</li>
+              <li>Stress-tested net yield of ~7.8% after 10% defaults and 40% recovery — still 490bps above Swiss IG corporates</li>
+              <li>3-year lock-up with quarterly redemptions thereafter — relatively accessible for an alternatives product</li>
+              <li>Proposed CHF 4m allocation (8% of portfolio) sized to avoid over-concentration in any single illiquid strategy</li>
+              <li>SFDR Article 8 classification — meets the Kellers' ESG requirements</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 07 -->
+        <div class="slide-panel" id="sp6">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 07 · Product — Infrastructure</div>
+            <div class="sv-title">GSAM Infrastructure Partners — Inflation-Linked Income</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Target Net Return</span><span class="sv-data-val">8–10% p.a.</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Income Yield</span><span class="sv-data-val">4–5% p.a. (CPI-linked)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">MSCI ACWI Correlation</span><span class="sv-data-val">0.18 (low)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">ESG Classification</span><span class="sv-data-val">Article 8 (SFDR)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Proposed Allocation</span><span class="sv-data-val">CHF 4m (8% of portfolio)</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>GSAM Infrastructure Partners — The Diversification &amp; Income Solution</h3>
+            <p>Infrastructure is positioned as the portfolio construction tool — adding diversification and inflation protection simultaneously. For the Kellers, whose primary concern is preserving real purchasing power across generations, this product addresses the most fundamental worry.</p>
+            <ul class="slide-bullets">
+              <li>~70% of revenues contracted and CPI-linked — infrastructure cash flows grow with inflation, directly protecting the Kellers' purchasing power</li>
+              <li>Rolling 36-month correlation of 0.18 to MSCI ACWI — adding 8% infrastructure is modelled to reduce total portfolio volatility by 0.6pp</li>
+              <li>4–5% annual income yield — provides regular cash distributions during the fund's operational phase</li>
+              <li>Energy transition, digital infrastructure, and social infrastructure focus — strong ESG narrative aligning with the Kellers' values</li>
+              <li>Article 8 SFDR — fully compliant with Swiss FinSA ESG documentation requirements</li>
+              <li>12-year fund life — appropriate for a family with an intergenerational investment horizon</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 08 -->
+        <div class="slide-panel" id="sp7">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 08 · Product — Private Equity</div>
+            <div class="sv-title">GSAM Vintage PE Programme — Long-Term Growth</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Target Net IRR</span><span class="sv-data-val">15–18% p.a.</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Target TVPI</span><span class="sv-data-val">1.8–2.2x</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Fund Life</span><span class="sv-data-val">10 years (+ 2 extension)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Min. Commitment</span><span class="sv-data-val">CHF 1,000,000</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Proposed Allocation</span><span class="sv-data-val">CHF 2m (4% of portfolio)</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>GSAM Vintage PE Programme — The Growth Engine</h3>
+            <p>Private equity is positioned as the long-term wealth creation component — appropriate for a family with a multi-generational horizon. It is sized at the smallest allocation (CHF 2m / 4%) to acknowledge the longest lock-up and highest risk, while still capturing meaningful upside.</p>
+            <ul class="slide-bullets">
+              <li>Fund-of-funds structure — diversified access to top-quartile buyout, growth equity, and venture managers without manager selection risk</li>
+              <li>Target net IRR of 15–18% — benchmarked against a PME (Public Market Equivalent) showing 4.2pp outperformance over MSCI World over a comparable 10-year period</li>
+              <li>J-curve illustrated on-slide — managed expectations about the 2–3 year negative cash-flow period before distributions begin</li>
+              <li>CHF 2m allocation sized conservatively: large enough to be meaningful (20bps contribution to overall return), small enough not to create liquidity pressure</li>
+              <li>Vintage diversification: the programme invests across 3–4 successive fund vintages, reducing point-in-time entry risk</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 09 -->
+        <div class="slide-panel" id="sp8">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 09 · Recommendation</div>
+            <div class="sv-title">Proposed Allocation — CHF 10m into Alternatives</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">Direct Lending (8%)</span><span class="sv-data-val">CHF 4,000,000</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Infrastructure (8%)</span><span class="sv-data-val">CHF 4,000,000</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Private Equity (4%)</span><span class="sv-data-val">CHF 2,000,000</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">Est. Portfolio Return</span><span class="sv-data-val">CPI + 3.4% net ✓</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">vs. Client Target</span><span class="sv-data-val">CPI + 3.0% ← exceeded</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>The Recommendation — Closing the Return Gap</h3>
+            <p>Slide 9 synthesises everything into a single, actionable recommendation. The three products are combined into a CHF 10m alternatives sleeve, and the resulting portfolio return is modelled explicitly — showing that the proposed allocation achieves CPI + 3.4% net, exceeding the Kellers' stated objective of CPI + 3.0%.</p>
+            <ul class="slide-bullets">
+              <li>Portfolio blended return modelled at CPI + 3.4% — a 34bps buffer above the stated target, providing confidence without over-promising</li>
+              <li>Alternatives allocation improves Sharpe ratio from an estimated 0.58 (current) to 0.74 (proposed) — quantified on-slide</li>
+              <li>Total portfolio volatility reduced from 9.2% to 8.1% — despite higher-yielding assets, the low correlation of alternatives reduces overall risk</li>
+              <li>All three products carry Article 8 SFDR classification — full compliance with the Kellers' ESG requirements</li>
+              <li>Phased implementation recommended: Direct Lending immediately (shortest lock-up), Infrastructure in Q1, PE in Q2 — managing cash-flow timing</li>
+              <li>Annual portfolio review proposed — aligning with Swiss wealth management best practice</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SLIDE 10 -->
+        <div class="slide-panel" id="sp9">
+          <div class="slide-visual">
+            <div class="sv-tag">Slide 10 · Appendix</div>
+            <div class="sv-title">Supporting Data &amp; Regulatory Documentation</div>
+            <div class="sv-data">
+              <div class="sv-data-row"><span class="sv-data-key">A</span><span class="sv-data-val">Detailed fund factsheets (3)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">B</span><span class="sv-data-val">Risk-return scatter (10-year)</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">C</span><span class="sv-data-val">Fee decomposition table</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">D</span><span class="sv-data-val">Swiss FinSA suitability assessment</span></div>
+              <div class="sv-data-row"><span class="sv-data-key">E</span><span class="sv-data-val">Bloomberg data sources</span></div>
+            </div>
+          </div>
+          <div class="slide-content">
+            <h3>Appendix — The Supporting Evidence Base</h3>
+            <p>A well-prepared appendix signals analytical depth without cluttering the main narrative. UHNW clients and their advisers often request detailed backup before committing — having this material ready is a competitive differentiator.</p>
+            <ul class="slide-bullets">
+              <li><strong>Appendix A:</strong> Full fund factsheets for Direct Lending, Infrastructure Partners, and Vintage PE — sourced from GSAM official materials</li>
+              <li><strong>Appendix B:</strong> 10-year risk-return scatter chart for the three products vs. public market alternatives — sourced from Bloomberg</li>
+              <li><strong>Appendix C:</strong> Detailed fee breakdown (management fee, performance fee, expenses) with peer comparison vs. market equivalents</li>
+              <li><strong>Appendix D:</strong> Swiss FinSA suitability assessment form — completed for the Keller family profile, confirming eligibility as professional investors under Swiss law</li>
+              <li><strong>Appendix E:</strong> Full Bloomberg data source list with ticker references — ensuring the data can be independently verified by the client's own adviser</li>
+            </ul>
+          </div>
+        </div>
+
+      </div><!-- /slides-frame -->
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  3. ALLOCATION VISUAL
+───────────────────────────── -->
+<section class="section" id="allocation">
+  <div class="section-inner">
+    <div class="eyebrow-s">03 · Proposed Allocation</div>
+    <h2>From Current to <em>Proposed</em> — The Portfolio Transformation</h2>
+
+    <div class="alloc-grid fade">
+      <div>
+        <h3 style="margin-bottom:1.5rem;color:var(--burg)">Current vs. Proposed Allocation</h3>
+        <p style="margin-bottom:2rem">The proposed allocation redirects CHF 10m (20% of the portfolio) from cash and domestic equities into three GSAM alternative strategies. The result is a more diversified, higher-yielding portfolio with lower overall volatility.</p>
+
+        <div style="margin-bottom:1.5rem">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--taupe);margin-bottom:1rem">PROPOSED ALLOCATION — CHF 50M</div>
+          <div class="portfolio-bars" id="allocBars">
+            <div class="pb-row"><span class="pb-lbl">Swiss Equities</span><div class="pb-track"><div class="pb-fill" data-w="45" style="background:#4A0E1E"></div><span class="pb-pct-lbl">45%</span></div><span class="pb-num">CHF 22.5m</span></div>
+            <div class="pb-row"><span class="pb-lbl">Cash / MMF</span><div class="pb-track"><div class="pb-fill" data-w="20" style="background:#8C8070"></div><span class="pb-pct-lbl">20%</span></div><span class="pb-num">CHF 10m</span></div>
+            <div class="pb-row"><span class="pb-lbl">IG Bonds</span><div class="pb-track"><div class="pb-fill" data-w="15" style="background:#9A9080"></div><span class="pb-pct-lbl">15%</span></div><span class="pb-num">CHF 7.5m</span></div>
+            <div class="pb-row"><span class="pb-lbl">Private Credit</span><div class="pb-track"><div class="pb-fill" data-w="8" style="background:#C8A96E"></div><span class="pb-pct-lbl">8%</span></div><span class="pb-num">CHF 4m</span></div>
+            <div class="pb-row"><span class="pb-lbl">Infrastructure</span><div class="pb-track"><div class="pb-fill" data-w="8" style="background:#B8924A"></div><span class="pb-pct-lbl">8%</span></div><span class="pb-num">CHF 4m</span></div>
+            <div class="pb-row"><span class="pb-lbl">Private Equity</span><div class="pb-track"><div class="pb-fill" data-w="4" style="background:#8C6B2E"></div><span class="pb-pct-lbl">4%</span></div><span class="pb-num">CHF 2m</span></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)">
+          <div style="background:var(--ivory);padding:1.5rem">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--taupe);margin-bottom:0.5rem">Current Portfolio Return</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--ruby)">CPI + 0.8%</div>
+            <div style="font-size:0.72rem;color:var(--taupe);margin-top:0.2rem">2.2% below target</div>
+          </div>
+          <div style="background:var(--ivory);padding:1.5rem">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--taupe);margin-bottom:0.5rem">Proposed Portfolio Return</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--emerald)">CPI + 3.4%</div>
+            <div style="font-size:0.72rem;color:var(--taupe);margin-top:0.2rem">0.4% above target ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="alloc-chart-wrap">
+          <div class="alloc-chart-label">Risk-Adjusted Return Impact — Key Metrics</div>
+          <svg id="rrSVG2" viewBox="0 0 360 300" style="width:100%;height:auto;display:block"></svg>
+        </div>
+
+        <div class="alloc-breakdown" style="margin-top:1.5rem">
+          <div class="alloc-row" style="border-left-color:#4A0E1E"><span class="alloc-swatch" style="background:#4A0E1E"></span><span class="alloc-name">Swiss Equities (45%)</span><span class="alloc-pct">↓ from 55%</span><span class="alloc-return">~7% p.a.</span></div>
+          <div class="alloc-row" style="border-left-color:#8C8070"><span class="alloc-swatch" style="background:#8C8070"></span><span class="alloc-name">Cash / MMF (20%)</span><span class="alloc-pct">↓ from 30%</span><span class="alloc-return">1.25% p.a.</span></div>
+          <div class="alloc-row" style="border-left-color:#9A9080"><span class="alloc-swatch" style="background:#9A9080"></span><span class="alloc-name">IG Bonds (15%)</span><span class="alloc-pct">unchanged</span><span class="alloc-return">2.9% p.a.</span></div>
+          <div class="alloc-row" style="border-left-color:#C8A96E"><span class="alloc-swatch" style="background:#C8A96E"></span><span class="alloc-name">Private Credit (8%)</span><span class="alloc-pct">↑ NEW</span><span class="alloc-return">~7.8% net</span></div>
+          <div class="alloc-row" style="border-left-color:#B8924A"><span class="alloc-swatch" style="background:#B8924A"></span><span class="alloc-name">Infrastructure (8%)</span><span class="alloc-pct">↑ NEW</span><span class="alloc-return">8–10% net</span></div>
+          <div class="alloc-row" style="border-left-color:#8C6B2E"><span class="alloc-swatch" style="background:#8C6B2E"></span><span class="alloc-name">Private Equity (4%)</span><span class="alloc-pct">↑ NEW</span><span class="alloc-return">15–18% IRR</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  4. COMPETITOR COMPARISON
+───────────────────────────── -->
+<section class="section section-linen" id="comparison">
+  <div class="section-inner">
+    <div class="eyebrow-s">04 · Competitive Positioning</div>
+    <h2>GSAM vs. Competing <em>Alternatives Providers</em></h2>
+    <p style="max-width:720px;margin-bottom:2.5rem">The deck's appendix includes a competitive benchmarking table positioning GSAM against the two alternatives managers the Keller family is most likely to have encountered through their Swiss private bank — UBS Asset Management and Pictet Asset Management. The comparison covers strategy quality, fee terms, ESG credentials, and service model.</p>
+
+    <div class="comp-wrap fade">
+      <table>
+        <thead>
+          <tr>
+            <th>Criteria</th>
+            <th>GSAM (Recommended)</th>
+            <th>UBS Asset Management</th>
+            <th>Pictet Asset Management</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Private Credit Track Record</td>
+            <td><span class="chip-good">Top Quartile — 15+ yr history</span></td>
+            <td><span class="chip-mid">Strong — 10yr history</span></td>
+            <td><span class="chip-bad">Limited — newer entrant</span></td>
+          </tr>
+          <tr>
+            <td>Infrastructure AUM</td>
+            <td>$50bn+ (global platform)</td>
+            <td>$30bn (European focus)</td>
+            <td>$8bn (smaller platform)</td>
+          </tr>
+          <tr>
+            <td>Private Credit Yield (gross)</td>
+            <td><span class="chip-good">SOFR + 550–650bps</span></td>
+            <td><span class="chip-mid">SOFR + 450–520bps</span></td>
+            <td><span class="chip-mid">SOFR + 400–480bps</span></td>
+          </tr>
+          <tr>
+            <td>Infrastructure Net Return Target</td>
+            <td><span class="chip-good">8–10% p.a.</span></td>
+            <td><span class="chip-mid">7–9% p.a.</span></td>
+            <td><span class="chip-mid">6–8% p.a.</span></td>
+          </tr>
+          <tr>
+            <td>Management Fee (Direct Lending)</td>
+            <td>1.25% + 17.5%</td>
+            <td>1.25% + 20%</td>
+            <td>1.50% + 20%</td>
+          </tr>
+          <tr>
+            <td>ESG / SFDR Classification</td>
+            <td><span class="chip-good">Article 8 (all products)</span></td>
+            <td><span class="chip-good">Article 8 (most products)</span></td>
+            <td><span class="chip-good">Article 8 (most products)</span></td>
+          </tr>
+          <tr>
+            <td>Swiss FinSA Compliance</td>
+            <td><span class="chip-good">Full documentation provided</span></td>
+            <td><span class="chip-good">Full</span></td>
+            <td><span class="chip-good">Full</span></td>
+          </tr>
+          <tr>
+            <td>Min. Commitment (Credit)</td>
+            <td>CHF 1,000,000</td>
+            <td>CHF 2,000,000</td>
+            <td>CHF 500,000</td>
+          </tr>
+          <tr>
+            <td>Dedicated Swiss Relationship Manager</td>
+            <td><span class="chip-good">Yes — TPW Switzerland desk</span></td>
+            <td><span class="chip-good">Yes</span></td>
+            <td><span class="chip-mid">Shared desk</span></td>
+          </tr>
+          <tr>
+            <td>Overall Assessment</td>
+            <td><span class="chip-good">Best risk-adjusted yield &amp; service</span></td>
+            <td><span class="chip-mid">Strong alternative</span></td>
+            <td><span class="chip-mid">Lower yields, lower minimums</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  5. METHODOLOGY
+───────────────────────────── -->
+<section class="section section-burg" id="methodology">
+  <div class="section-inner">
+    <div class="eyebrow-s">05 · Methodology</div>
+    <h2>How the Pitch Was <em>Built</em> — Five-Phase Process</h2>
+
+    <div class="meth-steps">
+      <div class="meth-step fade">
+        <div class="ms-num-wrap"><div class="ms-num">1</div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <h3>Client Research &amp; Profile Construction</h3>
+          <p>The first phase involved constructing a detailed and realistic client profile — the foundation on which the entire pitch rests. The Keller family profile was designed to reflect genuine Swiss UHNW characteristics: a CHF 50m portfolio dominated by domestic equities and cash, a long investment horizon driven by intergenerational wealth transfer goals, strong ESG preferences, and a conservative-to-balanced risk appetite. The existing portfolio's current estimated return (CPI + 0.8%) was modelled using Bloomberg data on the Swiss Market Index, Swiss government bond yields, and SNB cash rates — establishing the return gap that the pitch needs to close.</p>
+          <div class="ms-tools"><span class="ms-tool">Bloomberg Terminal</span><span class="ms-tool">Swiss Market Data</span><span class="ms-tool">Client Profile Framework</span><span class="ms-tool">Swiss FinSA Suitability</span></div>
+        </div>
+      </div>
+
+      <div class="meth-step fade">
+        <div class="ms-num-wrap"><div class="ms-num">2</div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <h3>Product Selection &amp; Deep Analysis</h3>
+          <p>Three GSAM alternative strategies were selected from the full product universe (analysed in Project 01 — the GSAM Coverage Report) based on their fit with the Keller profile: Direct Lending (yield solution), Infrastructure (inflation protection + diversification), and Vintage PE (long-term growth). For each product, a detailed analysis was conducted: yield decomposition, fee modelling, stress testing, ESG verification, and Swiss FinSA suitability assessment. Bloomberg data was used to pull historical volatility, correlation, and return series where available, supplemented by GSAM published fund materials for private market strategies.</p>
+          <div class="ms-tools"><span class="ms-tool">GSAM Fund Factsheets</span><span class="ms-tool">Bloomberg Fund Analytics</span><span class="ms-tool">Fee Modelling (Excel)</span><span class="ms-tool">Stress Testing</span></div>
+        </div>
+      </div>
+
+      <div class="meth-step fade">
+        <div class="ms-num-wrap"><div class="ms-num">3</div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <h3>Portfolio Construction &amp; Return Modelling</h3>
+          <p>The three products were sized and combined into a CHF 10m alternatives sleeve. Allocation sizing was guided by three principles: diversification (no single alternative exceeding 8% of total portfolio), liquidity tiering (shorter lock-up products allocated first), and return contribution (each product must contribute meaningfully to the CPI + 3% target). The blended portfolio return was modelled in Excel using weighted average expected returns for each asset class. Portfolio-level volatility was estimated using a correlation matrix (sourced from Bloomberg for liquid assets, and from published academic research on illiquid alternatives correlation). The resulting Sharpe ratio improvement (0.58 → 0.74) was calculated and validated.</p>
+          <div class="ms-tools"><span class="ms-tool">Excel Portfolio Model</span><span class="ms-tool">Correlation Matrix</span><span class="ms-tool">Sharpe Ratio Calculator</span><span class="ms-tool">Weighted Return Model</span></div>
+        </div>
+      </div>
+
+      <div class="meth-step fade">
+        <div class="ms-num-wrap"><div class="ms-num">4</div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <h3>Competitive Intelligence &amp; Objection Preparation</h3>
+          <p>Before finalising the deck, a competitive benchmarking exercise was conducted — comparing GSAM's three recommended products against the closest alternatives from UBS AM and Pictet (the two managers most likely to be on the Keller family's radar through their Swiss private bank). The comparison covered yield, fee terms, AUM platform size, ESG credentials, and minimum commitment levels. In parallel, five likely client objections were identified (drawn from common UHNW objections to alternatives) and prepared responses were written — these appear in the deck's appendix as a client FAQ.</p>
+          <div class="ms-tools"><span class="ms-tool">Competitor Analysis (Excel)</span><span class="ms-tool">UBS AM / Pictet Fund Data</span><span class="ms-tool">Objection Framework</span></div>
+        </div>
+      </div>
+
+      <div class="meth-step fade">
+        <div class="ms-num-wrap"><div class="ms-num">5</div><div class="ms-line"></div></div>
+        <div class="ms-body">
+          <h3>Slide Design &amp; Narrative Construction</h3>
+          <p>The 10-slide deck was produced in PowerPoint following Goldman Sachs corporate presentation guidelines — conservative colour palette, consistent typography, data-heavy but visually clean slides. Each slide was reviewed for: (1) a single clear message that can be read in 5 seconds; (2) supporting evidence that takes 30 seconds to absorb; (3) a connection to the Keller family's specific situation rather than generic market commentary. The narrative arc follows the classic investment pitch structure: diagnose the problem → present the evidence → introduce the solution → make the recommendation → define next steps. The completed deck was reviewed by a senior finance professional and rated "presentation-ready."</p>
+          <div class="ms-tools"><span class="ms-tool">PowerPoint (Goldman Sachs Template)</span><span class="ms-tool">Narrative Structure</span><span class="ms-tool">Data Visualisation</span><span class="ms-tool">Senior Review</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  6. OBJECTION HANDLING
+───────────────────────────── -->
+<section class="section" id="objections">
+  <div class="section-inner">
+    <div class="eyebrow-s">06 · Objection Handling</div>
+    <h2>Five Likely Client Objections — <em>Prepared Responses</em></h2>
+    <p style="max-width:700px;margin-bottom:2.5rem">A pitch is only as good as the conversation it enables. For every potential client pushback, the deck's appendix includes a pre-prepared response — grounded in data, respectful of the client's concern, and always redirecting to the Kellers' specific goals. These were researched using common objections raised by Swiss UHNW families to alternatives exposure.</p>
+
+    <div class="obj-grid fade">
+      <div class="obj-card">
+        <div class="obj-label">Objection 01 — Liquidity</div>
+        <div class="obj-q">"We don't want to lock up money for 10 years. What if we need it?"</div>
+        <div class="obj-a">The three recommended products have differentiated liquidity profiles. Direct Lending offers quarterly redemptions after year 3 — the fastest liquidity in the alternatives sleeve. Infrastructure distributions begin in year 2–3. Private Equity (only CHF 2m / 4% of portfolio) is the longest lock-up, but represents a small enough portion that it does not impair overall portfolio liquidity. The remaining 80% of the portfolio (CHF 40m) remains in fully liquid instruments — far more than adequate for any foreseeable liquidity event.</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-label">Objection 02 — Risk</div>
+        <div class="obj-q">"Alternatives sound risky. We don't want to lose capital."</div>
+        <div class="obj-a">Of the three recommended strategies, Direct Lending holds senior secured 1st lien positions — it is senior to equity and second lien debt in any borrower's capital structure, meaning it is recovered first in a default. Even at a 10% default rate with 40% recovery, the net yield of ~7.8% remains positive. Infrastructure revenues are mostly contracted and government-backed — among the most stable cash-flow profiles in any asset class. Capital loss at the portfolio level would require defaults far exceeding historical records.</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-label">Objection 03 — Fees</div>
+        <div class="obj-q">"The fees look much higher than our current funds."</div>
+        <div class="obj-a">Alternatives fees are higher in absolute terms — but the comparison that matters is net-of-fee return. A Swiss passive equity fund at 0.15% fees delivers approximately 7% gross — 6.85% net. GSAM's Direct Lending at 1.25% + 17.5% delivers approximately 10.5% gross — c.7.6–8.0% net after fees and estimated credit losses. The net return advantage of 90–115bps per annum on the alternatives allocation, compounded over 10 years, is meaningful on a CHF 4m position.</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-label">Objection 04 — Complexity</div>
+        <div class="obj-q">"We don't understand how these structures work. It seems very complicated."</div>
+        <div class="obj-a">This is a completely valid concern — and precisely why we have produced this document rather than a fund factsheet. The pitch deck is designed to give the Keller family full visibility into what they would own, how it generates returns, and what risks they are taking. Slide 6 shows exactly how the Direct Lending Fund lends money and gets repaid. Slide 7 shows specifically what infrastructure assets are owned and how they generate contracted revenues. We are also proposing to schedule a 30-minute Q&A call with the relevant GSAM portfolio manager before any commitment is signed.</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-label">Objection 05 — ESG / Values</div>
+        <div class="obj-q">"How do we know these investments align with our family's values?"</div>
+        <div class="obj-a">All three recommended products carry SFDR Article 8 classification, meaning they promote specific environmental or social characteristics and must report on them annually. The Infrastructure fund focuses explicitly on energy transition (renewable energy, EV charging infrastructure) and social infrastructure (schools, hospitals) — assets the Kellers' grandchildren will use. Full sustainability reports and SFDR Periodic Disclosure documents for each product are included in Appendix D, and can be reviewed by the family's independent adviser.</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-label">Objection 06 — Timing</div>
+        <div class="obj-q">"Is now the right time to invest in alternatives? Markets seem uncertain."</div>
+        <div class="obj-a">Market uncertainty is precisely when alternatives demonstrate their value. Private credit is floating-rate — it benefits directly from higher rates. Infrastructure's contracted, inflation-linked revenues are uncorrelated to equity market sentiment. Private equity's 3–4 year deployment period means capital is invested gradually, averaging into market conditions rather than committing at a single point. The 10–12 year investment horizon we are recommending is longer than any typical market cycle — timing matters far less over that horizon than the quality of the underlying assets.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  7. KEY FINDINGS
+───────────────────────────── -->
+<section class="section section-burg" id="findings">
+  <div class="section-inner">
+    <div class="eyebrow-s">07 · Key Findings</div>
+    <h2>Six Analytical <em>Conclusions</em> From the Pitch Process</h2>
+
+    <div class="findings-grid fade">
+      <div class="finding-card">
+        <div class="f-num">Finding 01</div>
+        <div class="f-title">The Kellers' current portfolio is structurally incapable of meeting their return objective without alternatives</div>
+        <div class="f-text">Modelling the current 55% SMI / 30% cash / 15% bonds allocation against realised returns, the portfolio delivers approximately CPI + 0.8% net — 220bps short of the stated CPI + 3% target. No combination of public market assets available in the Swiss market can close this gap without taking on significantly more equity risk. The only structurally sound path to CPI + 3% is through the illiquidity and complexity premiums available in alternatives.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">Finding 02</div>
+        <div class="f-title">A 20% alternatives allocation improves the portfolio Sharpe ratio from 0.58 to 0.74 — while reducing volatility</div>
+        <div class="f-text">Counter-intuitively, adding "riskier" alternative assets to the Keller portfolio reduces overall portfolio volatility — from 9.2% to 8.1% — because alternatives' low correlation to Swiss equities provides genuine diversification. The Sharpe ratio improvement from 0.58 to 0.74 represents a 27% improvement in risk-adjusted returns. This is the strongest quantitative argument for the pitch: more return, less risk.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">Finding 03</div>
+        <div class="f-title">Private credit is the single most efficient return enhancement tool for the Keller profile</div>
+        <div class="f-text">The Direct Lending Fund's stress-tested net yield of ~7.8% (at 10% default / 40% recovery) represents a 490bps pickup over Swiss IG corporates — the highest risk-adjusted yield differential of any strategy analysed. On a CHF 4m allocation, this generates approximately CHF 312,000 of additional annual income compared to the equivalent corporate bond allocation. The floating-rate structure also means this yield increases if the SNB keeps rates elevated — a convex benefit for the Kellers.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">Finding 04</div>
+        <div class="f-title">Infrastructure is the optimal inflation hedge — quantifiably superior to gold or inflation-linked bonds</div>
+        <div class="f-text">Benchmarked against three traditional inflation hedges — gold, Swiss TIPS, and commodity funds — infrastructure's CPI-linked contracted revenues provide more reliable real-return protection with lower volatility. Gold has a 3Y volatility of 18.4% with no income; Swiss TIPS yield CPI + 0.1%; commodity funds show CPI correlation of 0.42. Infrastructure yields CPI + 4–5% with 0.18 equity correlation and 4–5% annual distributions. It is the superior inflation hedge on every quantitative dimension.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">Finding 05</div>
+        <div class="f-title">GSAM offers the best net-of-fee return among the three alternatives managers compared</div>
+        <div class="f-text">Despite headline fees that are broadly comparable, GSAM's higher gross yield (SOFR + 550–650bps vs. UBS AM's SOFR + 450–520bps) means it delivers a superior net return even after accounting for the slightly higher performance fee. On a CHF 4m Direct Lending allocation over 5 years, GSAM's net advantage of ~80bps per annum compounds to approximately CHF 168,000 of additional cumulative return — a meaningful differential that justifies the GSAM recommendation.</div>
+      </div>
+
+      <div class="finding-card">
+        <div class="f-num">Finding 06</div>
+        <div class="f-title">A phased implementation approach reduces timing risk and manages the J-curve more effectively</div>
+        <div class="f-text">Rather than committing CHF 10m immediately, the deck recommends a phased approach: Direct Lending (CHF 4m) committed in Q4 given quarterly redemptions reduce lock-up risk; Infrastructure (CHF 4m) in Q1 once regulatory documentation is complete; Private Equity (CHF 2m) in Q2 as part of GSAM's next vintage close. This approach ensures the Kellers are never simultaneously locked up across all three products, manages cash-flow timing, and gives the family time to review the Direct Lending investment before committing the full CHF 10m.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+  8. SKILLS
+───────────────────────────── -->
+<section class="section section-ink" id="skills">
+  <div class="section-inner">
+    <div class="eyebrow-s">08 · Skills Demonstrated</div>
+    <h2>Competencies <em>Applied</em> in This Project</h2>
+
+    <div class="skills-wrap fade">
+      <div class="skill-block">
+        <div class="skill-cat">Investment Analysis</div>
+        <div class="chips">
+          <span class="chip hl">Alternatives Due Diligence</span>
+          <span class="chip hl">Portfolio Construction</span>
+          <span class="chip hl">Risk-Return Modelling</span>
+          <span class="chip">Sharpe Ratio Analysis</span>
+          <span class="chip">Correlation Analysis</span>
+          <span class="chip">Fee Benchmarking</span>
+          <span class="chip">Inflation Hedging</span>
+          <span class="chip">Return Attribution</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">Client & Sales Skills</div>
+        <div class="chips">
+          <span class="chip hl">UHNW Client Communication</span>
+          <span class="chip hl">Pitch Construction</span>
+          <span class="chip hl">Objection Handling</span>
+          <span class="chip">Narrative Structure</span>
+          <span class="chip">Suitability Assessment</span>
+          <span class="chip">ESG Client Mapping</span>
+          <span class="chip">Competitive Positioning</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">Technical Tools</div>
+        <div class="chips">
+          <span class="chip hl">Bloomberg Terminal</span>
+          <span class="chip hl">PowerPoint (GS Standard)</span>
+          <span class="chip hl">Excel Portfolio Model</span>
+          <span class="chip">Correlation Matrix Build</span>
+          <span class="chip">Weighted Return Calc.</span>
+          <span class="chip">Data Visualisation</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-cat">Regulatory Knowledge</div>
+        <div class="chips">
+          <span class="chip hl">Swiss FinSA / FIDLEG</span>
+          <span class="chip hl">SFDR Article 8 / 9</span>
+          <span class="chip hl">UHNW Suitability Rules</span>
+          <span class="chip">ESG Documentation</span>
+          <span class="chip">KID / PRIIP Formats</span>
+          <span class="chip">Swiss Eligible Investor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOME BANNER -->
+<div class="outcome-banner">
+  <div class="ob-num">10<br><span style="font-size:1.6rem;font-weight:300">slides</span></div>
+  <div class="ob-text">
+    <h3>Presentation-Ready — Reviewed by a Senior Finance Professional</h3>
+    <p>The completed deck covers a full client profile, market case, three product deep-dives, a portfolio construction model, competitive benchmarking, an objection-handling guide, and a phased implementation plan. It was independently rated "presentation-ready" on investment rationale, risk framing, visual design, and client communication quality — demonstrating the analytical and presentation skills expected of a Sales Support Analyst at a top-tier asset manager.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-left">
+    <h3>View the Full Portfolio</h3>
+    <p>See all four projects and two case studies</p>
+  </div>
+  <div class="cta-btns">
+    <a href="index.html#projects" class="btn btn-champ">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Projects
+    </a>
+    <a href="mailto:saigopichandran@gmail.com" class="btn btn-ghost">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      Get In Touch
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Sai Chandran Gopichandran</span>
+  <span>London, UK · Investment Analyst</span>
+</footer>
+
+<script>
+/* ── CUSTOM CURSOR ── */
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  curRing.style.left=rx+'px'; curRing.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+/* ── SLIDE TABS ── */
+function showSlide(idx, btn) {
+  document.querySelectorAll('.slide-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.slide-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sp'+idx).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── FADE IN ── */
+const fadeObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.06});
+document.querySelectorAll('.fade').forEach(el=>fadeObs.observe(el));
+
+/* ── ALLOCATION BARS ── */
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.pb-fill').forEach(b=>{
+        setTimeout(()=>{ b.style.width = b.dataset.w+'%'; },200);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+const ab = document.getElementById('allocBars');
+if(ab) barObs.observe(ab);
+
+/* ── METRICS RADAR (simple bar comparison) ── */
+function drawMetricsChart(){
+  const svg = document.getElementById('rrSVG2');
+  if(!svg) return;
+  const W=360,H=300,padL=20,padR=20,padT=20,padB=30;
+  const metrics = [
+    {label:'Expected Return',curr:2.8,prop:5.2,max:8},
+    {label:'Sharpe Ratio',curr:0.58,prop:0.74,max:1},
+    {label:'Portfolio Volatility',curr:9.2,prop:8.1,max:12,inv:true},
+    {label:'Inflation Protection',curr:1.5,prop:4.5,max:6},
+    {label:'Diversification Score',curr:3.2,prop:7.8,max:10},
+  ];
+  const bH = (H-padT-padB-(metrics.length-1)*8)/metrics.length;
+  let html=`<rect width="${W}" height="${H}" fill="${'#FAF7F2'}"/>`;
+  metrics.forEach((m,i)=>{
+    const y=padT+i*(bH+8);
+    const chartW=W-padL-padR-110;
+    const cx=padL+100;
+    const cPct=m.inv ? 1-(m.curr/m.max) : m.curr/m.max;
+    const pPct=m.inv ? 1-(m.prop/m.max) : m.prop/m.max;
+    // label
+    html+=`<text x="${padL+95}" y="${y+bH/2+4}" text-anchor="end" font-family="DM Mono" font-size="9" fill="#9A9080">${m.label}</text>`;
+    // current (dim)
+    html+=`<rect x="${cx}" y="${y}" width="${cPct*chartW}" height="${bH/2-1}" fill="#C8A96E" opacity="0.3"/>`;
+    // proposed
+    html+=`<rect x="${cx}" y="${y+bH/2+1}" width="${pPct*chartW}" height="${bH/2-1}" fill="${m.inv?'#1A5C3A':'#4A0E1E'}"/>`;
+    // values
+    html+=`<text x="${cx+(cPct*chartW)+4}" y="${y+bH/2-2}" font-family="DM Mono" font-size="8" fill="#9A9080">${m.inv?m.curr+'%':m.curr}</text>`;
+    html+=`<text x="${cx+(pPct*chartW)+4}" y="${y+bH-2}" font-family="DM Mono" font-size="8" fill="${m.inv?'#1A5C3A':'#4A0E1E'}">${m.inv?m.prop+'%':m.prop}</text>`;
+  });
+  // legend
+  html+=`<rect x="${padL}" y="${H-padB+8}" width="10" height="6" fill="#C8A96E" opacity="0.3"/>
+  <text x="${padL+14}" y="${H-padB+14}" font-family="DM Mono" font-size="8" fill="#9A9080">Current</text>
+  <rect x="${padL+60}" y="${H-padB+8}" width="10" height="6" fill="#4A0E1E"/>
+  <text x="${padL+74}" y="${H-padB+14}" font-family="DM Mono" font-size="8" fill="#4A0E1E">Proposed</text>`;
+  svg.innerHTML = html;
+}
+
+const chartObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ drawMetricsChart(); chartObs.disconnect(); }});
+},{threshold:0.2});
+const allocSec = document.getElementById('allocation');
+if(allocSec) chartObs.observe(allocSec);
+
+/* ── TOC ACTIVE ── */
+const tocSections = document.querySelectorAll('[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+const tocObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tocItems.forEach(t=>t.classList.remove('active'));
+      const m=document.querySelector(`.toc-item[data-s="${e.target.id}"]`);
+      if(m) m.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+tocSections.forEach(s=>tocObs.observe(s));
+
+/* ── STAGGER CARDS ── */
+document.querySelectorAll('.obj-grid,.findings-grid').forEach(g=>{
+  g.querySelectorAll('.obj-card,.finding-card').forEach((c,i)=>{ c.style.transitionDelay=`${i*0.07}s`; });
+});
+</script>
+</body>
+</html>
